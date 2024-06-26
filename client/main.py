@@ -23,7 +23,7 @@ class Event(threading.Thread):
         pass
     
     def run(self):
-        self.__TODO(self)
+        self.__TODO()
         time.sleep(self.sleepTime)
         
 
