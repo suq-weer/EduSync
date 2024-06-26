@@ -4,6 +4,8 @@ import threading
 import time
 
 class Event(threading.Thread):
+    sleepTime = 0.0
+    
     def __init__(self, threadID : int, name : str, counter : int):
         """初始化事件线程
 
@@ -16,6 +18,14 @@ class Event(threading.Thread):
         self.threadID = threadID
         self.name = name
         self.counter = counter
+        
+    def __TODO(self):
+        pass
+    
+    def run(self):
+        self.__TODO(self)
+        time.sleep(self.sleepTime)
+        
 
 class CpuStatusOutput:
 
@@ -131,21 +141,31 @@ class StatusBusOutput:
         root['MemoryStatus'] = self.memoryStatusOutput
         root['DiskStatus'] = self.diskStatusOutput
         return root
+    
+class TokenInput:
+    def __init__(self, id : str, ip : str, time : float, token : str):
+        """初始化服务器发送的Token对象。
+
+        Args:
+            id (str): 服务器对应的‘id’字段
+            ip (str): 服务器对应的‘ip’字段
+            time (float): 服务器发送的时间戳
+            token (str): 服务器发送的‘Token’字段
+        """
+        self.ip = ip
+        self.id = id
+        self.time = time
+        self.token = token
 
 class Network:
     def __init__(self):
         self.ip = '127.0.0.1'
         self.host = '1145'
         
-class PostDataEvent(Event):
-    def run(self):
-        while True:
-            cpu = CpuStatusOutput()
-            mem  = MemoryStatusOutput()
-            root = StatusBusOutput(cpu, mem, DiskStatusOutput(), UserOutput(cpu, mem, 'Xiaosu'))
-            print(root.output())
-            time.sleep(1)
+class ConnectEvent(Event):
+    def __TODO(self):
+        self.sleepTime = 10.0
+        return super().__TODO()
 
 if __name__ == '__main__':
-    event = PostDataEvent(1, "PostDataEvent-1", 1)
-    event.start()
+    pass
