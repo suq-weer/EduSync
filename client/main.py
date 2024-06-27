@@ -3,29 +3,30 @@ import socket
 import threading
 import time
 
+
 class Event(threading.Thread):
     sleepTime = 0.0
-    
-    def __init__(self, threadID : int, name : str, counter : int):
+
+    def __init__(self, threadid: int, name: str, counter: int):
         """初始化事件线程
 
         Args:
-            threadID (int): 线程ID
+            threadid (int): 线程ID
             name (str): 线程名
             counter (int): 线程数量
         """
         threading.Thread.__init__(self)
-        self.threadID = threadID
+        self.threadid = threadid
         self.name = name
         self.counter = counter
-        
-    def __TODO(self):
-        pass
-    
+
+    def __todo(self):
+        return self
+
     def run(self):
-        self.__TODO()
+        self.__todo()
         time.sleep(self.sleepTime)
-        
+
 
 class CpuStatusOutput:
 
@@ -43,10 +44,8 @@ class CpuStatusOutput:
             dict: 返回的状态字典
         """
         root = {}
-        outputTime = {}
-        outputTime['system'] = self.time.system
-        outputTime['user'] = self.time.user
-        root['time'] = outputTime
+        output_time = {'system': self.time.system, 'user': self.time.user}
+        root['time'] = output_time
         root['count'] = self.count
         root['persent'] = self.persent
         return root
@@ -64,9 +63,7 @@ class MemoryStatusOutput:
         Returns:
             dict: 返回的状态字典
         """
-        root = {}
-        root['total'] = self.virtual_memory.total
-        root['used'] = self.virtual_memory.free
+        root = {'total': self.virtual_memory.total, 'used': self.virtual_memory.free}
         return root
 
 
@@ -86,49 +83,47 @@ class DiskStatusOutput:
         for i in range(len(self.disk_partitions)):
             try:
                 usage = psutil.disk_usage(self.disk_partitions[i].device)
-                once = {}
-                once['name'] = self.disk_partitions[i].device
-                once['total'] = usage.total
-                once['used'] = usage.used
-                once['free'] = usage.free
-                once['persent'] = usage.percent
+                once = {'name': self.disk_partitions[i].device, 'total': usage.total, 'used': usage.used,
+                        'free': usage.free, 'persent': usage.percent}
                 root.append(once)
             except:
                 pass
         return root
-    
+
+
 class UserOutput:
-    def __init__(self, cpuStatus : CpuStatusOutput, memStatus : MemoryStatusOutput, name : str):
+    def __init__(self, cpu_status: CpuStatusOutput, mem_status: MemoryStatusOutput, name: str):
         """初始化用户对象
 
         Args:
-            cpuStatus (CpuStatusOutput): CPU状态输出流
-            memStatus (MemoryStatusOutput): 内存状态输出流
+            cpu_status (CpuStatusOutput): CPU状态输出流
+            mem_status (MemoryStatusOutput): 内存状态输出流
             name (str): 用户名
         """
-        self.cpuStatus = cpuStatus
+        self.cpuStatus = cpu_status
         self.meIP = socket.gethostbyname(socket.gethostname())
-        self.memStatus = memStatus
-    
+        self.memStatus = mem_status
+        self.name = name
+
     def output(self) -> dict:
         """将状态对象整理并返回。
 
         Returns:
             dict: 返回的状态字典
         """
-        root = {}
-        root['CPUStatus'] = self.cpuStatus.output()
-        root['MeIP'] = self.meIP
-        root['MemoryStatus'] = self.memStatus.output()
+        root = {'CPUStatus': self.cpuStatus.output(), 'MeIP': self.meIP, 'MemoryStatus': self.memStatus.output()}
         return root
+
 
 class StatusBusOutput:
-    def __init__(self, cpuStatusOutput : CpuStatusOutput, memoryStatusOutput : MemoryStatusOutput, diskStatusOutput : DiskStatusOutput, userOutput : UserOutput):
+    def __init__(self, cpu_status_output: CpuStatusOutput, memory_status_output: MemoryStatusOutput,
+                 disk_status_output: DiskStatusOutput, user_output: UserOutput):
         """初始化该对象时需将状态输出流对象做参数。
         """
-        self.cpuStatusOutput = cpuStatusOutput.output()
-        self.memoryStatusOutput = memoryStatusOutput.output()
-        self.diskStatusOutput = diskStatusOutput.output()
+        self.cpuStatusOutput = cpu_status_output.output()
+        self.memoryStatusOutput = memory_status_output.output()
+        self.diskStatusOutput = disk_status_output.output()
+        self.user_output = user_output.output()
 
     def output(self) -> dict:
         """将状态对象整理并返回。
@@ -136,14 +131,13 @@ class StatusBusOutput:
         Returns:
             dict: 返回的状态字典
         """
-        root = {}
-        root['CPUStatus'] = self.cpuStatusOutput
-        root['MemoryStatus'] = self.memoryStatusOutput
-        root['DiskStatus'] = self.diskStatusOutput
+        root = {'CPUStatus': self.cpuStatusOutput, 'MemoryStatus': self.memoryStatusOutput,
+                'DiskStatus': self.diskStatusOutput}
         return root
-    
+
+
 class TokenInput:
-    def __init__(self, id : str, ip : str, time : float, token : str):
+    def __init__(self, id: str, ip: str, time: float, token: str):
         """初始化服务器发送的Token对象。
 
         Args:
@@ -157,15 +151,17 @@ class TokenInput:
         self.time = time
         self.token = token
 
+
 class Network:
     def __init__(self):
         self.ip = '127.0.0.1'
         self.host = '1145'
-        
+
+
 class ConnectEvent(Event):
-    def __TODO(self):
+    def __todo(self):
         self.sleepTime = 10.0
-        return super().__TODO()
+
 
 if __name__ == '__main__':
     pass
