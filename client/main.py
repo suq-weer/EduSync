@@ -181,7 +181,7 @@ class General:
     def input_password_book(self, network: Network):
         request = requests.get(network.ip)
         json_re = json.loads(request.content)
-        if json['states'] == 1:
+        if json_re['states'] == 1:
             self.password_book = json_re['data']
 
 
