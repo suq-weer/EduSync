@@ -1,10 +1,8 @@
-import json.decoder
-
-import psutil
 import socket
 import threading
 import time
-
+import json
+import psutil
 import requests
 
 
@@ -171,6 +169,7 @@ class TokenInput:
         self.time = time
         self.token = token
 
+
 class ConnectEvent(Event):
     def __todo(self):
         self.sleepTime = 10.0
@@ -181,9 +180,10 @@ class General:
 
     def input_password_book(self, network: Network):
         request = requests.get(network.ip)
-        json = json.loads(request.content)
+        json_re = json.loads(request.content)
         if json['states'] == 1:
-            self.password_book = json['data']
+            self.password_book = json_re['data']
+
 
 if __name__ == '__main__':
     i = StatusBusOutput(CpuStatusOutput(), MemoryStatusOutput(), DiskStatusOutput(), UserOutput('Xiaosu'))
