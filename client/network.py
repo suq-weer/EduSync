@@ -6,3 +6,10 @@ class Network:
         """
         self.ip = 'http://edusync619.yiyu14.top/server/api/'
         self.resource = resource
+
+
+class NetworkResource:
+    """
+    服务端API资源映射。
+    """
+    GET_INFO_SOFTWARE_CODEBOOK: str = "get_info_software_codeBook.php/"
