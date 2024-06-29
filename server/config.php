@@ -18,10 +18,14 @@ function info_server($aim): string//后端
         "datebase_password" => "xiaoyi..",
         "datebase_dbname" => "edusync",
 
+        //输出
+        "result_success_get" => "获取成功",
+        "result_failure_if_adminUser" => "最高权限用户信息错误",
+
     ];
     return $data[$aim];
 }
-function info_software($aim): string
+function info_software($aim): string//软件
 {
     $data = [
 
@@ -31,40 +35,3 @@ function info_software($aim): string
     ];
     return $data[$aim];
 }
-
-
-//基本api
-function json($states, $msg, $data = "")//输出api
-{
-    return json_encode(array('states' => $states, 'msg' => $msg, "data" => $data));
-}
-
-function code_base64($text,$type)//base64加解密
-{
-    if ($type=="encode")//加密
-    {
-        return base64_encode($text);
-    }
-    elseif ($type=="decode")
-    {
-        return base64_decode($text);
-    }
-    return "";
-}
-
-function database()//数据库连接
-{
-    $connect = new mysqli(info_server("datebase_servername"),
-        info_server("datebase_username"),
-        info_server("datebase_username"),
-        info_server("datebase_dbname")
-    );
-
-    if ($connect->connect_error) {
-        //return json(0,"连接失败: " . $connect->connect_error);
-        die();
-    }
-    return $connect;
-    //$connect->close();
-}
-
