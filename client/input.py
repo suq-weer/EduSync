@@ -2,6 +2,9 @@ from client.network import Network
 
 
 class TokenInput:
+    """
+    接收服务器的Token并创建对象。
+    """
     def __init__(self, id: str, ip: Network, time: float, token: str):
         """
         初始化服务器发送的Token对象。

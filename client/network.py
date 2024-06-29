@@ -1,4 +1,7 @@
 class Network:
+    """
+    网络配置类定义。
+    """
     def __init__(self, resource: str):
         """
         服务器网络基础配置

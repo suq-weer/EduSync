@@ -9,6 +9,9 @@ from client.main import Network
 
 
 class General:
+    """
+    需要从服务端获取的配置参数。
+    """
     password_book: str = ""
 
     def input_password_book(self, network: Network):

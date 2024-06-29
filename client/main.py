@@ -1,7 +1,5 @@
-import config
-from client.network import Network, NetworkResource
+from client.output import *
 
 if __name__ == '__main__':
-    i = config.General()
-    i.input_password_book(Network(NetworkResource.GET_INFO_SOFTWARE_CODEBOOK))
-    print(i.password_book)
+    i = StatusBusOutput(CpuStatusOutput(), MemoryStatusOutput(), DiskStatusOutput(), SystemOutput(), UserOutput("Xiaosu"))
+    print(i.output_to_json())
