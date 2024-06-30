@@ -13,14 +13,16 @@ function info_server($aim): string//后端
         "admin_password" => "xiaoyi..",
 
         //数据库
-        "datebase_servername" => "localhost",
-        "datebase_username" => "edusync",
-        "datebase_password" => "xiaoyi..",
-        "datebase_dbname" => "edusync",
+        "database_servername" => "localhost",
+        "database_username" => "edusync",
+        "database_password" => "xiaoyi..",
+        "database_dbname" => "edusync",
 
         //输出
         "result_success_get" => "获取成功",
         "result_failure_if_adminUser" => "最高权限用户信息错误",
+        "result_success_add_token" => "申请token成功",
+        "result_failure_add_token" => "申请token失败",
 
     ];
     return $data[$aim];

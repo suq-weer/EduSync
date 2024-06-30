@@ -78,7 +78,7 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
@@ -113,6 +113,10 @@
       <workItem from="1719575454583" duration="14389000" />
       <workItem from="1719654983354" duration="497000" />
       <workItem from="1719658994915" duration="8711000" />
+      <workItem from="1719669587843" duration="207000" />
+      <workItem from="1719670876900" duration="1494000" />
+      <workItem from="1719679077175" duration="12399000" />
+      <workItem from="1719722092257" duration="1866000" />
     </task>
     <servers />
   </component>
@@ -132,5 +136,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="CODE_SMELLS_PROFILE" value="Project Default" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
