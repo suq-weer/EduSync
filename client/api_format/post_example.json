@@ -1,32 +1,50 @@
 {
     "CPUStatus": {
-        "time": {
-            "system": 10096.34375,
-            "user": 30404.265625
-        },
         "count": 4,
-        "percent": [17.2, 26.6, 28.1, 42.2, 40.6, 15.4, 40.6, 26.6]
+        "percent": [
+            20.3,
+            3.2,
+            29.7,
+            1.6,
+            28.1,
+            3.2,
+            21.9,
+            7.9
+        ],
+        "processor": "Intel64 Family 6 Model 60 Stepping 3, GenuineIntel",
+        "architecture": [
+            "64bit",
+            "WindowsPE"
+        ],
+        "time": {
+            "system": 2406.0625,
+            "user": 5860.374999999999
+        }
     },
     "MemoryStatus": {
         "total": 17119154176,
-        "used": 9045827584
+        "used": 9564721152
     },
     "DiskStatus": [
         {
             "name": "C:\\",
             "total": 214749409280,
-            "used": 69582741504,
-            "free": 145166667776,
-            "persent": 32.4
+            "used": 83259662336,
+            "free": 131489746944,
+            "percent": 38.8
         },
         {
             "name": "D:\\",
             "total": 785452625920,
-            "used": 11931316224,
-            "free": 773521309696,
-            "persent": 1.5
+            "used": 13146230784,
+            "free": 772306395136,
+            "percent": 1.7
         }
     ],
+    "SystemOutput": {
+        "system": "Windows",
+        "version": "10.0.22000"
+    },
     "UserOutput": {
         "MeIP": "192.168.1.157",
         "name": "Xiaosu"
