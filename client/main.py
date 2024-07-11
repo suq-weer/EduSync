@@ -1,5 +1,1 @@
-from client.output import *
-
-if __name__ == '__main__':
-    i = StatusBusOutput(CpuStatusOutput(), MemoryStatusOutput(), DiskStatusOutput(), SystemOutput(), UserOutput("Xiaosu"))
-    print(i.output_to_json())
+# 未开发主要操作逻辑，本文件仅供测试用

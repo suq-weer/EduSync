@@ -34,5 +34,9 @@ class NetworkResource:
     """
     服务端API资源映射。
     """
+
+    def __init__(self):
+        pass
+
     GET_INFO_SOFTWARE_CODEBOOK: str = "api/get_info_software_codeBook.php/"
     GET_TOKEN: str = "function/user/get_token.php"
