@@ -25,3 +25,8 @@ function get_token($bookCode,$device_id)
         "data" => $token,
     ];
 }
+
+function fun_read_user_token($type,$data)
+{
+    return read_user_token($type,$data);
+}
