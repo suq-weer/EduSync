@@ -1,5 +1,7 @@
 import json
 import warnings
+from json import JSONDecodeError
+
 import requests
 from requests import Response
 
@@ -26,7 +28,7 @@ class Network:
                 return json_re['data']
             else:
                 warnings.warn("虽然已经建立对服务器的连接，但是服务器状态码为0。服务器警告："+json_re['msg']+"服务器附加原因："+json_re['data'])
-        except IOError:
+        except (JSONDecodeError, IOError):
             warnings.warn("服务器返回值不符合预期格式。返回值：" + request.content.decode())
 
 
@@ -40,3 +42,4 @@ class NetworkResource:
 
     GET_INFO_SOFTWARE_CODEBOOK: str = "api/get_info_software_codeBook.php/"
     GET_TOKEN: str = "function/user/get_token.php"
+    USE_TOKEN: str = "function/user/read_token.php"

@@ -1,3 +1,4 @@
+import json
 import uuid
 
 from client.config import General
@@ -18,8 +19,18 @@ class TokenInput:
         )
 
 
+class DataScanInput:
+    def __init__(self, data: str, type_: str):
+        self.data : str = data
+        self.output : dict = json.loads(
+            Network(NetworkResource.USE_TOKEN).get(
+                '?type=' + type_ + '&data=' + self.data
+            )
+        )
+
+
 if __name__ == '__main__':
-    a = General()
-    a.input_password_book(Network(NetworkResource.GET_INFO_SOFTWARE_CODEBOOK))
-    i = TokenInput(a)
-    print(i.token)
+    a = General()  # 密码本存储
+    a.input_password_book(Network(NetworkResource.GET_INFO_SOFTWARE_CODEBOOK))  # 放入密码本
+    i = DataScanInput(TokenInput(a).token, "token")  # 将用密码本获取的Token放入数据检测API
+    print(i.output)
