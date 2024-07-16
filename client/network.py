@@ -19,17 +19,20 @@ class Network:
         self.ip = 'http://edusync619.yiyu14.top/server/'
         self.resource = resource
 
-    def get(self, data: str):
+    def get(self, data: str) -> dict:
         print(self.ip + self.resource + data)
         request: Response = requests.get(self.ip + self.resource + data)
         try:
             json_re = json.loads(request.content.decode())
             if json_re['states'] == 1:
-                return json_re['data']
+                return {'data': json_re['data'], 'error': 0}
             else:
-                warnings.warn("虽然已经建立对服务器的连接，但是服务器状态码为0。服务器警告："+json_re['msg']+"服务器附加原因："+json_re['data'])
+                warnings.warn(
+                    "虽然已经建立对服务器的连接，但是服务器状态码不为0。")  # +json_re['msg']+"服务器附加原因："+json_re['data']
+                return {'error': 1}
         except (JSONDecodeError, IOError):
             warnings.warn("服务器返回值不符合预期格式。返回值：" + request.content.decode())
+            return {'error': 2}
 
 
 class NetworkResource:
