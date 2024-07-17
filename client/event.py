@@ -1,5 +1,11 @@
 import threading
 import time
+import uuid
+
+import output
+from client.config import General
+from client.input import TokenInput
+from client.network import NetworkResource, Network
 
 
 class Event(threading.Thread):
@@ -28,10 +34,28 @@ class Event(threading.Thread):
         time.sleep(self.sleepTime)
 
 
-"""
 class StatusUploadEvent(Event):
     def __init__(self, thread_id: int, name: str, counter: int):
         super().__init__(thread_id, name, counter)
         self.general = General()
         self.general.input_password_book(Network(NetworkResource.GET_INFO_SOFTWARE_CODEBOOK))
-"""
+        self.token = TokenInput(self.general)
+
+    def run(self):
+        while True:
+            self.sleepTime = 1
+            device_id: int = uuid.UUID(int=uuid.getnode()).int
+            bus_status = output.StatusBusOutput(output.CpuStatusOutput(), output.MemoryStatusOutput(),
+                                                output.DiskStatusOutput(), output.SystemOutput(), output.UserOutput())
+            dict_post = dict(deviceId=device_id, data=bus_status.output(), token=self.token.token)
+            response = Network(NetworkResource.UPLOAD_STATUS).post(
+                "deviceId=" + device_id.__str__() +
+                "&data=" + bus_status.output_to_json() +
+                "&token=" + self.token.token
+            )
+            if response['error'] == 0:
+                self.general.token_is_out = False
+            else:
+                print(response)
+                self.general.token_is_out = True
+            time.sleep(self.sleepTime)

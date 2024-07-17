@@ -1,7 +1,8 @@
 import json
-import socket
-import psutil
 import platform
+import socket
+
+import psutil
 
 
 class CpuStatusOutput:
@@ -23,8 +24,7 @@ class CpuStatusOutput:
         将状态对象整理并返回。
         :return: 返回的CPU字典对象
         """
-        root = {'count': self.count, 'percent': self.percent, 'processor': self.processor,
-                'architecture': self.architecture}
+        root = dict(count=self.count, percent=self.percent, processor=self.processor, architecture=self.architecture)
         output_time = {'system': self.time.system, 'user': self.time.user}
         root['time'] = output_time
         return root
@@ -45,7 +45,7 @@ class MemoryStatusOutput:
         将状态对象整理并返回。
         :return: 返回的内存字典对象
         """
-        root = {'total': self.virtual_memory.total, 'used': self.virtual_memory.free}
+        root = dict(total=self.virtual_memory.total, used=self.virtual_memory.free)
         return root
 
 
@@ -68,8 +68,8 @@ class DiskStatusOutput:
         for i in range(len(self.disk_partitions)):
             try:
                 usage = psutil.disk_usage(self.disk_partitions[i].device)
-                once = {'name': self.disk_partitions[i].device, 'total': usage.total, 'used': usage.used,
-                        'free': usage.free, 'percent': usage.percent}
+                once = dict(name=self.disk_partitions[i].device, total=usage.total, used=usage.used, free=usage.free,
+                            percent=usage.percent)
                 root.append(once)
             except IOError:
                 pass
@@ -92,7 +92,7 @@ class SystemOutput:
         处理系统信息并返回字典对象。
         :return: 包含系统信息的字典。
         """
-        root = {'system': self.system, 'version': self.version}
+        root = dict(system=self.system, version=self.version)
         return root
 
 
@@ -100,20 +100,18 @@ class UserOutput:
     """
     用户输出对象。
     """
-    def __init__(self, name: str):
+    def __init__(self):
         """
         初始化用户对象
-        :param name: 用户名
         """
         self.meIP = socket.gethostbyname(socket.gethostname())
-        self.name = name
 
     def output(self) -> dict:
         """
         将状态对象整理并返回。
         :return: 返回的用户字典对象
         """
-        root = {'MeIP': self.meIP, 'name': self.name}
+        root = dict(MeIP=self.meIP)
         return root
 
 
@@ -139,8 +137,8 @@ class StatusBusOutput:
         将状态对象整理并返回。
         :return: 返回的状态总线字典对象
         """
-        root = {'CPUStatus': self.cpuStatusOutput, 'MemoryStatus': self.memoryStatusOutput,
-                'DiskStatus': self.diskStatusOutput, 'SystemOutput': self.systemOutput, 'UserOutput': self.UserOutput}
+        root = dict(format_version=1, CPUStatus=self.cpuStatusOutput, MemoryStatus=self.memoryStatusOutput,
+                    DiskStatus=self.diskStatusOutput, SystemOutput=self.systemOutput, UserOutput=self.UserOutput)
         return root
 
     def output_to_json(self) -> str:
