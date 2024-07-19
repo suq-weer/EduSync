@@ -61,6 +61,7 @@ function get_sqlCode($code): string//生成sql指令
      * "sortWay" => "DESC" ,
      * sortWayBy => "id",
      * ORDER BY `id` DESC
+     * DELETE FROM `list_fri` WHERE `id` = '{$id}'
      */
     //print_r($code);
     $data = json_decode($code['data'],true);//解data
@@ -86,7 +87,6 @@ function get_sqlCode($code): string//生成sql指令
         $sqlCode = "INSERT INTO"." `".$code['dataSheet']."` ".$sqlCodeCenter." VALUE ".$sqlCodeEnd;//组合
     }
     elseif ($code['type']=="r") {
-
         $i = 0;
         //获取键及其键值并组合
         foreach ($data as $key => $value) {
@@ -101,6 +101,18 @@ function get_sqlCode($code): string//生成sql指令
         $order = "";
         if ($sortWay!="" && $sortWayBy!="") $order=" ORDER BY `" . $sortWayBy . "` " . $sortWay;
         $sqlCode = "SELECT * FROM `" . $code['dataSheet'] . "` WHERE " . $sqlCodeEnd . $order;
+    }
+    elseif ($code['type']=="d"){
+        $i = 0;
+        //获取键及其键值并组合
+        foreach ($data as $key => $value) {
+            if ($i === count(array_values($data))-1) {
+                $sqlCodeEnd = $sqlCodeEnd . "`$key` = '$value'";//`uid`='{$uid}'
+            }else $sqlCodeEnd = $sqlCodeEnd . "`$key` = '$value'" . " AND ";
+            $i++;
+        }
+
+        $sqlCode = "DELETE FROM `" . $code['dataSheet'] . "` WHERE" . $sqlCodeEnd;
     }
     return $sqlCode;
 }
@@ -117,9 +129,9 @@ function operate_database($type,$dataSheet,$data,$sortWay = "",$sortWayBy = "")/
         "data" => $data,
     ];
     $sqlCode = get_sqlCode($code);
-
+    //echo $sqlCode;
     if ($type=="w"||$type=="d") return $connect -> query($sqlCode);
-    elseif ($type=="r") return mysqli_fetch_array($connect -> query($sqlCode));
+    elseif ($type=="r") return mysqli_fetch_assoc($connect -> query($sqlCode));
 
     return "";
 }
@@ -164,5 +176,65 @@ function read_user_token($type,$data)
 
     ]);
 
+    //print_r(operate_database("r","user_token",$data,"DESC","id"));
     return json_encode(operate_database("r","user_token",$data,"DESC","id"));
+}
+
+//token->etffectiveDuration
+function get_user_token_etffectiveDuration($data)
+{
+    $token = json_decode($data,true);//tokenAll
+    $timeStamp_token = $token['time'];//tokenTime
+    $timeStamp_now = time();//now
+
+    if ($timeStamp_now-$timeStamp_token <= get_info("user_token_effectiveDuration" , "software")){
+        return $timeStamp_now-$timeStamp_token;
+    }
+    else{
+        return false;
+    }
+    return "";
+}
+
+//此处封装了一个函数以节约代码，函数发挥判断token有效性作用
+function if_user_token($deviceId,$token)
+{
+    if (!get_user_token_etffectiveDuration(read_user_token("token",$token))){
+        die(get_result(
+            0,
+            "result_failure_read_token",
+            "token已失效",
+        ));
+    }
+    elseif ($deviceId!=json_decode(read_user_token("token",$token),true)['device_id']){
+        die(get_result(
+            0,
+            "result_failure_read_token",
+            "与token绑定设备不一",
+        ));
+    }
+}
+
+//上传设备信息
+function upload_user_device($deviceId,$data): int
+{
+    $timeStamp = time();//now
+    $code = json_encode([
+        "device_id" => $deviceId,
+        "data" => $data,
+        "time" => $timeStamp,
+    ]);
+    operate_database("d","user",json_encode(["device_id" => $deviceId]));
+    return operate_database("w","user",$code) ? 1 : 0;
+}
+
+function read_user_device($deviceId)
+{
+    $data = json_encode([
+        "device_id" => $deviceId,
+
+    ]);
+
+    //print_r(operate_database("r","user",$data));
+    return json_encode(operate_database("r","user",$data));
 }

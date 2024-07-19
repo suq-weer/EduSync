@@ -28,5 +28,53 @@ function get_token($bookCode,$device_id)
 
 function fun_read_user_token($type,$data)
 {
-    return read_user_token($type,$data);
+    $result = read_user_token($type,$data);
+    if ($result==null||$result=="null"){
+        die(get_result(
+            0,
+            "result_failure_read_token",
+            "结果为空",
+        ));
+    }
+    elseif (!get_user_token_etffectiveDuration($result)){
+        die(get_result(
+            0,
+            "result_failure_read_token",
+            "token已失效",
+        ));
+    }
+
+//return get_result(1,"result_success_read_token",$result);写错了
+    return [
+        "states" => 1,
+        "data" => $result
+    ];
+}
+
+function fun_upload_user_device($deviceId,$data,$token): array
+{
+    if_user_token($deviceId,$token);
+
+    return [
+        "states" => upload_user_device($deviceId,$data),
+    ];
+}
+
+function fun_read_user_device($deviceId,$token)
+{
+    $result = read_user_device($deviceId);
+
+    if_user_token($deviceId,$token);
+    if ($result==null||$result=="null"){
+        die(get_result(
+            0,
+            "result_failure_read_device",
+            "结果为空",
+        ));
+    }
+
+    return [
+        "states" => 1,
+        "data" => $result
+    ];
 }
