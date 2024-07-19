@@ -1,5 +1,17 @@
-from client.output import *
+from client.event import StatusUploadEvent
+from PySide6.QtWidgets import QApplication. QMainWindow
+from ui_untitled import Ui_MainWindow
 
-if __name__ == '__main__':
-    i = StatusBusOutput(CpuStatusOutput(), MemoryStatusOutput(), DiskStatusOutput(), SystemOutput(), UserOutput("Xiaosu"))
-    print(i.output_to_json())
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super(MainWindow, self),__init__()
+
+
+
+if __name__ == "__main__":
+    event_status = StatusUploadEvent(1, 'status_bus', 1)
+    event_status.start()
+    app = QApplication([])
+    window = MainWindow()
+    window.show()
+    app.exec()

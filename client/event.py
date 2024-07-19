@@ -1,7 +1,11 @@
 import threading
 import time
+import uuid
 
-from client.network import Network
+import output
+from client.config import General
+from client.input import TokenInput
+from client.network import NetworkResource, Network
 
 
 class Event(threading.Thread):
@@ -23,30 +27,35 @@ class Event(threading.Thread):
         self.name = name
         self.counter = counter
 
-    def __todo(self):
+    def run(self):
         """
         继承该类时可以重写该函数以执行事件触发时的代码。
         """
-        return self
-
-    def run(self):
-        """
-        会自动调用__todo()函数
-        """
-        i = self.__todo()
-        if i:
-            self.output = i
         time.sleep(self.sleepTime)
 
 
-class GetPasswordBookEvent(Event):
-    """
-    暂时弃用
-    """
-
-    def __init__(self, network: Network, thread_id: int, name: str, counter: int):
+class StatusUploadEvent(Event):
+    def __init__(self, thread_id: int, name: str, counter: int):
         super().__init__(thread_id, name, counter)
-        self.network = network
+        self.general = General()
+        self.general.input_password_book(Network(NetworkResource.GET_INFO_SOFTWARE_CODEBOOK))
+        self.token = TokenInput(self.general)
 
-    def __todo(self):
-        self.sleepTime = 10.0
+    def run(self):
+        while True:
+            self.sleepTime = 1
+            device_id: int = uuid.UUID(int=uuid.getnode()).int
+            bus_status = output.StatusBusOutput(output.CpuStatusOutput(), output.MemoryStatusOutput(),
+                                                output.DiskStatusOutput(), output.SystemOutput(), output.UserOutput())
+            dict_post = dict(deviceId=device_id, data=bus_status.output(), token=self.token.token)
+            response = Network(NetworkResource.UPLOAD_STATUS).post(
+                "deviceId=" + device_id.__str__() +
+                "&data=" + bus_status.output_to_json() +
+                "&token=" + self.token.token
+            )
+            if response['error'] == 0:
+                self.general.token_is_out = False
+            else:
+                print(response)
+                self.general.token_is_out = True
+            time.sleep(self.sleepTime)

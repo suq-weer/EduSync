@@ -1,3 +1,4 @@
+import json
 import uuid
 
 from client.config import General
@@ -11,15 +12,33 @@ class TokenInput:
     token: str = ""
 
     def __init__(self, general: General):
+        if general.token == "" or general.token_is_out is True:
+            print("refresh")
+            self.query_token(general)
+        else:
+            self.token = general.token
+
+    def query_token(self, general: General):
         password_book = general.password_book
         device_id: str = uuid.UUID(int=uuid.getnode()).__str__()
-        self.token = Network(NetworkResource.GET_TOKEN).get(
+        response = Network(NetworkResource.GET_TOKEN).get(
             '?bookCode=' + password_book + '&device_id=' + device_id
         )
+        self.token = response['data']
+        general.token = self.token
 
 
-if __name__ == '__main__':
-    a = General()
-    a.input_password_book(Network(NetworkResource.GET_INFO_SOFTWARE_CODEBOOK))
-    i = TokenInput(a)
-    print(i.token)
+class DataScanInput:
+    def __init__(self, data: TokenInput, general: General, type_: str):
+        self.data: str = data.token
+        response = Network(NetworkResource.USE_TOKEN).get(
+            '?type=' + type_ + '&data=' + self.data
+        )
+        self.output: dict = {}
+        if response['error'] == 0:
+            self.output = json.loads(
+                response['data']
+            )
+            general.token_is_out = False
+        else:
+            general.token_is_out = True
