@@ -1,10 +1,13 @@
 from client.event import StatusUploadEvent
-from PySide6.QtWidgets import QApplication. QMainWindow
-from ui_untitled import Ui_MainWindow
+from PySide6.QtWidgets import QApplication, QMainWindow
+from ui_homepage import Ui_EduSync
 
 class MainWindow(QMainWindow):
     def __init__(self):
-        super(MainWindow, self),__init__()
+        super(),__init__()
+
+        self.ui = Ui_EduSync
+        self.ui.setupUi(self)
 
 
 
