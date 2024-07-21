@@ -20,9 +20,9 @@ class TokenInput:
 
     def query_token(self, general: General):
         password_book = general.password_book
-        device_id: str = uuid.UUID(int=uuid.getnode()).__str__()
+        device_id: int = uuid.UUID(int=uuid.getnode()).int
         response = Network(NetworkResource.GET_TOKEN).get(
-            '?bookCode=' + password_book + '&device_id=' + device_id
+            '?bookCode=' + password_book + '&device_id=' + device_id.__str__()
         )
         self.token = response['data']
         general.token = self.token
