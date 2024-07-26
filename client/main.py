@@ -11,8 +11,8 @@ class MainWindow(QMainWindow):
         self.ui.pushButton.clicked.connect(self.__on_PushButton_clicked)
 
     def __on_PushButton_clicked(self):
-        event_status = StatusUploadEvent(1, 'status_bus', 1)
-        event_status.start()
+        self.event_status = StatusUploadEvent(1, 'status_bus', 1)
+        self.event_status.start()
 
 
 if __name__ == "__main__":

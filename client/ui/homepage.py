@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'homepageuqtNpi.ui'
+## Form generated from reading UI file 'homepage.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.2
 ##
@@ -16,8 +16,10 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QMainWindow, QMenuBar,
-    QPlainTextEdit, QPushButton, QSizePolicy, QStatusBar,
-    QToolButton, QWidget)
+    QPlainTextEdit, QSizePolicy, QStatusBar, QToolButton,
+    QWidget)
+
+from qfluentwidgets import PushButton
 
 class Ui_EduSync(object):
     def setupUi(self, EduSync):
@@ -35,7 +37,7 @@ class Ui_EduSync(object):
         self.toolButton = QToolButton(self.centralwidget)
         self.toolButton.setObjectName(u"toolButton")
         self.toolButton.setGeometry(QRect(460, 10, 24, 21))
-        self.pushButton = QPushButton(self.centralwidget)
+        self.pushButton = PushButton(self.centralwidget)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setGeometry(QRect(140, 80, 200, 200))
         self.label = QLabel(self.centralwidget)
@@ -59,6 +61,6 @@ class Ui_EduSync(object):
         EduSync.setWindowTitle(QCoreApplication.translate("EduSync", u"MainWindow", None))
         self.toolButton.setText(QCoreApplication.translate("EduSync", u"...", None))
         self.pushButton.setText(QCoreApplication.translate("EduSync", u"\u6309\u94ae", None))
-        self.label.setText(QCoreApplication.translate("EduSync", u"\u4e0d\u77e5\u9053", None))
+        self.label.setText(QCoreApplication.translate("EduSync", u"EduSync", None))
     # retranslateUi
 

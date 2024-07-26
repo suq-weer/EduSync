@@ -47,7 +47,7 @@
      <string>...</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton">
+   <widget class="PushButton" name="pushButton">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -70,7 +70,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>不知道</string>
+     <string>EduSync</string>
     </property>
    </widget>
   </widget>
@@ -86,6 +86,13 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PushButton</class>
+   <extends>QPushButton</extends>
+   <header location="global">qfluentwidgets</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -67,3 +67,4 @@ class NetworkResource:
     GET_TOKEN: str = "function/user/get_token.php"
     USE_TOKEN: str = "function/user/read_token.php"
     UPLOAD_STATUS: str = "function/user/upload_device.php"
+    CHECK_COMMAND: str
