@@ -66,7 +66,7 @@ function get_sqlCode($code): string//生成sql指令
     //print_r($code);
     $data = json_decode($code['data'],true);//解data
     $sortWay = $code['sortWay'];
-    $sortWayBy = $code['sortWayBY'];
+    $sortWayBy = $code['sortWayBy'];
     //初始化
     $sqlCode="";
     $sqlCodeEnd="";
@@ -86,7 +86,7 @@ function get_sqlCode($code): string//生成sql指令
         $sqlCodeEnd = "('" . $sqlCodeEnd . ")";
         $sqlCode = "INSERT INTO"." `".$code['dataSheet']."` ".$sqlCodeCenter." VALUE ".$sqlCodeEnd;//组合
     }
-    elseif ($code['type']=="r") {
+    elseif ($code['type']=="r"||$code['type']=="l") {
         $i = 0;
         //获取键及其键值并组合
         foreach ($data as $key => $value) {
@@ -130,8 +130,20 @@ function operate_database($type,$dataSheet,$data,$sortWay = "",$sortWayBy = "")/
     ];
     $sqlCode = get_sqlCode($code);
     //echo $sqlCode;
+    //echo $sortWay;
+
     if ($type=="w"||$type=="d") return $connect -> query($sqlCode);
     elseif ($type=="r") return mysqli_fetch_assoc($connect -> query($sqlCode));
+    elseif ($type=="l"){
+        $list = array();
+        $cx_connect = mysqli_query($connect, $sqlCode);
+
+        while ($data =  mysqli_fetch_assoc($cx_connect)){
+                $list[] = $data;
+        }
+
+        return $list;
+    };
 
     return "";
 }
@@ -237,4 +249,106 @@ function read_user_device($deviceId)
 
     //print_r(operate_database("r","user",$data));
     return json_encode(operate_database("r","user",$data));
+}
+
+//创建指令
+function create_user_command($type,$code,$deviceId)
+{
+    $timeStamp = microtime(true);//now
+    $data = json_encode([
+        "id" => $timeStamp,
+        "type" => $type,
+        "code" => $code,
+        "time" => $timeStamp,
+        "effective" => 0,
+        "device_id" => $deviceId,
+    ]);
+
+    return operate_database("w","user_command",$data) ? 1 : 0;
+}
+
+//获取指令
+function get_user_command($deviceId)
+{
+    $data = json_encode([
+        "effective" => 0,
+        "device_id" => $deviceId,
+    ]);
+
+    //print_r(operate_database("l","user_command",$data,"DESC","id"));
+    return json_encode(operate_database("l","user_command",$data,"DESC","id"));
+}
+
+
+//检查 uid 是否存在
+function if_exist_admin_user($uid){
+    $data = json_encode([
+        "uid" => $uid,
+    ]);
+    
+    return operate_database("r","admin_user",$data) ? 1 : 0;
+}
+
+
+//管理员登录
+function read_admin_user($uid)
+{
+    $data = json_encode([
+        "uid" => $uid,
+    ]);
+
+    return operate_database("r","admin_user",$data);
+}
+
+//创建 key
+function create_admin_key($uid){
+    $timeStamp = microtime(true);
+    $key = code_base64($timeStamp."edusync".rand(0,10000),"encode");
+    
+    $data = json_encode([
+        "id" => $timeStamp,
+        "admin_user_id" => read_admin_user($uid)['id'],
+        "user_key" => $key,
+        "time" => $timeStamp,
+    ]);
+    
+    return operate_database("w","admin_key",$data) ? $key : 0;
+}
+
+//读取 key
+function read_admin_key($key){
+    $data = json_encode([
+        "user_key" => $key,
+    ]);
+
+    return operate_database("r","admin_key",$data);
+}
+
+//key 是否存在或者过期
+function if_admin_key($uid,$key){
+    $result = read_admin_key($key);
+    
+    if (!$result){
+        die(get_result(
+            0,
+            "result_failure_read_admin_key",
+            "查询不到该key",
+        ));
+    };
+    if (time()-$result['time']>=get_info("admin_key_etffectiveDuraion","software")){
+        die(get_result(
+            0,
+            "result_failure_read_admin_key",
+            "该key已经失效",
+        ));
+    }
+    if ($uid!=$result["admin_user_id"]){
+        die(get_result(
+            0,
+            "result_failure_read_admin_key",
+            "该key绑定账号与操作账号不一致",
+        ));
+    }
+    
+    return ;
 }

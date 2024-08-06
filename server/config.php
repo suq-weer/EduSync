@@ -29,6 +29,14 @@ function info_server($aim): string//后端
         "result_success_upload_device" => "上传设备信息成功",
         "result_failure_read_device" => "读取设备信息失败",
         "result_success_read_device" => "读取设备信息成功",
+        "result_success_get_command" => "读取指令成功",
+        "result_failure_get_command" => "读取指令失败",
+        "result_success_create_command" => "创建指令成功",
+        "result_failure_create_command" => "创建指令失败",
+        "result_success_login_admin_user" => "登录管理员成功",
+        "result_failure_login_admin_user" => "登录管理员失败",
+        "result_success_read_admin_key" => "读取key成功",
+        "result_failure_read_admin_key" => "读取key失败",
     ];
     return $data[$aim];
 }
@@ -39,9 +47,9 @@ function info_software($aim): string//软件
         //系统信息
         "system_codeBook" => "Edusync619!",//密码本
 
-        //token
+        //token or key
         "user_token_effectiveDuration" => 180,//3 min
-        "admin_token_etffectiveDuraion" => 180,
+        "admin_key_etffectiveDuraion" => 600,//10 min
 
     ];
     return $data[$aim];
