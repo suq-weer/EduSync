@@ -23,7 +23,7 @@ function get_token($bookCode,$device_id)
         ($timeStamp-json_decode(read_user_token("device_id",$device_id),true)['time'])<=get_info("user_token_effectiveDuration","software")){
         //echo ($timeStamp-json_decode(read_user_token("device_id",$device_id),true)['time'])/60;
         return [
-            "states" => operate_database("w","user_token",$data),
+            "states" => 1,
             "data" => read_user_token("device_id",$device_id),
         ];
     }
