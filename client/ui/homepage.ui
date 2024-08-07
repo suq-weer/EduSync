@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPlainTextEdit" name="plainTextEdit">
+   <widget class="PlainTextEdit" name="plainTextEdit">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -24,7 +24,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QPlainTextEdit" name="plainTextEdit_2">
+   <widget class="PlainTextEdit" name="plainTextEdit_2">
     <property name="geometry">
      <rect>
       <x>0</x>
@@ -34,7 +34,7 @@
      </rect>
     </property>
    </widget>
-   <widget class="QToolButton" name="toolButton">
+   <widget class="ToolButton" name="toolButton">
     <property name="geometry">
      <rect>
       <x>460</x>
@@ -74,7 +74,7 @@
     </property>
    </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
+  <widget class="MenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
@@ -84,12 +84,32 @@
     </rect>
    </property>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="StatusBar" name="statusbar"/>
  </widget>
  <customwidgets>
   <customwidget>
    <class>PushButton</class>
    <extends>QPushButton</extends>
+   <header location="global">qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>PlainTextEdit</class>
+   <extends>QPlainTextEdit</extends>
+   <header location="global">qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>ToolButton</class>
+   <extends>QToolButton</extends>
+   <header location="global">qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>MenuBar</class>
+   <extends>QMenuBar</extends>
+   <header location="global">qfluentwidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>StatusBar</class>
+   <extends>QStatusBar</extends>
    <header location="global">qfluentwidgets</header>
   </customwidget>
  </customwidgets>
