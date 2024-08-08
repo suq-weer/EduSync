@@ -65,7 +65,8 @@ class NetworkResource:
 
     GET_INFO_SOFTWARE_CODEBOOK: str = "api/get_info_software_codeBook.php/"
     CHECK_COMMAND: str = "function/user/get_command.php"
-    READ_TOKEN: str = "function/adminr/read_token.php"
+    READ_TOKEN: str = "function/admin/read_token.php"
     LOGIN: str = "function/admin/login.php"
     READ_STATUS: str = "function/user/read_device.php"
     GET_TOKEN: str = "function/user/get_token.php"
+    POST_COMMAND: str = "function/admin/create_command.php"
