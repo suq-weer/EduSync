@@ -24,16 +24,6 @@
      </rect>
     </property>
    </widget>
-   <widget class="PlainTextEdit" name="plainTextEdit_2">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>40</y>
-      <width>501</width>
-      <height>271</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="ToolButton" name="toolButton">
     <property name="geometry">
      <rect>
@@ -56,6 +46,25 @@
       <height>200</height>
      </rect>
     </property>
+    <property name="minimumSize">
+     <size>
+      <width>200</width>
+      <height>200</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>200</width>
+      <height>200</height>
+     </size>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius:100px;
+background-color: rgb(222, 222, 222);</string>
+    </property>
+    <property name="inputMethodHints">
+     <set>Qt::InputMethodHint::ImhNone</set>
+    </property>
     <property name="text">
      <string>按钮</string>
     </property>
@@ -73,6 +82,21 @@
      <string>EduSync</string>
     </property>
    </widget>
+   <widget class="QListWidget" name="listWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>40</y>
+      <width>501</width>
+      <height>251</height>
+     </rect>
+    </property>
+   </widget>
+   <zorder>listWidget</zorder>
+   <zorder>plainTextEdit</zorder>
+   <zorder>toolButton</zorder>
+   <zorder>pushButton</zorder>
+   <zorder>label</zorder>
   </widget>
   <widget class="MenuBar" name="menubar">
    <property name="geometry">
