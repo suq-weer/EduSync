@@ -1,6 +1,7 @@
 import json
 import platform
 
+import cpuinfo
 import psutil
 
 
@@ -17,6 +18,7 @@ class CpuStatusOutput:
         self.count = psutil.cpu_count(logical=False)
         self.percent = psutil.cpu_percent(interval=1, percpu=True)
         self.processor = platform.processor()
+        self.name = cpuinfo.get_cpu_info()['brand_raw']
         self.architecture = platform.architecture()
 
     def output(self) -> dict:
@@ -24,7 +26,8 @@ class CpuStatusOutput:
         将状态对象整理并返回。
         :return: 返回的CPU字典对象
         """
-        root = dict(count=self.count, percent=self.percent, processor=self.processor, architecture=self.architecture)
+        root = dict(count=self.count, percent=self.percent, processor=self.processor,
+                    name=self.name, architecture=self.architecture)
         output_time = {'system': self.time.system, 'user': self.time.user}
         root['time'] = output_time
         return root

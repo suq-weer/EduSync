@@ -13,6 +13,7 @@ class CpuStatus:
     count: int
     percent: list
     processor: str
+    name: str
     architecture: list
 
     def __init__(self, rawtext: dict):
@@ -21,6 +22,7 @@ class CpuStatus:
             self.count = rawtext['count']
             self.percent = rawtext['percent']
             self.processor = rawtext['processor']
+            self.name = rawtext['name']
             self.architecture = rawtext['architecture']
         except (json.JSONDecodeError, IOError):
             print("\033[91m[异常] 解析CPU状态时遇到错误")
