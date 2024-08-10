@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>504</width>
-    <height>352</height>
+    <width>659</width>
+    <height>478</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>501</width>
+      <width>651</width>
       <height>41</height>
      </rect>
     </property>
@@ -27,7 +27,7 @@
    <widget class="ToolButton" name="toolButton">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>620</x>
       <y>10</y>
       <width>24</width>
       <height>21</height>
@@ -40,8 +40,8 @@
    <widget class="PushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>140</x>
-      <y>80</y>
+      <x>230</x>
+      <y>100</y>
       <width>200</width>
       <height>200</height>
      </rect>
@@ -58,6 +58,12 @@
       <height>200</height>
      </size>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>30</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
     <property name="styleSheet">
      <string notr="true">border-radius:100px;
 background-color: rgb(222, 222, 222);</string>
@@ -66,13 +72,19 @@ background-color: rgb(222, 222, 222);</string>
      <set>Qt::InputMethodHint::ImhNone</set>
     </property>
     <property name="text">
-     <string>按钮</string>
+     <string>启动</string>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>30</width>
+      <height>30</height>
+     </size>
     </property>
    </widget>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>220</x>
+      <x>310</x>
       <y>10</y>
       <width>41</width>
       <height>21</height>
@@ -82,13 +94,100 @@ background-color: rgb(222, 222, 222);</string>
      <string>EduSync</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="pushButton_2">
+    <property name="geometry">
+     <rect>
+      <x>50</x>
+      <y>370</y>
+      <width>75</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 50%;
+box-shadow: 4px 4px 4px 4px black inset;
+background-color: rgb(222, 222, 222);</string>
+    </property>
+    <property name="inputMethodHints">
+     <set>Qt::InputMethodHint::ImhNone</set>
+    </property>
+    <property name="text">
+     <string>按钮</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_3">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>370</y>
+      <width>75</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 50%;
+box-shadow: 4px 4px 4px 4px black inset;
+background-color: rgb(222, 222, 222);</string>
+    </property>
+    <property name="locale">
+     <locale language="Chinese" country="China"/>
+    </property>
+    <property name="inputMethodHints">
+     <set>Qt::InputMethodHint::ImhNone</set>
+    </property>
+    <property name="text">
+     <string>按钮</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_4">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>370</y>
+      <width>75</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 50%;
+box-shadow: 4px 4px 4px 4px black inset;
+background-color: rgb(222, 222, 222);</string>
+    </property>
+    <property name="inputMethodHints">
+     <set>Qt::InputMethodHint::ImhNone</set>
+    </property>
+    <property name="text">
+     <string>按钮</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_5">
+    <property name="geometry">
+     <rect>
+      <x>540</x>
+      <y>370</y>
+      <width>75</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 50%;
+box-shadow: 4px 4px 4px 4px black inset;
+background-color: rgb(222, 222, 222);</string>
+    </property>
+    <property name="inputMethodHints">
+     <set>Qt::InputMethodHint::ImhNone</set>
+    </property>
+    <property name="text">
+     <string>按钮</string>
+    </property>
+   </widget>
    <widget class="QListWidget" name="listWidget">
     <property name="geometry">
      <rect>
       <x>0</x>
       <y>40</y>
-      <width>501</width>
-      <height>251</height>
+      <width>651</width>
+      <height>381</height>
      </rect>
     </property>
    </widget>
@@ -97,13 +196,17 @@ background-color: rgb(222, 222, 222);</string>
    <zorder>toolButton</zorder>
    <zorder>pushButton</zorder>
    <zorder>label</zorder>
+   <zorder>pushButton_2</zorder>
+   <zorder>pushButton_3</zorder>
+   <zorder>pushButton_4</zorder>
+   <zorder>pushButton_5</zorder>
   </widget>
   <widget class="MenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>504</width>
+     <width>659</width>
      <height>33</height>
     </rect>
    </property>
