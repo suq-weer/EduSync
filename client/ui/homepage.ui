@@ -6,29 +6,37 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>659</width>
-    <height>478</height>
+    <width>652</width>
+    <height>454</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color: rgb(220, 220, 220);</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="PlainTextEdit" name="plainTextEdit">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>651</width>
+      <x>10</x>
+      <y>10</y>
+      <width>631</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius:15%;
+border:2px solid blue;
+background-color: rgb(255, 255, 255);</string>
     </property>
    </widget>
    <widget class="ToolButton" name="toolButton">
     <property name="geometry">
      <rect>
-      <x>620</x>
-      <y>10</y>
+      <x>610</x>
+      <y>20</y>
       <width>24</width>
       <height>21</height>
      </rect>
@@ -40,8 +48,8 @@
    <widget class="PushButton" name="pushButton">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>100</y>
+      <x>220</x>
+      <y>80</y>
       <width>200</width>
       <height>200</height>
      </rect>
@@ -60,13 +68,15 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>30</pointsize>
+      <family>微软雅黑</family>
+      <pointsize>31</pointsize>
       <bold>true</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-radius:100px;
-background-color: rgb(222, 222, 222);</string>
+     <string notr="true">border-radius:100%;
+background-color: rgb(234, 234, 234);
+border:2px solid #6B6B6B;</string>
     </property>
     <property name="inputMethodHints">
      <set>Qt::InputMethodHint::ImhNone</set>
@@ -84,11 +94,20 @@ background-color: rgb(222, 222, 222);</string>
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>10</y>
-      <width>41</width>
+      <x>290</x>
+      <y>20</y>
+      <width>71</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>EduSync</string>
@@ -97,16 +116,17 @@ background-color: rgb(222, 222, 222);</string>
    <widget class="QPushButton" name="pushButton_2">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>370</y>
-      <width>75</width>
-      <height>31</height>
+      <x>10</x>
+      <y>320</y>
+      <width>151</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-radius: 50%;
-box-shadow: 4px 4px 4px 4px black inset;
-background-color: rgb(222, 222, 222);</string>
+     <string notr="true">border-radius: 15%;
+border:2px solid blue;
+box-shadow: 5px 5px 5px #888888;
+background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="inputMethodHints">
      <set>Qt::InputMethodHint::ImhNone</set>
@@ -118,16 +138,17 @@ background-color: rgb(222, 222, 222);</string>
    <widget class="QPushButton" name="pushButton_3">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>370</y>
-      <width>75</width>
-      <height>31</height>
+      <x>170</x>
+      <y>320</y>
+      <width>151</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-radius: 50%;
-box-shadow: 4px 4px 4px 4px black inset;
-background-color: rgb(222, 222, 222);</string>
+     <string notr="true">border-radius: 15%;
+border:2px solid blue;
+box-shadow: 5px 5px 5px #888888;
+background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="locale">
      <locale language="Chinese" country="China"/>
@@ -142,16 +163,17 @@ background-color: rgb(222, 222, 222);</string>
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>390</x>
-      <y>370</y>
-      <width>75</width>
-      <height>31</height>
+      <x>330</x>
+      <y>320</y>
+      <width>151</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-radius: 50%;
-box-shadow: 4px 4px 4px 4px black inset;
-background-color: rgb(222, 222, 222);</string>
+     <string notr="true">border-radius: 15%;
+border:2px solid blue;
+box-shadow: 5px 5px 5px #888888;
+background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="inputMethodHints">
      <set>Qt::InputMethodHint::ImhNone</set>
@@ -163,16 +185,17 @@ background-color: rgb(222, 222, 222);</string>
    <widget class="QPushButton" name="pushButton_5">
     <property name="geometry">
      <rect>
-      <x>540</x>
-      <y>370</y>
-      <width>75</width>
-      <height>31</height>
+      <x>490</x>
+      <y>320</y>
+      <width>151</width>
+      <height>111</height>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">border-radius: 50%;
-box-shadow: 4px 4px 4px 4px black inset;
-background-color: rgb(222, 222, 222);</string>
+     <string notr="true">border-radius: 15%;
+border:2px solid blue;
+box-shadow: 5px 5px 5px #888888;
+background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="inputMethodHints">
      <set>Qt::InputMethodHint::ImhNone</set>
@@ -181,17 +204,22 @@ background-color: rgb(222, 222, 222);</string>
      <string>按钮</string>
     </property>
    </widget>
-   <widget class="QListWidget" name="listWidget">
+   <widget class="QPlainTextEdit" name="plainTextEdit_2">
     <property name="geometry">
      <rect>
-      <x>0</x>
-      <y>40</y>
-      <width>651</width>
-      <height>381</height>
+      <x>10</x>
+      <y>60</y>
+      <width>631</width>
+      <height>251</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius:15%;
+background-color: rgb(255, 255, 255);
+border:2px solid blue;</string>
+    </property>
    </widget>
-   <zorder>listWidget</zorder>
+   <zorder>plainTextEdit_2</zorder>
    <zorder>plainTextEdit</zorder>
    <zorder>toolButton</zorder>
    <zorder>pushButton</zorder>
@@ -200,16 +228,6 @@ background-color: rgb(222, 222, 222);</string>
    <zorder>pushButton_3</zorder>
    <zorder>pushButton_4</zorder>
    <zorder>pushButton_5</zorder>
-  </widget>
-  <widget class="MenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>659</width>
-     <height>33</height>
-    </rect>
-   </property>
   </widget>
   <widget class="StatusBar" name="statusbar"/>
  </widget>
@@ -227,11 +245,6 @@ background-color: rgb(222, 222, 222);</string>
   <customwidget>
    <class>ToolButton</class>
    <extends>QToolButton</extends>
-   <header location="global">qfluentwidgets</header>
-  </customwidget>
-  <customwidget>
-   <class>MenuBar</class>
-   <extends>QMenuBar</extends>
    <header location="global">qfluentwidgets</header>
   </customwidget>
   <customwidget>
