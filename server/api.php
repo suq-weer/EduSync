@@ -52,6 +52,7 @@ function get_sqlCode($code): string//生成sql指令
      * w写入
      * r读取
      * d删除
+     * u改写 特殊值u_aim,u_data
      * //l特殊的r
      */
     /*
@@ -114,6 +115,25 @@ function get_sqlCode($code): string//生成sql指令
 
         $sqlCode = "DELETE FROM `" . $code['dataSheet'] . "` WHERE" . $sqlCodeEnd;
     }
+    elseif ($code['type']=="u"){
+        $i = 0;
+        //获取键及其键值并组合
+        foreach ($data as $key => $value) {
+            if($key != "u_aim" || $value != "u_data"){
+                if ($i === count(array_values($data))-1) {
+                    $sqlCodeEnd = $sqlCodeEnd . "`$key` = '$value'";//`uid`='{$uid}'
+                }else $sqlCodeEnd = $sqlCodeEnd . "`$key` = '$value'" . " AND ";
+            }
+            $i++;
+        }
+
+        //$sortWay = "DESC";
+        //$sortWayBy = "id";
+        $order = "";
+        if ($sortWay!="" && $sortWayBy!="") $order=" ORDER BY `" . $sortWayBy . "` " . $sortWay;
+        $sqlCode = "UPDATE `" . $code['dataSheet'] . "` SET `" . $data["u_aim"] . "` = '" . $data["u_data"] . "'' WHERE " . $sqlCodeEnd . $order;
+    }
+
     return $sqlCode;
 }
 
@@ -143,7 +163,9 @@ function operate_database($type,$dataSheet,$data,$sortWay = "",$sortWayBy = "")/
         }
 
         return $list;
-    };
+    }
+    elseif ($type=="u") return $connect -> query($sqlCode);
+
 
     return "";
 }
@@ -334,7 +356,7 @@ function if_admin_key($uid,$key){
             "result_failure_read_admin_key",
             "查询不到该key",
         ));
-    };
+    }
     if (time()-$result['time']>=get_info("admin_key_etffectiveDuraion","software")){
         die(get_result(
             0,
@@ -349,6 +371,5 @@ function if_admin_key($uid,$key){
             "该key绑定账号与操作账号不一致",
         ));
     }
-    
-    return ;
+
 }
