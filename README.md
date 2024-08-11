@@ -18,6 +18,15 @@
 
 将一些老师常用的学科课件及讲义上传至服务器后台，一键无物理介质下载所需课件。
 
+## 导入前置库
+
+```commandline
+pip install psutil
+pip install PySide6
+pip install PySide6-Fluent-Widgets
+pip install py-cpuinfo
+```
+
 ## TODO
 * ~~实时上传多媒体设备状态（已完成）~~
 * 多媒体设备状态可视化

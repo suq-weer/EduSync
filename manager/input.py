@@ -1,8 +1,8 @@
 import json
 import uuid
 
-from client.config import General
-from client.network import Network, NetworkResource
+from manager.config import General
+from manager.network import NetworkResource, Network
 
 
 class TokenInput:
@@ -24,21 +24,6 @@ class TokenInput:
         response = Network(NetworkResource.GET_TOKEN).get(
             '?bookCode=' + password_book + '&device_id=' + device_id.__str__()
         )
+        print(response)
         self.token = json.loads(response['data'])['token']
         general.token = self.token
-
-
-class DataScanInput:
-    def __init__(self, data: str, general: General, type_: str):
-        self.data: str = data
-        response = Network(NetworkResource.USE_TOKEN).get(
-            '?type=' + type_ + '&data=' + self.data
-        )
-        self.output: dict = {}
-        if response['error'] == 0:
-            self.output = json.loads(
-                response['data']
-            )
-            general.token_is_out = False
-        else:
-            general.token_is_out = True

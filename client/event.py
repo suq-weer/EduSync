@@ -1,6 +1,7 @@
 import threading
 import time
 import uuid
+import warnings
 
 import output
 from client.config import General
@@ -46,19 +47,18 @@ class StatusUploadEvent(Event):
             self.sleepTime = 1
             device_id: int = uuid.UUID(int=uuid.getnode()).int
             bus_status = output.StatusBusOutput(output.CpuStatusOutput(), output.MemoryStatusOutput(),
-                                                output.DiskStatusOutput(), output.SystemOutput(), output.UserOutput())
-            dict_post = dict(deviceId=device_id, data=bus_status.output(), token=self.token.token)
+                                                output.DiskStatusOutput(), output.SystemOutput())
             response_1 = Network(NetworkResource.UPLOAD_STATUS).post(
                 "deviceId=" + device_id.__str__() +
                 "&data=" + bus_status.output_to_json() +
                 "&token=" + self.token.token
             )
-            if response_1['error'] == 0:
+            response_2 = Network(NetworkResource.CHECK_COMMAND).get(
+                "?deviceId=" + device_id.__str__() +
+                "&token=" + self.token.token
+            )
+            if response_1['error'] == 0 or response_2 == 0:
                 self.general.token_is_out = False
             else:
-                print(response_1)
                 self.general.token_is_out = True
-            response_2 = Network(NetworkResource.CHECK_COMMAND).get(
-                "deviceId=" + device_id.__str__()
-            )
             time.sleep(self.sleepTime)
