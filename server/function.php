@@ -110,6 +110,14 @@ function fun_get_user_command($deviceId,$token)
         ));
     }
 
+
+
+    operate_database("w","admin_key",[
+        "device_id" => $deviceId,
+        "u_aim" => "effective",
+        "u_data" => "1",
+    ]);
+
     return [
         "states" => 1,
         "data" => $result
