@@ -1,7 +1,7 @@
 import base64
 import json
 
-from manager.network import Network, NetworkResource
+from network import Network, NetworkResource
 
 
 class CpuStatus:

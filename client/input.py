@@ -1,8 +1,8 @@
 import json
 import uuid
 
-from client.config import General
-from client.network import Network, NetworkResource
+from config import General
+from network import Network, NetworkResource
 
 
 class TokenInput:

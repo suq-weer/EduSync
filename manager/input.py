@@ -1,8 +1,8 @@
 import json
 import uuid
 
-from manager.config import General
-from manager.network import NetworkResource, Network
+from config import General
+from network import NetworkResource, Network
 
 
 class TokenInput:
@@ -22,7 +22,7 @@ class TokenInput:
             '?bookCode=' + password_book + '&device_id=' + device_id.__str__()
         )
         print(response)
-        self.token = json.loads(response['data'])['token']
+        self.token = response['data']
         general.token = self.token
         if general.token == "" or general.token_is_out is True:
             print("refresh")

@@ -4,9 +4,9 @@ import uuid
 import warnings
 
 import output
-from client.config import General
-from client.input import TokenInput
-from client.network import NetworkResource, Network
+from config import General
+from input import TokenInput
+from network import NetworkResource, Network
 
 
 class Event(threading.Thread):

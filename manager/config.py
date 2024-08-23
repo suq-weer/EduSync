@@ -1,6 +1,6 @@
 import base64
 
-from client.network import Network, NetworkResource
+from network import Network, NetworkResource
 
 
 class General:
