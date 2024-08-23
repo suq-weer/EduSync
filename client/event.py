@@ -57,7 +57,8 @@ class StatusUploadEvent(Event):
                 "?deviceId=" + device_id.__str__() +
                 "&token=" + self.token.token
             )
-            if response_1['error'] == 0 or response_2 == 0:
+            print(response_1,'\n',response_2)
+            if response_1['error'] == 0 or response_2['error'] == 0:
                 self.general.token_is_out = False
             else:
                 self.general.token_is_out = True

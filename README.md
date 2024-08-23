@@ -23,7 +23,6 @@
 ```commandline
 pip install psutil
 pip install PySide6
-pip install PySide6-Fluent-Widgets
 pip install py-cpuinfo
 ```
 

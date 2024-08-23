@@ -12,11 +12,8 @@ class TokenInput:
     token: str = ""
 
     def __init__(self, general: General):
-        if general.token == "" or general.token_is_out is True:
-            print("refresh")
-            self.query_token(general)
-        else:
-            self.token = general.token
+        print("refresh")
+        self.query_token(general)
 
     def query_token(self, general: General):
         password_book = general.password_book
@@ -24,8 +21,11 @@ class TokenInput:
         response = Network(NetworkResource.GET_TOKEN).get(
             '?bookCode=' + password_book + '&device_id=' + device_id.__str__()
         )
-        self.token = json.loads(response['data'])['token']
+        self.token = response['data']
         general.token = self.token
+        if general.token == "" or general.token_is_out is True:
+            print("refresh")
+            self.query_token(general)
 
 
 class DataScanInput:
