@@ -18,19 +18,50 @@
 
 将一些老师常用的学科课件及讲义上传至服务器后台，一键无物理介质下载所需课件。
 
-## 导入前置库
+## 参与贡献
 
-### 客户端
+### 客户端+管理端
 
-*建议在 Anaconda 虚拟 Python 环境下开发。*
+>*建议在 Anaconda 虚拟 Python 环境下开发。*
+
+pip 安装：
 
 ```commandline
-pip install psutil
-pip install Requests
-pip install PySide6
-pip install PySide6-Fluent-Widgets
-pip install py-cpuinfo
-pip install pyinstaller
+pip install -r .\requirements.txt
+```
+
+Anaconda 安装：
+
+```commandline
+conda env create -f .\environment.yml
+```
+
+#### 编译方法
+
+```commandline
+python -m nuitka --lto --standalone .\client\main.py
+```
+
+### 服务端
+
+#### 运行环境
+
+**PHP 7.3+MySQL 5.7.44+Nginx 1.24.0**
+
+#### 导入数据库
+
+##### 登录
+
+```commandline
+mysql -u 用户名 -p
+```
+
+##### 创建并导入数据库
+
+```sql
+CREATE DATABASE edusync;
+USE edusync;
+SOURCE .\server\edusync-无重置.sql
 ```
 
 ## TODO
