@@ -40,6 +40,7 @@ conda env create -f .\environment.yml
 
 ```commandline
 python -m nuitka --lto --standalone .\client\main.py
+python -m nuitka --lto --standalone .\manager\main.py
 ```
 
 ### 服务端

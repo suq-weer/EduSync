@@ -27,7 +27,7 @@ class CpuStatusOutput:
         :return: 返回的CPU字典对象
         """
         root = dict(count=self.count, percent=self.percent, processor=self.processor,
-                    wname=self.name, architecture=self.architecture)
+                    name=self.name, architecture=self.architecture)
         output_time = {'system': self.time.system, 'user': self.time.user}
         root['time'] = output_time
         return root
