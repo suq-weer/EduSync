@@ -52,7 +52,7 @@ python -m nuitka --lto --standalone .\manager\main.py
 在config.php里进行修改：
 1. 找到info_server函数
 2. 修改如下代码：<br>
-```
+```php
 //域名
 "domain_main" => "部署域名",//主域名
 "domain_sub" => "部署域名+运行目录",//运行目录
@@ -62,26 +62,27 @@ python -m nuitka --lto --standalone .\manager\main.py
 "admin_password" => "xiaoyi..",
 ```
 3. 次要信息配置(可略过)
-```
-        //输出
-        "result_success_get" => "获取成功",
-        "result_failure_if_adminUser" => "最高权限用户信息错误",
-        "result_success_add_token" => "申请token成功",
-        "result_failure_add_token" => "申请token失败",
-        "result_failure_read_token" => "读取token失败",
-        "result_success_read_token" => "读取token成功",
-        "result_failure_upload_device" => "上传设备信息失败",
-        "result_success_upload_device" => "上传设备信息成功",
-        "result_failure_read_device" => "读取设备信息失败",
-        "result_success_read_device" => "读取设备信息成功",
-        "result_success_get_command" => "读取指令成功",
-        "result_failure_get_command" => "读取指令失败",
-        "result_success_create_command" => "创建指令成功",
-        "result_failure_create_command" => "创建指令失败",
-        "result_success_login_admin_user" => "登录管理员成功",
-        "result_failure_login_admin_user" => "登录管理员失败",
-        "result_success_read_admin_key" => "读取key成功",
-        "result_failure_read_admin_key" => "读取key失败",
+
+```php
+//输出
+"result_success_get" => "获取成功",
+"result_failure_if_adminUser" => "最高权限用户信息错误",
+"result_success_add_token" => "申请token成功",
+"result_failure_add_token" => "申请token失败",
+"result_failure_read_token" => "读取token失败",
+"result_success_read_token" => "读取token成功",
+"result_failure_upload_device" => "上传设备信息失败",
+"result_success_upload_device" => "上传设备信息成功",
+"result_failure_read_device" => "读取设备信息失败",
+"result_success_read_device" => "读取设备信息成功",
+"result_success_get_command" => "读取指令成功",
+"result_failure_get_command" => "读取指令失败",
+"result_success_create_command" => "创建指令成功",
+"result_failure_create_command" => "创建指令失败",
+"result_success_login_admin_user" => "登录管理员成功",
+"result_failure_login_admin_user" => "登录管理员失败",
+"result_success_read_admin_key" => "读取key成功",
+"result_failure_read_admin_key" => "读取key失败",
 ```
 #### 导入数据库
 

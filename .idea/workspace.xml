@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a48f8728-086b-4998-83c4-8102ca67241e" name="更改" comment="修正语法错误" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager" show_ignored="true" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PUSH_AUTO_UPDATE" value="true" />
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--tags" />
+        <option name="title" value="All" />
+      </GitPushTagMode>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_HOME_DIR$/plugins/python-ce/helpers/typeshed/stdlib/threading.pyi" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2iTEvc70ei7VwgvMd9uWR9ifZ7K" />
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Python.comand_run.executor": "Debug",
+    "Python.event.executor": "Run",
+    "Python.input.executor": "Run",
+    "Python.key.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.output.executor": "Run",
+    "Python.powershell.executor": "Run",
+    "Python.status.executor": "Run",
+    "Python.test.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "E:/Py/EduSync/server",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
+  }
+}]]></component>
+  <component name="PyConsoleOptionsProvider">
+    <option name="myPythonConsoleState">
+      <console-settings module-name="EduSync" is-module-sdk="true">
+        <option name="myUseModuleSdk" value="true" />
+        <option name="myModuleName" value="EduSync" />
+      </console-settings>
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\Py\EduSync\server" />
+      <recent name="E:\Py\EduSync\manager" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\Py\EduSync\server" />
+      <recent name="E:\Py\EduSync\dist" />
+      <recent name="E:\Py\EduSync\client\ui" />
+      <recent name="E:\Py\EduSync\client" />
+      <recent name="D:\Py\EduSync\client" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="pip install PySide6-Fluent-Widgets" />
+      <command value="pip install psutil" />
+      <command value="pip install PySide6" />
+      <command value="pip install py-cpuinfo" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.main">
+    <configuration name="comand_run" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="EduSync" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/client" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/client/comand_run.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="input" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="EduSync" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/client" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/client/input.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="EduSync" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/client" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/client/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="powershell" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="EduSync" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/client" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/client/powershell.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.input" />
+        <item itemvalue="Python.comand_run" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-98f27166c754-ba05f1cad1b1-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.21829.153" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="a48f8728-086b-4998-83c4-8102ca67241e" name="更改" comment="" />
+      <created>1719506399702</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1719506399702</updated>
+    </task>
+    <task id="LOCAL-00001" summary="更正语法错误。">
+      <option name="closed" value="true" />
+      <created>1719507013855</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1719507013855</updated>
+    </task>
+    <task id="LOCAL-00002" summary="完善Network模块。">
+      <option name="closed" value="true" />
+      <created>1719587789165</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1719587789165</updated>
+    </task>
+    <task id="LOCAL-00003" summary="消除语法错误。">
+      <option name="closed" value="true" />
+      <created>1719589047635</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1719589047636</updated>
+    </task>
+    <task id="LOCAL-00004" summary="I m SB">
+      <option name="closed" value="true" />
+      <created>1719589219677</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1719589219677</updated>
+    </task>
+    <task id="LOCAL-00005" summary="动词的修饰一般为“形容词(副词)+地+动词’。您的意思是否是:好地让">
+      <option name="closed" value="true" />
+      <created>1719591021828</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1719591021828</updated>
+    </task>
+    <task id="LOCAL-00006" summary="拆分之前的main.py定义的类，对接服务端获取Token的API。">
+      <option name="closed" value="true" />
+      <created>1719678246674</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1719678246674</updated>
+    </task>
+    <task id="LOCAL-00007" summary="增加对服务器资源路径的常量。">
+      <option name="closed" value="true" />
+      <created>1719679824572</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1719679824572</updated>
+    </task>
+    <task id="LOCAL-00008" summary="增加注释，更新新的“系统”状态、修改“CPU”状态。">
+      <option name="closed" value="true" />
+      <created>1719682211717</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1719682211717</updated>
+    </task>
+    <task id="LOCAL-00009" summary="对接服务器Token分发。">
+      <option name="closed" value="true" />
+      <created>1719721095722</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1719721095722</updated>
+    </task>
+    <task id="LOCAL-00010" summary="预留UI配置槽位">
+      <option name="closed" value="true" />
+      <created>1720712355885</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1720712355885</updated>
+    </task>
+    <task id="LOCAL-00011" summary="对接服务器使用Token获取服务器对应存储信息。">
+      <option name="closed" value="true" />
+      <created>1720944892484</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1720944892484</updated>
+    </task>
+    <task id="LOCAL-00012" summary="优化文件结构。">
+      <option name="closed" value="true" />
+      <created>1721044050335</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1721044050335</updated>
+    </task>
+    <task id="LOCAL-00013" summary="完善Token过期机制，预留设备状态实时上传相关类。README：修改文件内容结构，新增TODO待办事项。">
+      <option name="closed" value="true" />
+      <created>1721146502022</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1721146502022</updated>
+    </task>
+    <task id="LOCAL-00014" summary="新增服务器设备状态实时上传机制。">
+      <option name="closed" value="true" />
+      <created>1721202620150</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1721202620150</updated>
+    </task>
+    <task id="LOCAL-00015" summary="重命名前端ui文件。">
+      <option name="closed" value="true" />
+      <created>1721202725412</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1721202725412</updated>
+    </task>
+    <task id="LOCAL-00016" summary="重命名前端ui文件。">
+      <option name="closed" value="true" />
+      <created>1721207436541</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1721207436541</updated>
+    </task>
+    <task id="LOCAL-00017" summary="撰写UI按钮逻辑">
+      <option name="closed" value="true" />
+      <created>1721559565935</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1721559565935</updated>
+    </task>
+    <task id="LOCAL-00018" summary="协调文件结构，重命名类。">
+      <option name="closed" value="true" />
+      <created>1721559805403</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1721559805403</updated>
+    </task>
+    <task id="LOCAL-00019" summary="更新检测服务器发送的指令，等待服务器对接。">
+      <option name="closed" value="true" />
+      <created>1722002320960</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1722002320960</updated>
+    </task>
+    <task id="LOCAL-00020" summary="添加管理端，添加管理端输出控制端的运行情况。">
+      <option name="closed" value="true" />
+      <created>1723016195328</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1723016195328</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Doing upload command.&#10;完善Readme文档。">
+      <option name="closed" value="true" />
+      <created>1723108998274</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1723108998274</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Update">
+      <option name="closed" value="true" />
+      <created>1724382413543</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1724382413543</updated>
+    </task>
+    <task id="LOCAL-00023" summary="准备上传0.1.0-alpha">
+      <option name="closed" value="true" />
+      <created>1724390640017</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1724390640017</updated>
+    </task>
+    <task id="LOCAL-00024" summary="更新README，优化项目文件并添加环境配置表。">
+      <option name="closed" value="true" />
+      <created>1726463953625</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1726463953625</updated>
+    </task>
+    <task id="LOCAL-00025" summary="更新README，优化项目文件并添加环境配置表。">
+      <option name="closed" value="true" />
+      <created>1726463981176</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1726463981176</updated>
+    </task>
+    <task id="LOCAL-00026" summary="修正语法错误">
+      <option name="closed" value="true" />
+      <created>1726464807400</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1726464807400</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT_PROFILE" value="Default" />
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="更正语法错误。" />
+    <MESSAGE value="完善Network模块。" />
+    <MESSAGE value="消除语法错误。" />
+    <MESSAGE value="I m SB" />
+    <MESSAGE value="动词的修饰一般为“形容词(副词)+地+动词’。您的意思是否是:好地让" />
+    <MESSAGE value="拆分之前的main.py定义的类，对接服务端获取Token的API。" />
+    <MESSAGE value="增加对服务器资源路径的常量。" />
+    <MESSAGE value="增加注释，更新新的“系统”状态、修改“CPU”状态。" />
+    <MESSAGE value="对接服务器Token分发。" />
+    <MESSAGE value="预留UI配置槽位" />
+    <MESSAGE value="对接服务器使用Token获取服务器对应存储信息。" />
+    <MESSAGE value="优化文件结构。" />
+    <MESSAGE value="完善Token过期机制，预留设备状态实时上传相关类。README：修改文件内容结构，新增TODO待办事项。" />
+    <MESSAGE value="新增服务器设备状态实时上传机制。" />
+    <MESSAGE value="重命名前端ui文件。" />
+    <MESSAGE value="撰写UI按钮逻辑" />
+    <MESSAGE value="协调文件结构，重命名类。" />
+    <MESSAGE value="更新检测服务器发送的指令，等待服务器对接。" />
+    <MESSAGE value="添加管理端，添加管理端输出控制端的运行情况。" />
+    <MESSAGE value="Doing upload command.&#10;完善Readme文档。" />
+    <MESSAGE value="Update" />
+    <MESSAGE value="准备上传0.1.0-alpha" />
+    <MESSAGE value="更新README，优化项目文件并添加环境配置表。" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/main'" />
+    <MESSAGE value="修正语法错误" />
+    <option name="LAST_COMMIT_MESSAGE" value="修正语法错误" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint enabled="true" type="python-exception">
+          <properties notifyOnlyOnFirst="true" notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+            <option name="notifyOnlyOnFirst" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
