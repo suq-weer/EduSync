@@ -68,7 +68,7 @@ SOURCE .\server\edusync-无重置.sql
 如果懒得在源代码里面配置信息的话，就：
 数据库名称：edusync
 账号：edusync
-密码设置为xiaoyi..
+密码：xiaoyi..
 (这是项目默认的)
 ```
 
