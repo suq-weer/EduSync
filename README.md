@@ -64,14 +64,14 @@ CREATE DATABASE edusync;
 USE edusync;
 SOURCE .\server\edusync-无重置.sql
 ```
-```
+
 可以使用phpMyadmin来配置数据库
 如果懒得在源代码里面配置信息的话，就：
 数据库名称：edusync
 账号：edusync
 密码：xiaoyi..
 (这是项目默认的)
-```
+
 
 ## TODO
 * ~~实时上传多媒体设备状态（已完成）~~
