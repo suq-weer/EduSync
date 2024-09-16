@@ -4,9 +4,9 @@ import uuid
 import warnings
 
 import output
-from client.config import General
-from client.input import TokenInput
-from client.network import NetworkResource, Network
+from config import General
+from input import TokenInput
+from network import NetworkResource, Network
 
 
 class Event(threading.Thread):
@@ -57,7 +57,8 @@ class StatusUploadEvent(Event):
                 "?deviceId=" + device_id.__str__() +
                 "&token=" + self.token.token
             )
-            if response_1['error'] == 0 or response_2 == 0:
+            print(response_1,'\n',response_2)
+            if response_1['error'] == 0 or response_2['error'] == 0:
                 self.general.token_is_out = False
             else:
                 self.general.token_is_out = True

@@ -24,7 +24,7 @@ class Network:
         print(self.ip + self.resource + data)
         request: Response = requests.get(self.ip + self.resource + data)
         # 不知道为什么Token获取会时不时发抽，只好堵塞线程。
-        time.sleep(0.5)
+        time.sleep(1)
         try:
             json_re = json.loads(request.content.decode())
             if json_re['states'] == 1:

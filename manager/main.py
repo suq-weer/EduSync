@@ -1,8 +1,8 @@
-from manager.config import General
-from manager.input import TokenInput
-from manager.key import KeyInput
-from manager.network import Network, NetworkResource
-from manager.function import outputStatus, postCommand
+from config import General
+from input import TokenInput
+from key import KeyInput
+from network import Network, NetworkResource
+from function import outputStatus, postCommand
 
 general = General()
 general.input_password_book(Network(NetworkResource.GET_INFO_SOFTWARE_CODEBOOK))

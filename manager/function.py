@@ -1,8 +1,8 @@
 import json
 
-from manager.key import KeyInput
-from manager.network import Network, NetworkResource
-from manager.status import StatusInput
+from key import KeyInput
+from network import Network, NetworkResource
+from status import StatusInput
 
 
 def outputStatus(token: str, device_id: str):

@@ -20,11 +20,17 @@
 
 ## 导入前置库
 
+### 客户端
+
+*建议在 Anaconda 虚拟 Python 环境下开发。*
+
 ```commandline
 pip install psutil
+pip install Requests
 pip install PySide6
 pip install PySide6-Fluent-Widgets
 pip install py-cpuinfo
+pip install pyinstaller
 ```
 
 ## TODO

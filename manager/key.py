@@ -1,4 +1,4 @@
-from manager.network import Network, NetworkResource
+from network import Network, NetworkResource
 
 
 class KeyInput:
