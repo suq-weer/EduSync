@@ -1,4 +1,4 @@
-name: 搭建 conda 环境
+name: 搭建环境并编译
 
 on: [push]
 
@@ -9,26 +9,37 @@ jobs:
       max-parallel: 5
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v3
+    - uses: conda-incubator/setup-miniconda@v3
       with:
+        auto-update-conda: true
         python-version: '3.11.9'
-    - name: Add conda to system path
-      run: |
-        # $CONDA is an environment variable pointing to the root of the miniconda directory
-        echo $CONDA/bin >> $GITHUB_PATH
-    - name: Install dependencies
-      run: |
-        conda env update --file environment.yml --name EduSync
-    - name: Lint with flake8
-      run: |
-        conda install flake8
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
-      run: |
-        conda install pytest
-        pytest
+    - uses: Nuitka/Nuitka-Action@main
+      name: Build Client
+      with:
+        nuitka-version: main
+        script-name: ./client/main.py
+        output-filename: edusync-client.exe
+        onefile: true
+    - uses: Nuitka/Nuitka-Action@main
+      name: Build Manager
+      with:
+        nuitka-version: main
+        script-name: ./manager/main.py
+        output-filename: edusync-manager.exe
+        onefile: true
+    - uses: actions/checkout@master
+    - name: Archive Release
+      uses: thedoctor0/zip-release@0.7.5
+      with:
+        type: 'zip'
+        path: './server'
+        filename: 'edusync-server.zip'
+        exclusions: '*.git* /*node_modules/* .editorconfig'
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: upload-build
+        path: |
+          build/edusync-client.exe
+          build/edusync-manager.exe
+          build/edusync-server.zip
