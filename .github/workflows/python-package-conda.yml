@@ -13,21 +13,21 @@ jobs:
       with:
         auto-update-conda: true
         python-version: '3.11.9'
+    - uses: actions/checkout@master
     - uses: Nuitka/Nuitka-Action@main
       name: Build Client
       with:
         nuitka-version: main
-        script-name: D:\a\EduSync\client\main.py
+        script-name: client/main.py
         output-file: edusync-client.exe
         onefile: true
     - uses: Nuitka/Nuitka-Action@main
       name: Build Manager
       with:
         nuitka-version: main
-        script-name: D:\a\EduSync\manager\main.py
+        script-name: manager/main.py
         output-file: edusync-manager.exe
         onefile: true
-    - uses: actions/checkout@master
     - name: Archive Release
       uses: thedoctor0/zip-release@0.7.5
       with:
