@@ -17,14 +17,14 @@ jobs:
       name: Build Client
       with:
         nuitka-version: main
-        script-name: ./client/main.py
+        script-name: client/main.py
         output-file: edusync-client.exe
         onefile: true
     - uses: Nuitka/Nuitka-Action@main
       name: Build Manager
       with:
         nuitka-version: main
-        script-name: ./manager/main.py
+        script-name: manager/main.py
         output-file: edusync-manager.exe
         onefile: true
     - uses: actions/checkout@master
@@ -32,7 +32,7 @@ jobs:
       uses: thedoctor0/zip-release@0.7.5
       with:
         type: 'zip'
-        path: './server'
+        path: 'server/'
         filename: 'edusync-server.zip'
         exclusions: '*.git* /*node_modules/* .editorconfig'
     - name: Upload Artifact
