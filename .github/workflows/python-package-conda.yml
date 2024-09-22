@@ -10,7 +10,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
-    - uses：conda-incubator/setup-miniconda@v3
+    - uses: conda-incubator/setup-miniconda@v3
       with:
         auto-update-conda：true
         python-version：'3.11.9'
