@@ -12,8 +12,8 @@ jobs:
     - uses: actions/checkout@master
     - uses: conda-incubator/setup-miniconda@v3
       with:
-        auto-update-conda：true
-        python-version：'3.11.9'
+        auto-update-conda: true
+        python-version: '3.11.9'
         environment-file: environment.yml
     - name: Archive Release
       uses: thedoctor0/zip-release@0.7.5
