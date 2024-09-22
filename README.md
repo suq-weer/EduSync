@@ -110,8 +110,9 @@ SOURCE .\server\edusync-无重置.sql
 ##### 自定义数据库账号
 在config.php里进行修改：
 1. 找到info_server函数
-2. 修改如下代码：<br>
-```
+2. 修改如下代码：
+
+```php
 "database_servername" => "localhost",
 "database_username" => "数据库账号",
 "database_password" => "数据库密码",
