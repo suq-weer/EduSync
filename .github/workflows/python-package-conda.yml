@@ -16,16 +16,20 @@ jobs:
     - uses: Nuitka/Nuitka-Action@main
       name: Build Client
       with:
+        working-directory: ./client/
         nuitka-version: main
-        script-name: 'client\main.py'
+        script-name: ./client/main.py
         output-file: edusync-client.exe
+        output-dir: ../build/
         onefile: true
     - uses: Nuitka/Nuitka-Action@main
       name: Build Manager
       with:
+        working-directory: ./manager/
         nuitka-version: main
-        script-name: 'manager\main.py'
+        script-name: main.py
         output-file: edusync-manager.exe
+        output-dir: ../build/
         onefile: true
     - uses: actions/checkout@master
     - name: Archive Release
