@@ -4,15 +4,20 @@ import platform
 import cpuinfo
 import psutil
 
-
 class CpuStatusOutput:
-    """
-    CPU状态输出对象
-    """
 
     def __init__(self):
         """
-        初始化该对象时会自动查询最新状态。
+        | CPU状态输出对象。
+        | 初始化该对象时会自动查询最新状态。
+
+        - 类成员变量：
+            - ``time``
+            - ``count``
+            - ``percent``
+            - ``processor``
+            - ``name``
+            - ``architecture``
         """
         self.time = psutil.cpu_times()
         self.count = psutil.cpu_count(logical=False)
@@ -24,7 +29,7 @@ class CpuStatusOutput:
     def output(self) -> dict:
         """
         将状态对象整理并返回。
-        :return: 返回的CPU字典对象
+        :return: 返回的CPU字典对象。
         """
         root = dict(count=self.count, percent=self.percent, processor=self.processor,
                     name=self.name, architecture=self.architecture)
@@ -34,13 +39,10 @@ class CpuStatusOutput:
 
 
 class MemoryStatusOutput:
-    """
-    内存输出流对象。
-    """
-
     def __init__(self):
         """
-        初始化该对象时会自动查询最新状态。
+        | 内存输出流对象。
+        | 初始化该对象时会自动查询最新状态。
         """
         self.virtual_memory = psutil.virtual_memory()
 
