@@ -17,14 +17,14 @@ jobs:
       name: Build Client
       with:
         nuitka-version: main
-        script-name: D:\a\EduSync\EduSync\client\main.py
+        script-name: D:\a\EduSync\client\main.py
         output-file: edusync-client.exe
         onefile: true
     - uses: Nuitka/Nuitka-Action@main
       name: Build Manager
       with:
         nuitka-version: main
-        script-name: D:\a\EduSync\EduSync\manager\main.py
+        script-name: D:\a\EduSync\manager\main.py
         output-file: edusync-manager.exe
         onefile: true
     - uses: actions/checkout@master
