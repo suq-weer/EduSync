@@ -106,10 +106,13 @@ SOURCE .\server\edusync-无重置.sql
 账号：edusync
 密码：xiaoyi..
 (这是项目默认的)*
-<br>
+
 ##### 自定义数据库账号
+
 在config.php里进行修改：
+
 1. 找到info_server函数
+
 2. 修改如下代码：
 
 ```php
