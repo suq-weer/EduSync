@@ -14,6 +14,13 @@ jobs:
         auto-update-conda: true
         python-version: '3.11.9'
     - uses: actions/checkout@master
+    - name: Archive Release
+      uses: thedoctor0/zip-release@0.7.5
+      with:
+        type: 'zip'
+        path: 'server\'
+        filename: 'edusync-server.zip'
+        exclusions: '*.git* /*node_modules/* .editorconfig'
     - uses: Nuitka/Nuitka-Action@main
       name: Build Client
       with:
@@ -28,13 +35,6 @@ jobs:
         script-name: manager/main.py
         output-file: edusync-manager.exe
         onefile: true
-    - name: Archive Release
-      uses: thedoctor0/zip-release@0.7.5
-      with:
-        type: 'zip'
-        path: 'D:\a\EduSync\EduSync\server\'
-        filename: 'edusync-server.zip'
-        exclusions: '*.git* /*node_modules/* .editorconfig'
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
