@@ -3,7 +3,7 @@ name: 搭建环境并编译
 on: [push]
 
 jobs:
-  build-linux:
+  build:
     runs-on: windows-latest
     strategy:
       max-parallel: 5
@@ -18,14 +18,14 @@ jobs:
       with:
         nuitka-version: main
         script-name: ./client/main.py
-        output-filename: edusync-client.exe
+        output-file: edusync-client.exe
         onefile: true
     - uses: Nuitka/Nuitka-Action@main
       name: Build Manager
       with:
         nuitka-version: main
         script-name: ./manager/main.py
-        output-filename: edusync-manager.exe
+        output-file: edusync-manager.exe
         onefile: true
     - uses: actions/checkout@master
     - name: Archive Release
