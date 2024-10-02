@@ -10,11 +10,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
-    - uses: conda-incubator/setup-miniconda@v3
+    - uses: actions/setup-python@v5
       with:
-        auto-update-conda: true
-        python-version: '3.11.9'
-        environment-file: environment.yml
+        python-version: '3.9'
+        cache: 'pip'
+    - run: pip install -r requirements.txt
     - name: Archive Release
       uses: thedoctor0/zip-release@0.7.5
       with:
