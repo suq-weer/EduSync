@@ -19,7 +19,7 @@ jobs:
           **/requirements.txt
     - name: Install Dependencies
       run: |
-        pip install -r D:\a\EduSync\EduSync\requirements.txt
+        python.exe -m pip install -r requirements.txt
     - name: Archive Release
       uses: thedoctor0/zip-release@0.7.5
       with:
