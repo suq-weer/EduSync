@@ -301,6 +301,16 @@ function get_user_command($deviceId)
     return json_encode(operate_database("l","user_command",$data,"DESC","id"));
 }
 
+//上传指令退出码
+function upload_user_command($deviceId,$commandId,$result)
+{
+    $code = json_encode(operate_database("r","user_command",json_encode(["id" => $commandId])));
+    $code['result'] = $result;
+
+    operate_database("d","user_command",json_encode(["id" => $commandId]));
+    return operate_database("w","user_command",$code) ? 1 : 0;
+}
+
 
 //检查 uid 是否存在
 function if_exist_admin_user($uid){
