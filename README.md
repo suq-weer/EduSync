@@ -1,4 +1,6 @@
-# 学校多媒体设备互联系统计划书
+# 学校多媒体设备互联系统
+
+[![搭建环境并编译](https://github.com/suq-weer/EduSync/actions/workflows/python-package-conda.yml/badge.svg?branch=main)](https://github.com/suq-weer/EduSync/actions/workflows/python-package-conda.yml)
 
 ## 目的
 
