@@ -16,9 +16,7 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QMainWindow, QPlainTextEdit,
-    QSizePolicy, QWidget)
-
-from qfluentwidgets import (PlainTextEdit, PushButton, StatusBar, ToolButton)
+                               QSizePolicy, QWidget, QStatusBar, QToolButton, QPushButton)
 
 class Ui_EduSync(object):
     def setupUi(self, EduSync):
@@ -33,7 +31,7 @@ class Ui_EduSync(object):
         EduSync.setStyleSheet(u"background-color: rgb(220, 220, 220);")
         self.centralwidget = QWidget(EduSync)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.plainTextEdit = PlainTextEdit(self.centralwidget)
+        self.plainTextEdit = QPlainTextEdit(self.centralwidget)
         self.plainTextEdit.setObjectName(u"plainTextEdit")
         self.plainTextEdit.setGeometry(QRect(10, 10, 631, 41))
         sizePolicy.setHeightForWidth(self.plainTextEdit.sizePolicy().hasHeightForWidth())
@@ -41,7 +39,7 @@ class Ui_EduSync(object):
         self.plainTextEdit.setStyleSheet(u"border-radius:15%;\n"
 "border:2px solid blue;\n"
 "background-color: rgb(255, 255, 255);")
-        self.toolButton = ToolButton(self.centralwidget)
+        self.toolButton = QToolButton(self.centralwidget)
         self.toolButton.setObjectName(u"toolButton")
         self.toolButton.setGeometry(QRect(610, 20, 24, 21))
         sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
@@ -49,7 +47,7 @@ class Ui_EduSync(object):
         sizePolicy1.setVerticalStretch(0)
         sizePolicy1.setHeightForWidth(self.toolButton.sizePolicy().hasHeightForWidth())
         self.toolButton.setSizePolicy(sizePolicy1)
-        self.pushButton = PushButton(self.centralwidget)
+        self.pushButton = QPushButton(self.centralwidget)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setGeometry(QRect(220, 80, 200, 200))
         sizePolicy1.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
@@ -84,7 +82,7 @@ class Ui_EduSync(object):
         self.plainTextEdit_2.setStyleSheet(u"border-radius:15%;\n"
 "background-color: rgb(255, 255, 255);\n"
 "border:2px solid blue;")
-        self.plainTextEdit_3 = PlainTextEdit(self.centralwidget)
+        self.plainTextEdit_3 = QPlainTextEdit(self.centralwidget)
         self.plainTextEdit_3.setObjectName(u"plainTextEdit_3")
         self.plainTextEdit_3.setGeometry(QRect(10, 320, 631, 41))
         sizePolicy.setHeightForWidth(self.plainTextEdit_3.sizePolicy().hasHeightForWidth())
@@ -105,7 +103,7 @@ class Ui_EduSync(object):
         self.label.raise_()
         self.plainTextEdit_3.raise_()
         self.label_2.raise_()
-        self.statusbar = StatusBar(EduSync)
+        self.statusbar = QStatusBar(EduSync)
         self.statusbar.setObjectName(u"statusbar")
         EduSync.setStatusBar(self.statusbar)
 

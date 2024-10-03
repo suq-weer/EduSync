@@ -105,3 +105,6 @@ class StatusUploadEvent(Event):
             else:
                 self.general.token_is_out = True
             time.sleep(self.sleepTime)
+
+    def stop(self):
+        self.status = 1
