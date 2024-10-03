@@ -21,3 +21,5 @@ shiboken6==6.7.2
 urllib3 @ file:///C:/b/abs_a7hvzm4y95/croot/urllib3_1718912661242/work
 win-inet-pton @ file:///C:/ci_311/win_inet_pton_1676425458225/work
 zstandard==0.23.0
+
+requests~=2.32.3

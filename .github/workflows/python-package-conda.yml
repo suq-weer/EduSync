@@ -9,12 +9,17 @@ jobs:
       max-parallel: 5
 
     steps:
-    - uses: actions/checkout@master
-    - uses: conda-incubator/setup-miniconda@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
       with:
-        auto-update-conda: true
-        python-version: '3.11.9'
-        environment-file: environment.yml
+        python-version: '3.12'
+        architecture: 'x64'
+        cache: 'pip'
+        cache-dependency-path: |
+          **/requirements.txt
+    - name: Install Dependencies
+      run: |
+        python.exe -m pip install -r requirements.txt
     - name: Archive Release
       uses: thedoctor0/zip-release@0.7.5
       with:
