@@ -15,14 +15,14 @@ class MainWindow(QMainWindow):
 
     def on_button_clicked(self):
         if self.thread_status == 0:
-            self.thread.stop()
             self.ui.pushButton.setText("启动")
+            self.thread.stop()
             self.id += 1
             self.thread = StatusUploadEvent(self.id, 'status_bus', 1)
             self.thread_status = 1
         else:
-            self.thread.start()
             self.ui.pushButton.setText("停止")
+            self.thread.start()
             self.thread_status = 0
 
 if __name__ == '__main__':

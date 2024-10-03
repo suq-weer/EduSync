@@ -1,25 +1,12 @@
-altgraph @ file:///C:/ci_311/altgraph_1676434977885/work
-Brotli @ file:///C:/b/abs_3d36mno480/croot/brotli-split_1714483178642/work
-certifi @ file:///C:/b/abs_7bbxxprxir/croot/certifi_1720453609121/work/certifi
-charset-normalizer @ file:///croot/charset-normalizer_1721748349566/work
-idna @ file:///C:/b/abs_aad84bnnw5/croot/idna_1714398896795/work
+darkdetect==0.8.0
 Nuitka==2.4.8
 ordered-set==4.1.0
-packaging @ file:///C:/b/abs_c3vlh0z4jw/croot/packaging_1720101866539/work
-pefile @ file:///C:/b/abs_68oy9ka6fm/croot/pefile_1720651782540/work
 psutil==6.0.0
 py-cpuinfo==9.0.0
-pyinstaller @ file:///C:/b/abs_09h007ff52/croot/pyinstaller_1721682848440/work
-pyinstaller-hooks-contrib @ file:///C:/b/abs_deumjuw0e0/croot/pyinstaller-hooks-contrib_1721675898298/work
+PyQt-Fluent-Widgets==1.6.6
 PySide6==6.7.2
 PySide6_Addons==6.7.2
 PySide6_Essentials==6.7.2
-PySocks @ file:///C:/ci_311/pysocks_1676425991111/work
-pywin32-ctypes @ file:///C:/b/abs_2cfx5l4nvi/croot/pywin32-ctypes_1709340246092/work
-requests @ file:///C:/b/abs_9frifg92q2/croot/requests_1721410901096/work
+pywin32==306
 shiboken6==6.7.2
-urllib3 @ file:///C:/b/abs_a7hvzm4y95/croot/urllib3_1718912661242/work
-win-inet-pton @ file:///C:/ci_311/win_inet_pton_1676425458225/work
 zstandard==0.23.0
-
-requests~=2.32.3

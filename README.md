@@ -20,7 +20,7 @@
 
 ## 参与贡献
 
-### 客户端+管理端
+### 客户端
 
 >*建议在 Anaconda 虚拟 Python 环境下开发。*
 
@@ -38,9 +38,10 @@ conda env create -f .\environment.yml
 
 #### 编译方法
 
+**给 Windows：**
+
 ```commandline
-python -m nuitka --lto --standalone .\client\main.py
-python -m nuitka --lto --standalone .\manager\main.py
+python -m nuitka --lto=yes --output-dir=build --output-file=edusync-client.exe --enable-plugin=pyside6 --windows-uac-admin --onefile .\client\main.py
 ```
 
 ### 服务端
