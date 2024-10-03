@@ -32,14 +32,9 @@ jobs:
       with:
         nuitka-version: main
         script-name: client/main.py
+        output-dir: build
         output-file: edusync-client.exe
-        onefile: true
-    - uses: Nuitka/Nuitka-Action@main
-      name: Build Manager
-      with:
-        nuitka-version: main
-        script-name: manager/main.py
-        output-file: edusync-manager.exe
+        windows-uac-admin: true
         onefile: true
     - name: Upload Artifact
       uses: actions/upload-artifact@v3

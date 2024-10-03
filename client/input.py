@@ -67,7 +67,8 @@ def commandDecode(raw_refuse: dict)->list:
     :rtype: list
     """
     re = []
-    for i in raw_refuse['data']:
+    decode_refuse = json.loads(raw_refuse['data'])
+    for i in decode_refuse:
         re.append(CommandInput(i))
     return re
 
