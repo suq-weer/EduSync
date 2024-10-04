@@ -35,6 +35,7 @@ jobs:
         output-dir: build
         output-file: edusync-client.exe
         windows-uac-admin: true
+        enable-plugins: pyside6
         standalone: true
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
