@@ -41,4 +41,4 @@ jobs:
       with:
         name: upload-build
         path: |
-          build/build.dist/*
+          build/main.dist/*
