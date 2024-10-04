@@ -35,12 +35,10 @@ jobs:
         output-dir: build
         output-file: edusync-client.exe
         windows-uac-admin: true
-        onefile: true
+        standalone: true
     - name: Upload Artifact
       uses: actions/upload-artifact@v3
       with:
         name: upload-build
         path: |
-          build\edusync-client.exe
-          build\edusync-manager.exe
-          build\edusync-server.zip
+          build/build.dist/*
