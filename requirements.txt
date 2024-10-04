@@ -10,3 +10,4 @@ PySide6_Essentials==6.7.2
 pywin32==306
 shiboken6==6.7.2
 zstandard==0.23.0
+requests==2.32.3
