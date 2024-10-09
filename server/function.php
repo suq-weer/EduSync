@@ -143,6 +143,32 @@ function fun_create_user_command($data,$uid,$key)
     ];
 }
 
+//回传指令的执行状态
+function fun_upload_user_command($deviceId,$token,$commandId,$result)
+{
+    if_user_token($deviceId,$token);
+    if (operate_database("r","user_command",json_encode(["id" => $commandId]))['device_id']!=$deviceId){
+        die(get_result(
+            0,
+            "result_failure_upload_command",
+            "设备不一",
+        ));
+    }
+
+    $re = upload_user_command($deviceId,$commandId,$result);
+    if (!$re){
+        die(get_result(
+            0,
+            "result_failure_upload_command",
+            "回传失败",
+        ));
+    }
+
+    return [
+        "states" => 1,
+    ];
+}
+
 //返回成功或失败，成功则附加返回 key
 function login_admin_user($uid,$password){
     if (!if_exist_admin_user($uid)){

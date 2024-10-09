@@ -37,6 +37,8 @@ function info_server($aim): string//后端
         "result_failure_login_admin_user" => "登录管理员失败",
         "result_success_read_admin_key" => "读取key成功",
         "result_failure_read_admin_key" => "读取key失败",
+        "result_success_upload_command" => "回传指令成功",
+        "result_failure_upload_command" => "回传指令失败",
     ];
     return $data[$aim];
 }
