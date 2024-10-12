@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: Windows-lastest
+    runs-on: Windows-latest
     strategy:
       max-parallel: 5
 
