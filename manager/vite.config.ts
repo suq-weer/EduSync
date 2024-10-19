@@ -14,5 +14,12 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  server: {
+    proxy: {
+      '/server': 'http://edusync619.yiyu14.top',
+      '/dev-api': 'http://edusync619.yiyu14.top',
+      '/api': 'http://edusync619.yiyu14.top',
+    }
   }
 })

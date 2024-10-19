@@ -1,4 +1,7 @@
 import './assets/main.css'
+import 'mdui/mdui.css';
+import 'mdui';
+// import '@/utils/request';
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'

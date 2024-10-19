@@ -7,6 +7,10 @@
     "dev": "vite",
     "build": "run-p type-check \"build-only {@}\" --",
     "preview": "vite preview",
+    "install": "npm install",
+    "install mdui": "npm install mdui --save npm install @mdui/icons --save",
+    "install axios": "npm install axios",
+    "regsitry": "npm config set registry https://registry.npmmirror.com",
     "test:unit": "vitest",
     "test:e2e": "start-server-and-test preview http://localhost:4173 'cypress run --e2e'",
     "test:e2e:dev": "start-server-and-test 'vite dev --port 4173' http://localhost:4173 'cypress open --e2e'",
@@ -16,6 +20,11 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@mdui/icons": "^1.0.2",
+    "axios": "^1.7.7",
+    "install": "^0.13.0",
+    "mdui": "^2.1.2",
+    "npm": "^10.9.0",
     "pinia": "^2.1.7",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
