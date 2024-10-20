@@ -3,7 +3,7 @@ import axios from "axios";
 const instance = axios.create({
   baseURL: "/server",
   timeout: 5000,
-  headers: {}
+  headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
 })
 
 // 添加请求拦截器

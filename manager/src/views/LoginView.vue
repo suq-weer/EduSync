@@ -1,23 +1,23 @@
 <template>
   <mdui-card class="login">
-    <h1>login 登录页面</h1>
-    <mdui-text-field clearable label="账号"></mdui-text-field>
-    <mdui-text-field type="password" toggle-password label="密码"></mdui-text-field>
+    <h1>EduSync管理端 登录页面</h1>
+    <mdui-text-field :value="uid" @input="uid = $event.target.value"  clearable label="账号"></mdui-text-field>
+    <mdui-text-field :value="pass" @input="pass = $event.target.value"  type="password" toggle-password label="密码"></mdui-text-field>
     <mdui-button full-width @click="login">Login</mdui-button>
   </mdui-card>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import '@mdui/icons/password.js'
-import { postLogin } from '../api/server.ts'
+import { Login } from '../api/server.ts'
+import Cookies from 'js-cookie'
 
-const uid = ref('df')
-const pass = ref('df')
+const uid = ref('')
+const pass = ref('')
 
 async function login() {
-  const result = await postLogin({ uid: uid.value, pass: pass.value })
-  console.log(result)
+  //console.log(Cookies.get())
+  await Login(uid.value, pass.value)
 }
 </script>
 
