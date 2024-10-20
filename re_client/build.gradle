@@ -25,8 +25,8 @@ tasks.withType(JavaCompile) {
 }
 
 application {
-    mainModule = 'top.xiaosuoaa.edusync.client.re_client'
-    mainClass = 'top.xiaosuoaa.edusync.client.re_client.HelloApplication'
+    mainModule = 'top.xiaosuoaa.edusync.client'
+    mainClass = 'top.xiaosuoaa.edusync.client.HomeApplication'
 }
 
 javafx {
@@ -37,6 +37,8 @@ javafx {
 dependencies {
     implementation('org.kordamp.ikonli:ikonli-javafx:12.3.1')
     implementation('org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0')
+    implementation group: 'com.github.oshi', name: 'oshi-parent', version: '6.6.5'
+    implementation group: 'commons-net', name: 'commons-net', version: '3.11.1'
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
