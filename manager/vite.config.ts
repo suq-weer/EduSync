@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import { fileURLToPath } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 
@@ -15,7 +16,11 @@ export default defineConfig({
     }),
     vueJsx()
   ],
-  resolve: {},
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  },
   server: {
     proxy: {
       '/server': 'http://edusync619.yiyu14.top',
