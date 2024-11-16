@@ -37,8 +37,9 @@ javafx {
 dependencies {
     implementation('org.kordamp.ikonli:ikonli-javafx:12.3.1')
     implementation('org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0')
-    implementation group: 'com.github.oshi', name: 'oshi-parent', version: '6.6.5'
-    implementation group: 'commons-net', name: 'commons-net', version: '3.11.1'
+    implementation 'com.github.oshi:oshi-core:6.6.5'
+    implementation 'commons-net:commons-net:3.11.1'
+    implementation 'com.google.code.gson:gson:2.11.0'
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
@@ -51,7 +52,8 @@ jlink {
     imageZip = project.file("${buildDir}/distributions/app-${javafx.platform.classifier}.zip")
     options = ['--strip-debug', '--compress', '2', '--no-header-files', '--no-man-pages']
     launcher {
-        name = 'app'
+        name = 'EduSync'
+        args = ['--user', 'Xiaosu', '--win-menu', '–-win-menu-group', 'EduSync', '--verbose']
     }
 }
 
