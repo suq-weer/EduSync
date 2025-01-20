@@ -8,7 +8,7 @@
     <ScrollPane>
       <VBox>
         <Button mnemonicParsing="false" onAction="#onStatusButtonClick" text="输出系统状态JSON"/>
-        <Button mnemonicParsing="false" text="Button"/>
+        <Button mnemonicParsing="false" onAction="#onUploadStatusButtonClick" text="上传状态"/>
         <Button mnemonicParsing="false" text="Button"/>
         <Button mnemonicParsing="false" text="Button"/>
       </VBox>

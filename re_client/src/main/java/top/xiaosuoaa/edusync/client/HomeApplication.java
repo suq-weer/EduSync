@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import top.xiaosuoaa.edusync.client.core.StatusUploader;
 
 import java.io.IOException;
 
@@ -15,6 +16,12 @@ public class HomeApplication extends Application {
 		stage.setTitle("EduSync");
 		stage.setScene(scene);
 		stage.show();
+	}
+
+	@Override
+	public void stop() throws Exception {
+		StatusUploader.stop(); // 直接调用StatusUploader的实例方法停止线程
+		super.stop();
 	}
 
 	public static void main(String[] args) {
