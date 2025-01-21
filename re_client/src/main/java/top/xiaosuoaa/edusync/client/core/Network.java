@@ -2,6 +2,8 @@ package top.xiaosuoaa.edusync.client.core;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -9,6 +11,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class Network {
+	private static final Logger LOGGER = LoggerFactory.getLogger(Network.class);
 	private static final String ip = "http://edusync619.yiyu14.top/server/";
 	private static String resource;
 
@@ -61,11 +64,12 @@ public class Network {
 				return output;
 			} else {
 				// 如果状态码不为1，表示请求失败，抛出异常
-				throw new Exception(new Throwable("服务器内部异常：" + re.get("msg").getAsString()));
+				LOGGER.error("服务器内部异常：{}", re.get("msg").getAsString());
+				return null;
 			}
 		} catch (Throwable e) {
 			// 捕获异常，打印堆栈信息，并返回null
-			e.fillInStackTrace();
+			LOGGER.error("网络异常：", e);
 			return null;
 		}
 	}
@@ -98,7 +102,7 @@ public class Network {
 		} else {
 			// 如果状态不是1，抛出异常，表示服务器内部有异常
 			throw new Exception("服务器内部异常：" + re.get("msg").getAsString());
-	        }
+		}
 	}
 
 
