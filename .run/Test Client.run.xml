@@ -1,7 +1,0 @@
-<component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Test Client" type="CompoundRunConfigurationType">
-    <toRun name="Run Client" type="PythonConfigurationType" />
-    <toRun name="Install Dependencies" type="ShConfigurationType" />
-    <method v="2" />
-  </configuration>
-</component>
