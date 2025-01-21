@@ -1,0 +1,13 @@
+darkdetect==0.8.0
+Nuitka==2.4.8
+ordered-set==4.1.0
+psutil==6.0.0
+py-cpuinfo==9.0.0
+PyQt-Fluent-Widgets==1.6.6
+PySide6==6.7.2
+PySide6_Addons==6.7.2
+PySide6_Essentials==6.7.2
+pywin32==306
+shiboken6==6.7.2
+zstandard==0.23.0
+requests==2.32.3
