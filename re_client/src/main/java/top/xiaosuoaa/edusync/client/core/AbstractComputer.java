@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import org.apache.logging.log4j.core.util.NetUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import top.xiaosuoaa.edusync.client.HomeApplication;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -158,7 +159,7 @@ public class AbstractComputer {
 						AbstractPowershellExecutor.executePowerShellCommand(command);
 						LOGGER.info("命令执行完成。");
 					} catch (Exception e) {
-						LOGGER.error("执行命令出错：", e);
+						HomeApplication.showError("执行命令出错：", e, LOGGER);
 					}
 				}
 			}
@@ -192,7 +193,7 @@ public class AbstractComputer {
 				process.waitFor();
 				LOGGER.info("PowerShell 在 Windows 上安装成功。");
 			} catch (IOException | InterruptedException e) {
-				LOGGER.error("安装 PowerShell 时出错:", e);
+				HomeApplication.showError("安装 PowerShell 时出错:", e, LOGGER);
 			}
 		}
 
@@ -210,7 +211,7 @@ public class AbstractComputer {
 					installPowerShellUsingSnap();
 				}
 			} catch (IOException | InterruptedException e) {
-				LOGGER.error("安装 PowerShell 时出错:", e);
+				HomeApplication.showError("安装 PowerShell 时出错:", e, LOGGER);
 			}
 		}
 
@@ -221,7 +222,7 @@ public class AbstractComputer {
 				process.waitFor();
 				LOGGER.info("使用 snap 安装 PowerShell。");
 			} catch (IOException | InterruptedException e) {
-				LOGGER.error("安装 PowerShell 时出错:", e);
+				HomeApplication.showError("安装 PowerShell 时出错:", e, LOGGER);
 			}
 		}
 
@@ -241,7 +242,7 @@ public class AbstractComputer {
 					LOGGER.error("PowerShell 命令执行失败，退出码: {}", exitCode);
 				}
 			} catch (IOException | InterruptedException e) {
-				LOGGER.error("执行 PowerShell 命令时出错:", e);
+				HomeApplication.showError("执行 PowerShell 命令时出错:", e, LOGGER);
 			}
 		}
 	}

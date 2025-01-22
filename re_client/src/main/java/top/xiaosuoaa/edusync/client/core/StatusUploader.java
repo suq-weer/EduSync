@@ -2,6 +2,7 @@ package top.xiaosuoaa.edusync.client.core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import top.xiaosuoaa.edusync.client.HomeApplication;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -10,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class StatusUploader {
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatusUploader.class);
 	private static ScheduledExecutorService scheduler;
-	private static volatile boolean running;
+	public static volatile boolean running;
 
 	public void start() {
 		if (running) {
@@ -23,7 +24,7 @@ public class StatusUploader {
 			try {
 				new AbstractComputer().sync();
 			} catch (Exception e) {
-				LOGGER.error("上传进程中发生了意料之外的结果：", e);
+				HomeApplication.showError("上传进程中发生了意料之外的结果：", e, LOGGER);
 			}
 		}, 0, 5, TimeUnit.SECONDS);
 		LOGGER.info("上传进程已启动。");
