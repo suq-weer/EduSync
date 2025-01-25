@@ -119,8 +119,9 @@ function get_sqlCode($code): string//生成sql指令
         $i = 0;
         //获取键及其键值并组合
         foreach ($data as $key => $value) {
-            if($key != "u_aim" || $value != "u_data"){
-                if ($i === count(array_values($data))-1) {
+            if($key != "u_aim" && $key != "u_data"){
+                //echo count(array_values($data))-1;
+                if ($i === count(array_values($data))-3) {//3=一个uaim一个udata还有一个基础值1
                     $sqlCodeEnd = $sqlCodeEnd . "`$key` = '$value'";//`uid`='{$uid}'
                 }else $sqlCodeEnd = $sqlCodeEnd . "`$key` = '$value'" . " AND ";
             }
@@ -131,9 +132,11 @@ function get_sqlCode($code): string//生成sql指令
         //$sortWayBy = "id";
         $order = "";
         if ($sortWay!="" && $sortWayBy!="") $order=" ORDER BY `" . $sortWayBy . "` " . $sortWay;
-        $sqlCode = "UPDATE `" . $code['dataSheet'] . "` SET `" . $data["u_aim"] . "` = '" . $data["u_data"] . "'' WHERE " . $sqlCodeEnd . $order;
+        $sqlCode = "UPDATE `" . $code['dataSheet'] . "` SET `" . $data["u_aim"] . "` = '" . $data["u_data"] . "' WHERE " . $sqlCodeEnd . $order;
+        //echo $sqlCode;
     }
 
+    //echo $sqlCode;
     return $sqlCode;
 }
 
@@ -286,6 +289,7 @@ function create_user_command($type,$code,$deviceId)
         "device_id" => $deviceId,
     ]);
 
+    //print_r($data);
     return operate_database("w","user_command",$data) ? 1 : 0;
 }
 
@@ -302,10 +306,12 @@ function get_user_command($deviceId)
 }
 
 //上传指令退出码
-function upload_user_command($deviceId,$commandId,$result)
+function upload_user_command($commandId,$result)
 {
-    $code = json_encode(operate_database("r","user_command",json_encode(["id" => $commandId])));
+    $code = operate_database("r","user_command",json_encode(["id" => $commandId]));
     $code['result'] = $result;
+    $code = json_encode($code);
+//    echo $code;
 
     operate_database("d","user_command",json_encode(["id" => $commandId]));
     return operate_database("w","user_command",$code) ? 1 : 0;
@@ -374,7 +380,8 @@ function if_admin_key($uid,$key){
             "该key已经失效",
         ));
     }
-    if ($uid!=$result["admin_user_id"]){
+
+    if (read_admin_user($uid)['id']!=$result["admin_user_id"]){
         die(get_result(
             0,
             "result_failure_read_admin_key",
