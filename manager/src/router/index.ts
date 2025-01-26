@@ -30,7 +30,7 @@ const router = createRouter({
 
  router.beforeEach(async (to, from, next) => {
   document.title = to.meta.title as string
-  console.log(cookie_read_user())
+  // console.log(cookie_read_user())
 
   if (to.name !== 'Login') {
     const key = cookie_read_user()['key']

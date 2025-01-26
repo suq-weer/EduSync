@@ -11,7 +11,6 @@
 import { ref } from 'vue'
 import { Login } from '@/api/server.ts'
 import Cookies from 'js-cookie'
-import {emitter} from '@/utils/eventBus'
 import router from '@/router/index.ts'
 import { alert } from 'mdui/functions/alert.js'
 import { cookie_write_user } from '@/api/manage.ts'
