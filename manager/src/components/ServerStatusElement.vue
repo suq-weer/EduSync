@@ -18,7 +18,7 @@
             <b>已使用的物理内存 (MB)： {{info_server_memRealUsed}} </b><br />
             <b>可用的物理内存 (MB)： {{info_server_memFree}} </b><br />
             <b>缓存化的内存 (MB)： {{info_server_memCached}} </b><br />
-            <b>系统缓冲 (MB) {{info_server_memBuffers}} </b><br />
+            <b>系统缓冲 (MB) ：{{info_server_memBuffers}} </b><br />
           </mdui-card>
           <mdui-card class="home_card_software home_card_content">
             <b>EduSync： {{ info_software_name }} </b>
