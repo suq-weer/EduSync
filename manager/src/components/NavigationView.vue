@@ -5,8 +5,14 @@
     <div style="flex-grow: 1"></div>
   </mdui-top-app-bar>
   <mdui-navigation-drawer close-on-overlay-click close-on-esc ref="drawer">
+    <div style="padding: 20px;">
+      <mdui-avatar  style="margin-right: 20px">
+        <img src="@/assets/logo.png" alt="Project Logo">
+      </mdui-avatar>
+      <b style="font-size: 20px;text-align: center; vertical-align: middle;">EduSync 后台</b>
+    </div>
     <mdui-list>
-      <mdui-list-item headline="首页" end-icon="arrow_right" href="#"></mdui-list-item>
+      <mdui-list-item headline="首页" icon="home" href="#"></mdui-list-item>
     </mdui-list>
   </mdui-navigation-drawer>
 </template>
@@ -17,6 +23,10 @@ import 'mdui/components/icon.js'
 import { ButtonIcon, NavigationDrawer } from 'mdui'
 
 export default {
+  data() {
+    return {
+    }
+  },
   mounted() {
     const button: ButtonIcon = this.$refs.button as ButtonIcon;
     const drawer: NavigationDrawer = this.$refs.drawer as NavigationDrawer;

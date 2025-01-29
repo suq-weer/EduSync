@@ -1,6 +1,5 @@
 import instance from '@/utils/request'
 import type { UnwrapRef } from 'vue'
-import { postLogin } from '@/api/server'
 
 export const postInfo = async (body: { uid: UnwrapRef<string>, key: UnwrapRef<string> }) => {
   try {
