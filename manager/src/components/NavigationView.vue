@@ -12,7 +12,8 @@
       <b style="font-size: 20px;text-align: center; vertical-align: middle;">EduSync 后台</b>
     </div>
     <mdui-list>
-      <mdui-list-item headline="首页" icon="home" href="#"></mdui-list-item>
+      <mdui-list-item headline="首页" icon="home" href="/"></mdui-list-item>
+      <mdui-list-item headline="设备列表" icon="devices" href="/deviceList"></mdui-list-item>
     </mdui-list>
   </mdui-navigation-drawer>
 </template>
