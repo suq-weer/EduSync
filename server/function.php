@@ -200,3 +200,13 @@ function login_admin_user($uid,$password){
         "data" => $result,
     ];
 }
+
+
+function fun_get_list_device($data="",$value="",$page,$length,$uid,$key): array
+{
+    if_admin_key($uid,$key);
+    return [
+        "states" => 1,
+        "data" => get_list_device($data,$value,$page,$length),
+    ];
+}

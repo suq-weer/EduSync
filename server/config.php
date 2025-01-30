@@ -38,6 +38,8 @@ function info_server($aim): string//后端
         "result_failure_read_admin_key" => "读取key失败",
         "result_success_upload_command" => "回传指令成功",
         "result_failure_upload_command" => "回传指令失败",
+        "result_success_get_list_device" => "获取设备列表成功",
+        "result_failure_get_list_device" => "获取设备列表失败",
     ];
     return $data[$aim];
 }

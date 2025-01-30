@@ -96,12 +96,18 @@ function get_sqlCode($code): string//生成sql指令
             }else $sqlCodeEnd = $sqlCodeEnd . "`$key` = '$value'" . " AND ";
             $i++;
         }
-
-        //$sortWay = "DESC";
-        //$sortWayBy = "id";
-        $order = "";
-        if ($sortWay!="" && $sortWayBy!="") $order=" ORDER BY `" . $sortWayBy . "` " . $sortWay;
-        $sqlCode = "SELECT * FROM `" . $code['dataSheet'] . "` WHERE " . $sqlCodeEnd . $order;
+//        echo '<br>'.$sqlCodeEnd;
+        if ($sqlCodeEnd=="`` = ''") {
+            $order = "";
+            if ($sortWay != "" && $sortWayBy != "") $order = " ORDER BY `" . $sortWayBy . "` " . $sortWay;
+            $sqlCode = "SELECT * FROM `" . $code['dataSheet'] . "` "  . $order;
+        }else {
+            //$sortWay = "DESC";
+            //$sortWayBy = "id";
+            $order = "";
+            if ($sortWay != "" && $sortWayBy != "") $order = " ORDER BY `" . $sortWayBy . "` " . $sortWay;
+            $sqlCode = "SELECT * FROM `" . $code['dataSheet'] . "` WHERE " . $sqlCodeEnd . $order;
+        }
     }
     elseif ($code['type']=="d"){
         $i = 0;
@@ -136,7 +142,7 @@ function get_sqlCode($code): string//生成sql指令
         //echo $sqlCode;
     }
 
-    //echo $sqlCode;
+//    echo $sqlCode;
     return $sqlCode;
 }
 
@@ -389,4 +395,29 @@ function if_admin_key($uid,$key){
         ));
     }
 
+}
+
+
+//设备列表
+//获得list数据
+function get_list_data_device($key="",$value="")
+{
+    if ($key==""){
+        $data = json_encode([
+            ""=>"",
+        ]);
+        return operate_database("l","user",$data,"DESC","time");
+    }else{
+        $data = json_encode([
+            $key=>$value,
+        ]);
+        return operate_database("l","user",$data,"DESC","time");
+    }
+}
+
+function get_list_device($key,$value,$page=0,$length=10)
+{
+    $list_data = get_list_data_device($key,$value);
+    $chunkedArrays = array_chunk($list_data, $length);
+    return json_encode($chunkedArrays[$page]);
 }
