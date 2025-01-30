@@ -4,7 +4,7 @@ import { RouterView } from 'vue-router'
 import NavigationView from '@/components/NavigationView.vue'
 
 setColorScheme('#34495E')
-setTheme('dark')
+setTheme('auto')
 
 
 </script>
