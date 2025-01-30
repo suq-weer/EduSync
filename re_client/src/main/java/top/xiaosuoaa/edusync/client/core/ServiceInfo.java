@@ -146,36 +146,44 @@ public class ServiceInfo {
 		systemVersion = operatingSystem.getVersionInfo().getVersion();
 	}
 
+	/**
+	 * 获取系统信息的JSON表示
+	 * 此方法收集系统CPU、内存、磁盘和系统输出信息，并将其组织成一个JsonObject返回
+	 *
+	 * @return JsonObject 包含系统信息的JSON对象
+	 */
 	public JsonObject getJSONInfo() {
-		systemInfo = new SystemInfo();
-
-		JsonObject output = new JsonObject();
-
-		JsonObject cpuInfo = new JsonObject();
-		cpuInfo.addProperty("time", cpuTime);
-		cpuInfo.addProperty("count", cpuCount);
-		cpuInfo.addProperty("percent", cpuPercent);
-		cpuInfo.addProperty("name", cpuName);
-		cpuInfo.addProperty("architecture", cpuArchitecture);
-
-		JsonObject memStatus = new JsonObject();
-		memStatus.addProperty("total", memoryTotal);
-		memStatus.addProperty("used", memoryUsed);
-
-		JsonArray diskStatus = new JsonArray();
-		for (OnceDisk onceDisk : diskInfo) {
-			diskStatus.add(onceDisk.forJson());
-		}
-
-		JsonObject systemOutput = new JsonObject();
-		systemOutput.addProperty("system", system);
-		systemOutput.addProperty("version", systemVersion);
-
-		output.add("CPUStatus", cpuInfo);
-		output.add("MemoryStatus", memStatus);
-		output.add("DiskStatus", diskStatus);
-		output.add("SystemOutput", systemOutput);
-		return output;
+	    // 实例化系统信息对象
+	    systemInfo = new SystemInfo();
+	    // 创建一个JsonObject来存储所有系统信息
+	    JsonObject output = new JsonObject();
+	    // 创建并填充CPU信息
+	    JsonObject cpuInfo = new JsonObject();
+	    cpuInfo.addProperty("time", cpuTime);
+	    cpuInfo.addProperty("count", cpuCount);
+	    cpuInfo.addProperty("percent", cpuPercent);
+	    cpuInfo.addProperty("name", cpuName);
+	    cpuInfo.addProperty("architecture", cpuArchitecture);
+	    // 创建并填充内存状态
+	    JsonObject memStatus = new JsonObject();
+	    memStatus.addProperty("total", memoryTotal);
+	    memStatus.addProperty("used", memoryUsed);
+	    // 创建磁盘状态数组，并遍历每个磁盘信息添加到数组中
+	    JsonArray diskStatus = new JsonArray();
+	    for (OnceDisk onceDisk : diskInfo) {
+	        diskStatus.add(onceDisk.forJson());
+	    }
+	    // 创建并填充系统输出信息
+	    JsonObject systemOutput = new JsonObject();
+	    systemOutput.addProperty("system", system);
+	    systemOutput.addProperty("version", systemVersion);
+	    // 将CPU、内存、磁盘和系统输出信息添加到输出对象中
+	    output.add("CPUStatus", cpuInfo);
+	    output.add("MemoryStatus", memStatus);
+	    output.add("DiskStatus", diskStatus);
+	    output.add("SystemOutput", systemOutput);
+	    // 返回包含所有系统信息的JSON对象
+	    return output;
 	}
 
 	public static class OnceDisk {

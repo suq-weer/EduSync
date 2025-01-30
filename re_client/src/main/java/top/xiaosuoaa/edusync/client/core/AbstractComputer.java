@@ -3,6 +3,7 @@ package top.xiaosuoaa.edusync.client.core;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import org.apache.logging.log4j.core.util.NetUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,12 +11,15 @@ import top.xiaosuoaa.edusync.client.HomeApplication;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.math.BigInteger;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 import java.util.UUID;
 
 public class AbstractComputer {
@@ -23,6 +27,11 @@ public class AbstractComputer {
 
 	private static String codeBook;
 	private static String token;
+
+	public static BigInteger getUuid() {
+		return uuid;
+	}
+
 	private static BigInteger uuid;
 
 	private static final Network NETWORK;
@@ -48,7 +57,7 @@ public class AbstractComputer {
 			// 设置网络资源为获取软件密码本信息
 			NETWORK.setResource(Network.Resource.GET_INFO_SOFTWARE_CODEBOOK);
 			// 发起网络请求并获取响应
-			JsonObject response = Network.get(null);
+			JsonObject response = NETWORK.get(null);
 			// 检查响应是否非空且状态码为1
 			if (response != null && response.get("error").getAsInt() == 0) {
 				// 解析并更新密码本变量
@@ -81,7 +90,7 @@ public class AbstractComputer {
 			// 构造请求参数，包含设备ID
 			String data_o = "type=device_id&data=" + uuid;
 			// 发起网络请求获取响应数据
-			JsonObject response_o = Network.get(data_o);
+			JsonObject response_o = NETWORK.get(data_o);
 			// 检查响应是否不为空且状态码为1，表示请求成功
 			if (response_o != null && response_o.get("error").getAsInt() == 0) {
 				// 从响应数据中提取token值
@@ -96,7 +105,7 @@ public class AbstractComputer {
 			// 构造请求参数，包括密码本和设备ID
 			String data = "bookCode=" + codeBook + "&device_id=" + uuid;
 			// 发起网络请求并获取响应数据
-			JsonObject response = Network.get(data);
+			JsonObject response = NETWORK.get(data);
 			// 检查响应是否不为空且状态码为1，表示请求成功
 			if (response != null && response.get("error").getAsInt() == 0) {
 				// 从响应数据中提取token值
@@ -130,7 +139,7 @@ public class AbstractComputer {
 			String serviceInfoEncoded = URLEncoder.encode(SERVICE_INFO.getJSONInfo().toString(), StandardCharsets.UTF_8);
 			String data = "token=" + tokenEncoded + "&deviceId=" + uuidEncoded + "&data=" + serviceInfoEncoded;
 			LOGGER.debug(URLDecoder.decode(serviceInfoEncoded, StandardCharsets.UTF_8));
-			JsonObject response = Network.get(data);
+			JsonObject response = NETWORK.get(data);
 			if (response != null && response.get("error").getAsInt() != 0) {
 				// 如果状态码为1，表示上传成功
 				// 如果状态码不是1或无法解析回复内容，则抛出异常
@@ -142,21 +151,30 @@ public class AbstractComputer {
 		}
 	}
 
-	private static void getCommand() {
+	private void getCommand() {
 		try {
 			NETWORK.setResource(Network.Resource.CHECK_COMMAND);
 			String tokenEncoded = URLEncoder.encode(token, StandardCharsets.UTF_8);
 			String uuidEncoded = URLEncoder.encode(String.valueOf(uuid), StandardCharsets.UTF_8);
 			String data = "token=" + tokenEncoded + "&deviceId=" + uuidEncoded;
 			LOGGER.debug(URLDecoder.decode(data, StandardCharsets.UTF_8));
-			JsonObject response = Network.get(data);
+			JsonObject response = NETWORK.get(data);
 			if (response != null && response.get("error").getAsInt() == 0) {
 				JsonArray dataA = response.get("data").getAsJsonArray();
+				JsonArray commands = new JsonArray();
 				for (JsonElement element : dataA) {
 					String command = element.getAsJsonObject().get("data").getAsString();
+					int type = element.getAsJsonObject().get("type").getAsInt();
 					LOGGER.info("执行命令：{}", command);
 					try {
-						AbstractPowershellExecutor.executePowerShellCommand(command);
+						CommandExecutor executor = new CommandExecutor(this, command, type);
+						commands.add(executor.execute());
+						NETWORK.setResource(Network.Resource.UPLOAD_COMMAND);
+						String commandData = "token=" + tokenEncoded + "&deviceId=" + uuidEncoded + "&commandId=" + element.getAsJsonObject().get("id").getAsString() + "&data=" + commands.getAsString();
+						JsonObject uploadResponse = NETWORK.post(commandData);
+						if (uploadResponse.get("error").getAsInt() != 0) {
+							HomeApplication.showError("上传命令出错：", new Exception(uploadResponse.get("data").getAsString()), LOGGER);
+						}
 						LOGGER.info("命令执行完成。");
 					} catch (Exception e) {
 						HomeApplication.showError("执行命令出错：", e, LOGGER);
@@ -172,77 +190,54 @@ public class AbstractComputer {
 		return uuid;
 	}
 
-	public static class AbstractPowershellExecutor {
-		private AbstractPowershellExecutor() {
-			String osName = System.getProperty("os.name").toLowerCase();
-			if (osName.contains("linux")) {
-				installPowerShellOnLinux();
-			} else if (osName.contains("windows")) {
-				installPowerShellOnWindows();
-			} else {
-				LOGGER.error("不支持的系统：{}", osName);
-			}
+	public static class CommandExecutor {
+		private static AbstractComputer computer;
+		private static ProcessBuilder processBuilder;
+		private static List<String> outputList = new ArrayList<>();
+		private static List<String> errorList = new ArrayList<>();
+		private static String command;
+		private static int type;
+
+		public CommandExecutor(AbstractComputer IComputer, String ICommand, int IType) {
+			computer = IComputer;
+			command = ICommand;
+			type = IType;
+			processBuilder = new ProcessBuilder(command);
 		}
 
-		private static void installPowerShellOnWindows() {
+		public JsonObject execute() {
+			if (computer == null || command == null || type == 0) {
+				return null;
+			}
 			try {
-				ProcessBuilder pb = new ProcessBuilder(
-						"msiexec.exe", "/i", "path/to/powershell-7.2.23-win-x64.msi", "/quiet", "ADD_PATH=1"
-				);
-				Process process = pb.start();
-				process.waitFor();
-				LOGGER.info("PowerShell 在 Windows 上安装成功。");
+				Process process = processBuilder.start();
+				readStream(process.getInputStream(), "OUTPUT");
+				readStream(process.getErrorStream(), "ERROR");
+				int exitCode = process.waitFor();
+				JsonObject output = new JsonObject();
+				output.add("result", new JsonPrimitive(exitCode));
+				output.add("output", new JsonPrimitive(String.join("\n", outputList)));
+				output.add("error", new JsonPrimitive(String.join("\n", errorList)));
+				return output;
 			} catch (IOException | InterruptedException e) {
-				HomeApplication.showError("安装 PowerShell 时出错:", e, LOGGER);
+				throw new RuntimeException(e);
 			}
 		}
 
-		private static void installPowerShellOnLinux() {
-			try {
-				ProcessBuilder pb = new ProcessBuilder("bash", "-c", "command -v yay");
-				Process process = pb.start();
-				process.waitFor();
-				if (process.exitValue() == 0) {
-					pb = new ProcessBuilder("yay", "-S", "powershell");
-					process = pb.start();
-					process.waitFor();
-					LOGGER.info("使用 yay 安装 PowerShell。");
-				} else {
-					installPowerShellUsingSnap();
-				}
-			} catch (IOException | InterruptedException e) {
-				HomeApplication.showError("安装 PowerShell 时出错:", e, LOGGER);
-			}
-		}
-
-		private static void installPowerShellUsingSnap() {
-			try {
-				ProcessBuilder pb = new ProcessBuilder("sudo", "snap", "install", "powershell", "--classic");
-				Process process = pb.start();
-				process.waitFor();
-				LOGGER.info("使用 snap 安装 PowerShell。");
-			} catch (IOException | InterruptedException e) {
-				HomeApplication.showError("安装 PowerShell 时出错:", e, LOGGER);
-			}
-		}
-
-		public static void executePowerShellCommand(String command) {
-			try {
-				ProcessBuilder pb = new ProcessBuilder("powershell", "-Command", command);
-				Process process = pb.start();
-				BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+		private static void readStream(InputStream inputStream, String type) {
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+				List<String> list = new ArrayList<>();
 				String line;
 				while ((line = reader.readLine()) != null) {
-					LOGGER.info(line);
+					list.add(type + ":" + line);
 				}
-				int exitCode = process.waitFor();
-				if (exitCode == 0) {
-					LOGGER.info("PowerShell 命令执行成功。");
+				if (type.equals("OUTPUT")) {
+					outputList = list;
 				} else {
-					LOGGER.error("PowerShell 命令执行失败，退出码: {}", exitCode);
+					errorList = list;
 				}
-			} catch (IOException | InterruptedException e) {
-				HomeApplication.showError("执行 PowerShell 命令时出错:", e, LOGGER);
+			} catch (IOException e) {
+				throw new RuntimeException(e);
 			}
 		}
 	}

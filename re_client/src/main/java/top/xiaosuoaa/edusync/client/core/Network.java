@@ -45,7 +45,7 @@ public class Network {
 	 * @param data 请求中携带的数据，以查询字符串的形式附加到URL
 	 * @return 返回一个JsonObject，包含服务器响应中的数据如果服务器返回的状态表示失败，则返回null
 	 */
-	public static JsonObject get(String data) {
+	public JsonObject get(String data) {
 		// 构建HTTP GET请求
 		HttpRequest request = HttpRequest.newBuilder()
 				.GET()
@@ -83,7 +83,7 @@ public class Network {
 	 * @return 返回一个JsonObject，包含服务器响应的数据如果服务器返回错误状态，则返回null
 	 * @throws Exception 当服务器返回的状态不是1时，抛出异常，表示服务器内部有异常
 	 */
-	public static JsonObject post(String data) throws Exception {
+	public JsonObject post(String data) throws Exception {
 		// 构建POST请求
 		HttpRequest request = HttpRequest.newBuilder()
 				.POST(HttpRequest.BodyPublishers.ofString(data))
