@@ -31,3 +31,9 @@ conda env create -f .\environment.yml
 ```commandline
 python -m nuitka --lto=yes --output-dir=build --output-file=edusync-client.exe --enable-plugin=pyside6 --windows-uac-admin --onefile .\client\main.py
 ```
+
+**给 Linux：**
+
+```commandline
+python -m nuitka --onefile main.py --enable-plugin=pyside6 --lto=yes --output-dir=build --output-file=edusync-client.exe
+```

@@ -1,3 +1,4 @@
+import json
 import threading
 import time
 import uuid
@@ -11,7 +12,7 @@ from input import TokenInput
 from network import NetworkResource, Network
 
 
-def powershellCommandOutputUpload(input_command: list[PowershellCommand], device_id: int, token: TokenInput):
+def commandUpload(input_command: list[PowershellCommand], device_id: int, token: TokenInput):
     """
     解析 ``PowershellCommand`` 列表并上传给服务器。
     :param input_command: 输入的 ``PowershellCommand`` 列表。
@@ -22,11 +23,15 @@ def powershellCommandOutputUpload(input_command: list[PowershellCommand], device
     :type token: TokenInput
     """
     for i in input_command:
+        result : dict = {
+            "result": i.statusCode,
+            "output": i.output
+        }
         Network(NetworkResource.UPLOAD_COMMAND).get(
             "?deviceId=" + device_id.__str__() +
             "&token=" + token.token +
             "&commandId=" + i.id.__str__() +
-            "&result=" + i.statusCode.__str__()
+            "&result=" + json.dumps(result)
         )
 
 
@@ -96,7 +101,7 @@ class StatusUploadEvent(Event):
                 "&token=" + self.token.token
             )
             try:
-                powershellCommandOutputUpload(run(commandDecode(response_2)), device_id, self.token)
+                commandUpload(run(commandDecode(response_2)), device_id, self.token)
             except KeyError:
                 pass
             print(response_1, '\n', response_2)

@@ -1,6 +1,6 @@
 import subprocess
 
-from client.input import CommandInput
+from input import CommandInput
 
 
 class PowershellCommand:
@@ -16,7 +16,7 @@ class PowershellCommand:
         :param command: 单个指令内容，自动补充成 [``powershell.exe <CommandInput.code>``]。编码：``UTF-8``
         :type command: str
         """
-        self.popen = subprocess.getstatusoutput("powershell.exe " + command.code, encoding="UTF-8")
+        self.popen = subprocess.getstatusoutput(command.code, encoding="UTF-8")
         self.statusCode = self.popen[0]
         self.output = self.popen[1]
         self.id = command.id
