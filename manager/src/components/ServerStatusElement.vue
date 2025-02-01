@@ -89,8 +89,8 @@
   }
 }
 .collapse {
-  animation: start var(--mdui-motion-duration-long4) var(--mdui-motion-easing-emphasized) 0.1s 1 normal;
-  -moz-animation: start var(--mdui-motion-duration-long4) var(--mdui-motion-easing-emphasized) 0.1s 1 normal;
+  animation: start var(--mdui-motion-duration-extra-long4) var(--mdui-motion-easing-emphasized) 0s 1 normal;
+  -moz-animation: start var(--mdui-motion-duration-extra-long4) var(--mdui-motion-easing-emphasized) 0s 1 normal;
 }
 
 .home_card_content {
