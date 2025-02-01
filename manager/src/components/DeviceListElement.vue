@@ -1,6 +1,4 @@
-<script lang="ts" setup>
-import OnceDeviceListElement from '@/components/OnceDeviceListElement.vue'
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <mdui-card class="card">
@@ -32,13 +30,13 @@ import OnceDeviceListElement from '@/components/OnceDeviceListElement.vue'
 </template>
 
 <script lang="ts">
-import { get_list_device } from '@/api/server.ts'
+import { get_list_device } from '@/api/server'
 import { cookie_read_user } from '@/api/manage'
 import OnceDeviceListElement from '@/components/OnceDeviceListElement.vue'
 import { getTheme } from 'mdui/functions/getTheme.js';
 
 export default {
-  data(){
+  data() : { data: { device_id: string , time: number , data : string} [] } {
     this.deviceList()
     return {
       data:[]
@@ -48,11 +46,11 @@ export default {
     OnceDeviceListElement
   },
   methods:{
-    async deviceList():string[]{
+    async deviceList(){
       const key = cookie_read_user()['key']
       const uid = cookie_read_user()['uid']
-      const page = 1
-      const length = 10
+      const page = "1"
+      const length = "10"
 
       const result = await get_list_device(uid, key, page, length)
       if (result['status'] === 0) {
@@ -60,7 +58,7 @@ export default {
       }else {
         this.data =  JSON.parse(result['data'])
       }
-    },formatTimestamp(timestamp) {
+    },formatTimestamp(timestamp: number) {
       const date = new Date(timestamp);
       const year = date.getFullYear()
       const month = String(date.getMonth() + 1).padStart(2, '0')
@@ -69,10 +67,10 @@ export default {
       const minutes = String(date.getMinutes()).padStart(2, '0')
       const seconds = String(date.getSeconds()).padStart(2, '0')
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
-    },getDeviceSystemAvatar(data){
-      data = JSON.parse(atob(data))
+    },getDeviceSystemAvatar(data: string){
+      const obj_data = JSON.parse(atob(data))
 
-      let system:string = data['SystemOutput']['system']
+      let system:string = obj_data['SystemOutput']['system']
       let local = './src/assets/logo/'
       const theme = getTheme('.card');
 

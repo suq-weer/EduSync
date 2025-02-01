@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import OnceDeviceStatus from '@/components/OnceDeviceStatus.vue'
 import OnceDeviceActions from '@/components/OnceDeviceActions.vue'
+import OnceDeviceCommands from '@/components/OnceDeviceCommands.vue'
 </script>
 
 <template>
@@ -8,8 +9,9 @@ import OnceDeviceActions from '@/components/OnceDeviceActions.vue'
     <div class="status">
       <OnceDeviceStatus />
     </div>
-    <div class="actions">
+    <div class="actionsAndCommands">
       <OnceDeviceActions />
+      <once-device-commands/>
     </div>
   </div>
 </template>
@@ -23,7 +25,7 @@ import OnceDeviceActions from '@/components/OnceDeviceActions.vue'
     margin-bottom: 1rem;
   }
 
-  .actions {
+  .actionsAndCommands {
     display: flex;
     width: 100%;
     margin-left: 0;
@@ -40,7 +42,7 @@ import OnceDeviceActions from '@/components/OnceDeviceActions.vue'
     margin-right: 0.5rem;
   }
 
-  .actions {
+  .actionsAndCommands {
     display: inline-block;
     width: calc(70% - 0.5rem);
     margin-left: 0.5rem;
