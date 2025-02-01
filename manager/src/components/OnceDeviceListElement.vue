@@ -1,8 +1,12 @@
 <script lang="ts" setup></script>
 
 <template>
-  <mdui-list-item class="main" description="快远控它把它炸了！！！" headline="Xiaoyi 的笔记本">
-    <mdui-avatar slot="icon"></mdui-avatar>
+  <mdui-list-item class="main"
+                  :description="OnceDeviceListElement_time"
+                  :headline="OnceDeviceListElement_id">
+    <mdui-avatar slot="icon" style="--mdui-shape-corner-extra-small: 0.3rem;">
+      <img :src="OnceDeviceListElement_avatar" width="100" height="100" style="max-width: 100%;" alt="">
+    </mdui-avatar>
     <div slot="end-icon">
       <mdui-button-icon icon="edit"></mdui-button-icon>
       <mdui-button-icon icon="visibility"></mdui-button-icon>
@@ -10,6 +14,34 @@
     </div>
   </mdui-list-item>
 </template>
+
+<script lang="ts">
+
+export default {
+  data(){
+    return {
+    }
+  },
+  props: {
+    // 定义 props
+    OnceDeviceListElement_time: {
+      type: String, // 参数类型
+      required: true, // 是否必传
+      default: '快远控它把它炸了！！！' // 默认值
+    },
+    OnceDeviceListElement_id: {
+      type: String,
+      required: true,
+      default: 'Xiaoyi 的笔记本'
+    },
+    OnceDeviceListElement_avatar: {
+      type: String,
+      required: true,
+      default: '@/assets/logo.svg'
+    }
+  }
+}
+</script>
 
 <style scoped>
 @keyframes start {

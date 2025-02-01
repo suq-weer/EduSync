@@ -1,10 +1,8 @@
-<script lang="ts" setup>
-import OnceDeviceListElement from '@/components/OnceDeviceListElement.vue'
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <mdui-card class="card">
-    <mdui-text-field clearable label="搜索..." placeholder="设备名或其他关键词"></mdui-text-field>
+    <mdui-text-field clearable label="搜索..." placeholder="搜索设备名"></mdui-text-field>
     <mdui-button-icon icon="search"></mdui-button-icon>
     <div class="actions">
       <mdui-chip icon="add">新增</mdui-chip>
@@ -13,17 +11,11 @@ import OnceDeviceListElement from '@/components/OnceDeviceListElement.vue'
       <mdui-chip icon="close">删除</mdui-chip>
     </div>
     <mdui-list>
-      <OnceDeviceListElement />
-      <OnceDeviceListElement />
-      <OnceDeviceListElement />
-      <OnceDeviceListElement />
-      <OnceDeviceListElement />
-      <OnceDeviceListElement />
-      <OnceDeviceListElement />
-      <OnceDeviceListElement />
-      <OnceDeviceListElement />
-      <OnceDeviceListElement />
-      <OnceDeviceListElement />
+      <div  v-for="item in data" :key="item.device_id" >
+        <OnceDeviceListElement :OnceDeviceListElement_id="item.device_id"
+                               :OnceDeviceListElement_time="formatTimestamp(item.time*1000)"
+                               :OnceDeviceListElement_avatar="getDeviceSystemAvatar(item.data)"/>
+      </div>
     </mdui-list>
     <div class="count">
       <mdui-chip icon="arrow_back">上一页</mdui-chip>
@@ -36,6 +28,70 @@ import OnceDeviceListElement from '@/components/OnceDeviceListElement.vue'
     </div>
   </mdui-card>
 </template>
+
+<script lang="ts">
+import { get_list_device } from '@/api/server.ts'
+import { cookie_read_user } from '@/api/manage'
+import OnceDeviceListElement from '@/components/OnceDeviceListElement.vue'
+import { getTheme } from 'mdui/functions/getTheme.js';
+
+export default {
+  data(){
+    this.deviceList()
+    return {
+      data:[]
+    }
+  },
+  components: {
+    OnceDeviceListElement
+  },
+  methods:{
+    async deviceList():string[]{
+      const key = cookie_read_user()['key']
+      const uid = cookie_read_user()['uid']
+      const page = 1
+      const length = 10
+
+      const result = await get_list_device(uid, key, page, length)
+      if (result['status'] === 0) {
+        this.data = []
+      }else {
+        this.data =  JSON.parse(result['data'])
+      }
+    },formatTimestamp(timestamp) {
+      const date = new Date(timestamp);
+      const year = date.getFullYear()
+      const month = String(date.getMonth() + 1).padStart(2, '0')
+      const day = String(date.getDate()).padStart(2, '0')
+      const hours = String(date.getHours()).padStart(2, '0')
+      const minutes = String(date.getMinutes()).padStart(2, '0')
+      const seconds = String(date.getSeconds()).padStart(2, '0')
+      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+    },getDeviceSystemAvatar(data){
+      data = JSON.parse(atob(data))
+
+      let system:string = data['SystemOutput']['system']
+      let local = './src/assets/logo/'
+      const theme = getTheme('.card');
+
+      if (system.indexOf('Windows')!==-1){
+        local = local+'Windows-'
+        if (theme==="light") local = local+"Light.svg"
+        else local = local+'Dark.svg'
+      }else if (system.indexOf('Linux')!==-1){
+        local = local+'Linux-'
+        if (theme==="light") local = local+"Light.svg"
+        else local = local+'Dark.svg'
+      }else{
+        local = local+'../../logo.svg'
+      }
+      return local
+    }
+  }
+}
+
+
+</script>
 
 <style scoped>
 @keyframes start {

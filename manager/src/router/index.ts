@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const HomeView = () => import('@/views/HomeView.vue')
 const LoginView = () => import('@/views/LoginView.vue')
+const DeviceListView = () => import('@/views/DeviceListView.vue')
 
 import { is_valid_key } from '@/api/server'
 import { cookie_read_user } from '@/api/manage'
@@ -22,6 +23,14 @@ const router = createRouter({
       component: LoginView,
       meta: {
         title: '登录管理员账号'
+      }
+    },
+    {
+      path: '/deviceList',
+      name: 'DeviceList',
+      component: DeviceListView,
+      meta: {
+        title: '设备列表'
       }
     }
   ]
