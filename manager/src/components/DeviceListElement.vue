@@ -1,4 +1,6 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import OnceDeviceListElement from '@/components/OnceDeviceListElement.vue'
+</script>
 
 <template>
   <mdui-card class="card">
