@@ -9,21 +9,20 @@
       <mdui-chip icon="close">删除</mdui-chip>
     </div>
     <mdui-list>
-      <!--suppress JSVoidFunctionReturnValueUsed -->
-      <div  v-for="item in device_list" :key="item.device_id" >
-        <OnceDeviceListElement :OnceDeviceListElement_id="item.device_id"
-                               :OnceDeviceListElement_time="formatTimestamp(item.time*1000)"
-                               :OnceDeviceListElement_avatar="getDeviceSystemAvatar(item.data)"/>
-      </div>
+      <OnceDeviceListElement
+        v-for="item in device_list"
+        :key="item.device_id"
+        :OnceDeviceListElement_id="item.device_id"
+        :OnceDeviceListElement_time="formatTimestamp(item.time * 1000)"
+        :OnceDeviceListElement_avatar="getDeviceSystemAvatar(item.data)"
+      />
     </mdui-list>
     <div class="count">
-      <mdui-chip icon="arrow_back" @click="backPage">上一页</mdui-chip>
-      <mdui-chip>1</mdui-chip>
-      <mdui-chip>2</mdui-chip>
-      <mdui-chip>3</mdui-chip>
-      <mdui-chip>……</mdui-chip>
-      <mdui-chip>10</mdui-chip>
-      <mdui-chip icon="arrow_forward" @click="nextPage">下一页</mdui-chip>
+      <mdui-chip icon="arrow_back" @click="backPage" :disabled="currentPage <= 1">上一页</mdui-chip>
+      <mdui-chip v-for="page in displayedPages" :key="page" @click="gotoPage(page)">
+        {{ page }}
+      </mdui-chip>
+      <mdui-chip icon="arrow_forward" @click="nextPage" :disabled="currentPage >= totalPages">下一页</mdui-chip>
     </div>
   </mdui-card>
 </template>
@@ -32,146 +31,142 @@
 import { get_list_device } from '@/api/server'
 import { cookie_read_user } from '@/api/manage'
 import OnceDeviceListElement from '@/components/OnceDeviceListElement.vue'
-import { ref, onMounted } from 'vue'
-import { pageController } from '@/api/pages'
-
-const device_list = ref<{ device_id: string; time: number; data: string }[]>([])
-const list_length = "2"
-
+import { ref, onMounted, computed } from 'vue'
+import { PageController } from '@/api/pages'
 
 export default {
-  data() : { data: { device_id: string , time: number , data : string} [] } {
-    this.deviceList("3",list_length)
-    this.start()
-    return {
-      device_list : [],
-    }
-  },
   components: {
     OnceDeviceListElement
   },
-  methods:{
-    start(){
-      this.page_controller = new pageController(null)
-      this.page_controller.value = new pageController(2, 2)
-    },
-    async nextPage(){
-      const data = this.page_controller.nextPage()
-      // console.log(data)
-      await this.deviceList(data['current_page'],list_length)
-    },
-    async backPage(){
-      await this.deviceList(page_controller.backPage()['current_page'],list_length)
-    },
-    async deviceList(page:string,length:string){
-      const key = cookie_read_user()['key']
-      const uid = cookie_read_user()['uid']
+  setup() {
+    const device_list = ref<{ device_id: string; time: number; data: string }[]>([])
+    const currentPage = ref(1)
+    const list_length = 2
+    const totalPages = ref(3)
+    const page_controller = ref<PageController | null>(null)
 
-      const result = await get_list_device(uid, key, page, length)
-      if (result['status'] === 0) {
-        this.device_list = []
-      }else {
-        this.device_list =  JSON.parse(result['data'])
+    const fetchDeviceList = async (page: number, length: number) => {
+      try {
+        const key = cookie_read_user()['key']
+        const uid = cookie_read_user()['uid']
+
+        const result = await get_list_device(uid, key, page.toString(), length.toString())
+        if (result['status'] !== 0) {
+          device_list.value = JSON.parse(result['data'])
+          let resultElement = result['data'] as Array<any>
+          const totalItems = resultElement.length || 0 // TODO: 获取数据总长度
+          totalPages.value = Math.ceil(totalItems / length)
+          page_controller.value = new PageController(page, totalPages.value)
+        } else {
+          device_list.value = []
+          totalPages.value = 1
+          page_controller.value = new PageController(1, 1)
+        }
+      } catch (error) {
+        console.error('Error fetching device list:', error)
       }
+    }
 
-      device_list.value = this.device_list
+    const nextPage = () => {
+      if (currentPage.value < totalPages.value) {
+        currentPage.value++
+        fetchDeviceList(currentPage.value, list_length)
+      }
+    }
 
-      this.page_controller.value = new pageController(1, device_list.value.length)
-      // console.log(device_list.value.length)
+    const backPage = () => {
+      if (currentPage.value > 1) {
+        currentPage.value--
+        fetchDeviceList(currentPage.value, list_length)
+      }
+    }
 
-    },formatTimestamp(timestamp: number) {
+    const gotoPage = (page: number) => {
+      currentPage.value = page
+      fetchDeviceList(currentPage.value, list_length)
+    }
+
+    const formatTimestamp = (timestamp: number) => {
       const date = new Date(timestamp);
-      const year = date.getFullYear()
-      const month = String(date.getMonth() + 1).padStart(2, '0')
-      const day = String(date.getDate()).padStart(2, '0')
-      const hours = String(date.getHours()).padStart(2, '0')
-      const minutes = String(date.getMinutes()).padStart(2, '0')
-      const seconds = String(date.getSeconds()).padStart(2, '0')
-      return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
-    },getDeviceSystemAvatar(data: string){
-      const obj_data = JSON.parse(atob(data))
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}:${String(date.getSeconds()).padStart(2, '0')}`
+    }
 
-      let system:string = obj_data['SystemOutput']['system']
-      let local = './src/assets/logo/'
-      const theme = window.matchMedia('(prefers-color-scheme: light)').matches;
+    const getDeviceSystemAvatar = (data: string) => {
+      try {
+        const obj_data = JSON.parse(atob(data))
+        let system = obj_data['SystemOutput']['system']
+        let local = './src/assets/logo/'
+        const theme = window.matchMedia('(prefers-color-scheme: light)').matches;
 
-      if (system.indexOf('Windows')!==-1){
-        local = local+'Windows-'
-        if (theme) local = local+"Light.svg"
-        else local = local+'Dark.svg'
-      }else if (system.indexOf('Linux')!==-1){
-        local = local+'Linux-'
-        if (theme) local = local+"Light.svg"
-        else local = local+'Dark.svg'
-      }else{
-        local = local+'../../logo.svg'
+        if (system.indexOf('Windows') !== -1) {
+          local += 'Windows-' + (theme ? 'Light.svg' : 'Dark.svg')
+        } else if (system.indexOf('Linux') !== -1) {
+          local += 'Linux-' + (theme ? 'Light.svg' : 'Dark.svg')
+        } else {
+          local += '../../logo.svg'
+        }
+        return local
+      } catch (error) {
+        console.error('Error parsing device data:', error)
+        return './src/assets/logo/../../logo.svg'
       }
-      return local
+    }
+
+    const displayedPages = computed(() => {
+      if (!page_controller.value) return []
+      const result = page_controller.value.getResult()
+      const pages = []
+      if (result.button_1 === "visible") pages.push(parseInt(result.button_1_text))
+      if (result.button_2 === "visible") pages.push(parseInt(result.button_2_text))
+      if (result.button_3 === "visible") pages.push(parseInt(result.button_3_text))
+      if (result.button_4 === "visible") pages.push(parseInt(result.button_4_text))
+      if (result.button_5 === "visible") pages.push(parseInt(result.button_5_text))
+      return pages
+    })
+
+    onMounted(() => {
+      fetchDeviceList(currentPage.value, list_length)
+    })
+
+    return {
+      device_list,
+      currentPage,
+      totalPages,
+      displayedPages,
+      nextPage,
+      backPage,
+      gotoPage,
+      formatTimestamp,
+      getDeviceSystemAvatar
     }
   }
 }
-
-
 </script>
 
 <style scoped>
 @keyframes start {
   from {
-    opacity:0;
+    opacity: 0;
     left: 1000px;
   }
   to {
-    opacity:1;
-    left: 0;
-  }
-}
-@-moz-keyframes start {
-  from {
-    opacity:0;
-    left: 1000px;
-  }
-  to {
-    opacity:1;
-    left: 0;
-  }
-}
-@-webkit-keyframes start {
-  from {
-    opacity:0;
-    left: 1000px;
-  }
-  to {
-    opacity:1;
+    opacity: 1;
     left: 0;
   }
 }
 
 .card {
   animation: start var(--mdui-motion-duration-long4) var(--mdui-motion-easing-emphasized) 0s 1 normal;
-  -moz-animation: start var(--mdui-motion-duration-long4) var(--mdui-motion-easing-emphasized) 0s 1 normal;
   display: block;
   background: rgba(var(--mdui-color-secondary-container));
   width: 100%;
   padding: 1rem;
 
-  * {
-    display: block;
-  }
-
-  .actions {
-    margin-top: 1rem;
-
-    * {
-      display: inline-block;
-    }
-  }
-
+  .actions,
   .count {
     margin-top: 1rem;
-
-    * {
-      display: inline-block;
-    }
+    display: flex;
+    gap: 0.5rem;
   }
 
   mdui-chip {
