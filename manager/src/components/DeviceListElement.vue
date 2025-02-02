@@ -19,7 +19,7 @@
     </mdui-list>
     <div class="count">
       <mdui-chip icon="arrow_back" @click="backPage" :disabled="currentPage <= 1">上一页</mdui-chip>
-      <mdui-chip v-for="page in displayedPages" :key="page" @click="gotoPage(page)">
+      <mdui-chip v-for="page in displayedPages" :key="page" @click="handlePageClick(page)">
         {{ page }}
       </mdui-chip>
       <mdui-chip icon="arrow_forward" @click="nextPage" :disabled="currentPage >= totalPages">下一页</mdui-chip>
@@ -41,7 +41,7 @@ export default {
   setup() {
     const device_list = ref<{ device_id: string; time: number; data: string }[]>([])
     const currentPage = ref(1)
-    const list_length = 2
+    const list_length = 1
     const totalPages = ref(3)
     const page_controller = ref<PageController | null>(null)
 
@@ -50,11 +50,10 @@ export default {
         const key = cookie_read_user()['key']
         const uid = cookie_read_user()['uid']
 
-        const result = await get_list_device(uid, key, page.toString(), length.toString())
+        const result = await get_list_device(uid, key, (page-1).toString(), length.toString())
         if (result['status'] !== 0) {
-          device_list.value = JSON.parse(result['data'])
-          let resultElement = result['data'] as Array<any>
-          const totalItems = resultElement.length || 0 // TODO: 获取数据总长度
+          device_list.value = result['data']
+          const totalItems = result['total_list'] || 0
           totalPages.value = Math.ceil(totalItems / length)
           page_controller.value = new PageController(page, totalPages.value)
         } else {
@@ -84,6 +83,20 @@ export default {
     const gotoPage = (page: number) => {
       currentPage.value = page
       fetchDeviceList(currentPage.value, list_length)
+    }
+
+    //TODO: 修复省略号点击逻辑
+    const handlePageClick = (page: string) => {
+      if (page === '......') {
+        // Handle ellipsis click
+        if (currentPage.value > 3) {
+          gotoPage(currentPage.value - 2)
+        } else {
+          gotoPage(currentPage.value + 2)
+        }
+      } else {
+        gotoPage(parseInt(page))
+      }
     }
 
     const formatTimestamp = (timestamp: number) => {
@@ -116,11 +129,11 @@ export default {
       if (!page_controller.value) return []
       const result = page_controller.value.getResult()
       const pages = []
-      if (result.button_1 === "visible") pages.push(parseInt(result.button_1_text))
-      if (result.button_2 === "visible") pages.push(parseInt(result.button_2_text))
-      if (result.button_3 === "visible") pages.push(parseInt(result.button_3_text))
-      if (result.button_4 === "visible") pages.push(parseInt(result.button_4_text))
-      if (result.button_5 === "visible") pages.push(parseInt(result.button_5_text))
+      if (result.button_1 === "visible") pages.push(result.button_1_text)
+      if (result.button_2 === "visible") pages.push(result.button_2_text)
+      if (result.button_3 === "visible") pages.push(result.button_3_text)
+      if (result.button_4 === "visible") pages.push(result.button_4_text)
+      if (result.button_5 === "visible") pages.push(result.button_5_text)
       return pages
     })
 
@@ -135,7 +148,7 @@ export default {
       displayedPages,
       nextPage,
       backPage,
-      gotoPage,
+      handlePageClick,
       formatTimestamp,
       getDeviceSystemAvatar
     }

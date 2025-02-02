@@ -75,11 +75,23 @@ export class PageController {
       this.button_2 = "visible";
       this.button_2_text = (minPage + 1).toString();
       this.button_3 = "visible";
-      this.button_3_text = "......";
+      this.button_3_text = (minPage + 2).toString(); // Change to a valid page number
       this.button_4 = "visible";
       this.button_4_text = (maxPage - 1).toString();
       this.button_5 = "visible";
       this.button_5_text = maxPage.toString();
+
+      // Add ellipsis logic
+      if (minPage > 1) {
+        this.button_1_text = "1";
+        this.button_2_text = "......";
+        this.button_3_text = (minPage).toString();
+      }
+      if (maxPage < this.max_page_count) {
+        this.button_4_text = (maxPage - 1).toString();
+        this.button_5_text = this.max_page_count.toString();
+        this.button_3_text = "......";
+      }
     }
   }
 
@@ -99,7 +111,7 @@ export class PageController {
     return { "current_page": this.current_page };
   }
 
-  private getResult() {
+  public getResult() {
     return {
       "current_page": this.current_page,
       "max_page_count": this.max_page_count,
