@@ -1,5 +1,3 @@
-<script lang="ts" setup></script>
-
 <template>
   <mdui-card class="card">
     <mdui-text-field clearable label="搜索..." placeholder="搜索设备名"></mdui-text-field>
@@ -11,20 +9,21 @@
       <mdui-chip icon="close">删除</mdui-chip>
     </div>
     <mdui-list>
-      <div  v-for="item in data" :key="item.device_id" >
+      <!--suppress JSVoidFunctionReturnValueUsed -->
+      <div  v-for="item in device_list" :key="item.device_id" >
         <OnceDeviceListElement :OnceDeviceListElement_id="item.device_id"
                                :OnceDeviceListElement_time="formatTimestamp(item.time*1000)"
                                :OnceDeviceListElement_avatar="getDeviceSystemAvatar(item.data)"/>
       </div>
     </mdui-list>
     <div class="count">
-      <mdui-chip icon="arrow_back">上一页</mdui-chip>
+      <mdui-chip icon="arrow_back" @click="backPage">上一页</mdui-chip>
       <mdui-chip>1</mdui-chip>
       <mdui-chip>2</mdui-chip>
       <mdui-chip>3</mdui-chip>
       <mdui-chip>……</mdui-chip>
       <mdui-chip>10</mdui-chip>
-      <mdui-chip icon="arrow_forward">下一页</mdui-chip>
+      <mdui-chip icon="arrow_forward" @click="nextPage">下一页</mdui-chip>
     </div>
   </mdui-card>
 </template>
@@ -33,31 +32,53 @@
 import { get_list_device } from '@/api/server'
 import { cookie_read_user } from '@/api/manage'
 import OnceDeviceListElement from '@/components/OnceDeviceListElement.vue'
-import { getTheme } from 'mdui/functions/getTheme.js';
+import { ref, onMounted } from 'vue'
+import { pageController } from '@/api/pages'
+
+const device_list = ref<{ device_id: string; time: number; data: string }[]>([])
+const list_length = "2"
+
 
 export default {
   data() : { data: { device_id: string , time: number , data : string} [] } {
-    this.deviceList()
+    this.deviceList("3",list_length)
+    this.start()
     return {
-      data:[]
+      device_list : [],
     }
   },
   components: {
     OnceDeviceListElement
   },
   methods:{
-    async deviceList(){
+    start(){
+      this.page_controller = new pageController(null)
+      this.page_controller.value = new pageController(2, 2)
+    },
+    async nextPage(){
+      const data = this.page_controller.nextPage()
+      // console.log(data)
+      await this.deviceList(data['current_page'],list_length)
+    },
+    async backPage(){
+      await this.deviceList(page_controller.backPage()['current_page'],list_length)
+    },
+    async deviceList(page:string,length:string){
       const key = cookie_read_user()['key']
       const uid = cookie_read_user()['uid']
-      const page = "1"
-      const length = "10"
 
       const result = await get_list_device(uid, key, page, length)
       if (result['status'] === 0) {
-        this.data = []
+        this.device_list = []
       }else {
-        this.data =  JSON.parse(result['data'])
+        this.device_list =  JSON.parse(result['data'])
       }
+
+      device_list.value = this.device_list
+
+      this.page_controller.value = new pageController(1, device_list.value.length)
+      // console.log(device_list.value.length)
+
     },formatTimestamp(timestamp: number) {
       const date = new Date(timestamp);
       const year = date.getFullYear()
@@ -72,15 +93,15 @@ export default {
 
       let system:string = obj_data['SystemOutput']['system']
       let local = './src/assets/logo/'
-      const theme = getTheme('.card');
+      const theme = window.matchMedia('(prefers-color-scheme: light)').matches;
 
       if (system.indexOf('Windows')!==-1){
         local = local+'Windows-'
-        if (theme==="light") local = local+"Light.svg"
+        if (theme) local = local+"Light.svg"
         else local = local+'Dark.svg'
       }else if (system.indexOf('Linux')!==-1){
         local = local+'Linux-'
-        if (theme==="light") local = local+"Light.svg"
+        if (theme) local = local+"Light.svg"
         else local = local+'Dark.svg'
       }else{
         local = local+'../../logo.svg'

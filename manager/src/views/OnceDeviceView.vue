@@ -10,8 +10,10 @@ import OnceDeviceCommands from '@/components/OnceDeviceCommands.vue'
       <OnceDeviceStatus />
     </div>
     <div class="actionsAndCommands">
-      <OnceDeviceActions />
-      <once-device-commands/>
+      <div>
+        <OnceDeviceActions />
+        <once-device-commands/>
+      </div>
     </div>
   </div>
 </template>

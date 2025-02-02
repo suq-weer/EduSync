@@ -141,7 +141,7 @@ export default {
       this.info_server_memBuffers = result['memBuffers']
       this.info_server_memCached = result['memCached']
       this.info_server_memCached = result['memBuffers']
-      console.log(result)
+      // console.log(result)
     }
   }
 }

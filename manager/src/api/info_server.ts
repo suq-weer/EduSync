@@ -14,7 +14,6 @@ export const info_server = async (uid: string, key: string) => {
 
   // console.log({ uid: uid.value, password: pass.value })
   const result = await postInfo({ uid: uid, key: key})
-  const data = result['data']
   // console.log(data)
-  return data
+  return result['data']
 }
