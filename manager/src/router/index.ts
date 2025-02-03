@@ -7,6 +7,7 @@ const OnceDeviceView = () => import('@/views/OnceDeviceView.vue')
 
 import { is_valid_key } from '@/api/server'
 import { cookie_read_user } from '@/api/manage'
+import AiView from '@/views/AiView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -40,6 +41,14 @@ const router = createRouter({
       component: OnceDeviceView,
       meta: {
         title: '设备详情'
+      }
+    },
+    {
+      path: '/ai',
+      name: 'AI',
+      component: AiView,
+      meta: {
+        title: 'AI'
       }
     }
   ]
