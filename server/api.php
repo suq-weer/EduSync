@@ -12,9 +12,9 @@ function is_empty_request($data): int
     return 1;
 }
 
-function json($states, $msg, $data = "")//输出
+function json($states, $msg, $data = "", $total_list="")//输出
 {
-    return json_encode(array('states' => $states, 'msg' => $msg, "data" => $data));
+    return json_encode(array('states' => $states, 'msg' => $msg, "data" => $data, "total_list" => $total_list));
 }
 
 function code_base64($text,$type)//base64加解密
@@ -179,9 +179,10 @@ function operate_database($type,$dataSheet,$data,$sortWay = "",$sortWayBy = "")/
     return "";
 }
 
-function get_result($states,$type,$data="")//获取标准化输出结果
+function get_result($states,$type,$data="",$total_list="")//获取标准化输出结果
 {
-    return json($states,info_server($type),$data);
+//    echo $total_list;
+    return json($states,info_server($type),$data,$total_list);
 }
 
 function get_info($aim,$type): string
@@ -398,8 +399,8 @@ function if_admin_key($uid,$key){
 }
 
 
-//设备列表
 //获得list数据
+//设备列表
 function get_list_data_device($key="",$value="")
 {
     if ($key==""){
@@ -415,9 +416,37 @@ function get_list_data_device($key="",$value="")
     }
 }
 
-function get_list_device($key,$value,$page=0,$length=10)
+function get_list_device($key,$value,$page=0,$length=10): array
 {
+    $page = $page-1;
     $list_data = get_list_data_device($key,$value);
     $chunkedArrays = array_chunk($list_data, $length);
-    return json_encode($chunkedArrays[$page]);
+    $chunkedArrays['total_list'] = count($list_data);
+//    print_r($chunkedArrays);
+    return $chunkedArrays;
+}
+
+//指令列表
+function get_list_data_command($key="",$value="")
+{
+    if ($key==""){
+        $data = json_encode([
+            ""=>"",
+        ]);
+        return operate_database("l","user_command",$data,"DESC","time");
+    }else{
+        $data = json_encode([
+            $key=>$value,
+        ]);
+        return operate_database("l","user_command",$data,"DESC","time");
+    }
+}
+
+function get_list_command($key,$value,$page=0,$length=10): array
+{
+    $page = $page-1;
+    $list_data = get_list_data_command($key,$value);
+    $chunkedArrays = array_chunk($list_data, $length);
+    $chunkedArrays['total_list'] = count($list_data);
+    return $chunkedArrays;
 }

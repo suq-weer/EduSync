@@ -9,4 +9,4 @@ if(!is_empty_request([$_REQUEST['page'],$_REQUEST['length'],$_REQUEST['uid'],$_R
     ));
 }
 $result = fun_get_list_device($_REQUEST['data'],$_REQUEST['value'],$_REQUEST['page'],$_REQUEST['length'],$_REQUEST['uid'],$_REQUEST['key']);
-echo get_result($result['states'],"result_success_get_list_device",$result['data']);
+echo get_result($result['states'],"result_success_get_list_device",$result['data'][$_REQUEST['page']],$result['data']['total_list']);

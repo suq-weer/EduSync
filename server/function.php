@@ -210,3 +210,12 @@ function fun_get_list_device($data="",$value="",$page,$length,$uid,$key): array
         "data" => get_list_device($data,$value,$page,$length),
     ];
 }
+
+function fun_get_list_command($data="",$value="",$page,$length,$uid,$key): array
+{
+    if_admin_key($uid,$key);
+    return [
+        "states" => 1,
+        "data" => get_list_command($data,$value,$page,$length),
+    ];
+}
