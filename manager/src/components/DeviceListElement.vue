@@ -44,7 +44,7 @@ export default {
   setup() {
     const device_list = ref<{ device_id: string; time: number; data: string }[]>([])
     const currentPage = ref(1)
-    const list_length = 1
+    const list_length = 10
     const totalPages = ref(1)
     const page_controller = ref<PageController | null>(null)
 

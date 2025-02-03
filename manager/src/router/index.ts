@@ -4,6 +4,7 @@ const HomeView = () => import('@/views/HomeView.vue')
 const LoginView = () => import('@/views/LoginView.vue')
 const DeviceListView = () => import('@/views/DeviceListView.vue')
 const OnceDeviceView = () => import('@/views/OnceDeviceView.vue')
+const AiView = () => import('@/views/AiView.vue')
 
 import { is_valid_key } from '@/api/server'
 import { cookie_read_user } from '@/api/manage'
@@ -40,6 +41,13 @@ const router = createRouter({
       component: OnceDeviceView,
       meta: {
         title: '设备详情'
+      }
+    }, {
+      path: '/ai',
+      name: 'AI',
+      component: AiView,
+      meta: {
+        title: 'AI'
       }
     }
   ]

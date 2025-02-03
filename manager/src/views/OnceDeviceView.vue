@@ -2,6 +2,7 @@
 import OnceDeviceStatus from '@/components/OnceDeviceStatus.vue'
 import OnceDeviceActions from '@/components/OnceDeviceActions.vue'
 import OnceDeviceCommands from '@/components/OnceDeviceCommands.vue'
+import AiChat from '@/components/AiChat.vue'
 </script>
 
 <template>
@@ -13,6 +14,7 @@ import OnceDeviceCommands from '@/components/OnceDeviceCommands.vue'
       <div>
         <OnceDeviceActions />
         <once-device-commands/>
+        <ai-chat/>
       </div>
     </div>
   </div>
