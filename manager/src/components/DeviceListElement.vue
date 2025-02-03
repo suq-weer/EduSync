@@ -18,11 +18,14 @@
       />
     </mdui-list>
     <div class="count">
+      <mdui-chip icon="first_page" @click="handlePageClick(1)" :disabled="currentPage <= 3"></mdui-chip>
       <mdui-chip icon="arrow_back" @click="backPage" :disabled="currentPage <= 1">上一页</mdui-chip>
       <mdui-chip v-for="page in displayedPages" :key="page" @click="handlePageClick(page)">
+        <mdui-icon slot="icon" name="location_on" v-if="page === currentPage.toString()"></mdui-icon>
         {{ page }}
       </mdui-chip>
       <mdui-chip icon="arrow_forward" @click="nextPage" :disabled="currentPage >= totalPages">下一页</mdui-chip>
+      <mdui-chip icon="last_page" @click="handlePageClick(totalPages)" :disabled="currentPage >= totalPages"></mdui-chip>
     </div>
   </mdui-card>
 </template>
@@ -42,7 +45,7 @@ export default {
     const device_list = ref<{ device_id: string; time: number; data: string }[]>([])
     const currentPage = ref(1)
     const list_length = 1
-    const totalPages = ref(3)
+    const totalPages = ref(1)
     const page_controller = ref<PageController | null>(null)
 
     const fetchDeviceList = async (page: number, length: number) => {
@@ -87,13 +90,13 @@ export default {
 
     //TODO: 修复省略号点击逻辑
     const handlePageClick = (page: string) => {
-      if (page === '......') {
-        // Handle ellipsis click
-        if (currentPage.value > 3) {
-          gotoPage(currentPage.value - 2)
-        } else {
-          gotoPage(currentPage.value + 2)
-        }
+      if (page === 'this') {
+        // // Handle ellipsis click
+        // if (currentPage.value > 3) {
+        //   gotoPage(currentPage.value - 2)
+        // } else {
+        //   gotoPage(currentPage.value + 2)
+        // }
       } else {
         gotoPage(parseInt(page))
       }
