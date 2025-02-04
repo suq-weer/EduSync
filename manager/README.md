@@ -1,60 +1,62 @@
-# manager
+# manager 管理端
 
-This template should help get you started developing with Vue 3 in Vite.
+调试环境使用 Vite 驱动的 Vue 3。
 
-## Recommended IDE Setup
+## IDE设置
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (禁用 Vetur).
 
-## Type Support for `.vue` Imports in TS
+Webstorm 直接启动即可。
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## TypeScript .vue 文件支持
 
-## Customize configuration
+TypeScript 默认无法处理 `.vue` 导入的类型信息，因此我们将 `tsc` CLI 替换为 `vue-tsc` 进行类型检查。在编辑器中，我们需要 [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) 来使 TypeScript 语言服务能够识别 '.vue' 类型。
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## 自定义配置
 
-## Project Setup
+见 [Vite Configuration Reference](https://vitejs.dev/config/).
+
+## 项目设置
 
 ```sh
 npm install
 ```
 
-### Compile and Hot-Reload for Development
+### 编译并启动热更新调试环境
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### 类型检查并打包成生产环境
 
 ```sh
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+### 运行 [Vitest](https://vitest.dev/) 来进行单元测试
 
 ```sh
 npm run test:unit
 ```
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+### 运行 [Cypress](https://www.cypress.io/) 来进行端到端测试
 
 ```sh
 npm run test:e2e:dev
 ```
 
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
+这将针对 Vite 开发服务器运行端到端测试。
+它比生产版本快得多。
 
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
+但仍然建议在部署之前使用 `test:e2e` 测试生产版本（例如在 CI 环境中）：
 
 ```sh
 npm run build
 npm run test:e2e
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+### 使用 [ESLint](https://eslint.org/) 来检查代码
 
 ```sh
 npm run lint
