@@ -4,6 +4,7 @@ const HomeView = () => import('@/views/HomeView.vue')
 const LoginView = () => import('@/views/LoginView.vue')
 const DeviceListView = () => import('@/views/DeviceListView.vue')
 const OnceDeviceView = () => import('@/views/OnceDeviceView.vue')
+const OnceDeviceListElement = () => import('@/components/OnceDeviceListElement.vue')
 const AiView = () => import('@/views/AiView.vue')
 
 import { is_valid_key } from '@/api/server'
@@ -36,7 +37,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/device',
+      path: '/device/:device_id',
       name: 'Device',
       component: OnceDeviceView,
       meta: {

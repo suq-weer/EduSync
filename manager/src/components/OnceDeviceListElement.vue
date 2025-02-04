@@ -8,16 +8,26 @@
       <img :src="OnceDeviceListElement_avatar" width="100" height="100" style="max-width: 100%;" alt="">
     </mdui-avatar>
     <div slot="end-icon">
-      <mdui-button-icon icon="edit"></mdui-button-icon>
-      <mdui-button-icon icon="visibility"></mdui-button-icon>
-      <mdui-button-icon icon="close"></mdui-button-icon>
+      <mdui-button-icon title="编辑" icon="edit" @click="editDevice(OnceDeviceListElement_id)"></mdui-button-icon>
+      <mdui-button-icon title="删除" icon="delete"></mdui-button-icon>
+<!--      <mdui-button-icon icon="visibility"></mdui-button-icon>-->
     </div>
   </mdui-list-item>
 </template>
 
 <script lang="ts">
+import router from '@/router'
 
 export default {
+  methods: {
+    editDevice(OnceDeviceListElement_id:string) {
+      // console.log(OnceDeviceListElement_id)
+      router.push({name: 'Device', params: { device_id: OnceDeviceListElement_id }})
+    },
+    deleteDevice(OnceDeviceListElement_id) {
+      console.log(OnceDeviceListElement_id)
+    }
+  },
   data(){
     return {
     }

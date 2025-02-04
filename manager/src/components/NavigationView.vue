@@ -7,7 +7,7 @@
   <mdui-navigation-drawer close-on-overlay-click close-on-esc ref="drawer">
     <div style="padding: 20px;">
       <mdui-avatar  style="margin-right: 20px">
-        <img src="@/assets/logo.png" alt="Project Logo">
+        <img src="@/assets/logo.svg" alt="Project Logo" style="max-width: 100%;max-height: 100%">
       </mdui-avatar>
       <b style="font-size: 20px;text-align: center; vertical-align: middle;">EduSync 后台</b>
     </div>

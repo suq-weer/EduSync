@@ -14,6 +14,18 @@
   </div>
 </template>
 
+<script lang="ts">
+export default {
+  props: {
+    OnceDeviceListElement_id: {
+      type: String,
+      required: true,
+      default: ''
+    }
+  }
+}
+</script>
+
 <style scoped>
 .card {
   width: 100%;

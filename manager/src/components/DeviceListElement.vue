@@ -1,12 +1,13 @@
 <template>
   <mdui-card class="card">
-    <mdui-text-field clearable label="搜索..." placeholder="搜索设备名"></mdui-text-field>
-    <mdui-button-icon icon="search"></mdui-button-icon>
+    <mdui-text-field clearable label="搜索..." placeholder="搜索设备名" :value="search_value"
+                     @input="search_value = $event.target.value"></mdui-text-field>
+    <mdui-button-icon icon="search" @click="searchItem('device_id',search_value)"></mdui-button-icon>
     <div class="actions">
-      <mdui-chip icon="add">新增</mdui-chip>
-      <mdui-chip icon="check">启用</mdui-chip>
-      <mdui-chip icon="block">禁用</mdui-chip>
-      <mdui-chip icon="close">删除</mdui-chip>
+<!--      <mdui-chip icon="add">新增</mdui-chip>-->
+<!--      <mdui-chip icon="check">启用</mdui-chip>-->
+<!--      <mdui-chip icon="block">禁用</mdui-chip>-->
+<!--      <mdui-chip icon="close">删除</mdui-chip>-->
     </div>
     <mdui-list>
       <OnceDeviceListElement
@@ -18,14 +19,14 @@
       />
     </mdui-list>
     <div class="count">
-      <mdui-chip icon="first_page" @click="handlePageClick(1)" :disabled="currentPage <= 3"></mdui-chip>
+      <mdui-chip icon="first_page" @click="handlePageClick('1')" :disabled="currentPage <= 3"></mdui-chip>
       <mdui-chip icon="arrow_back" @click="backPage" :disabled="currentPage <= 1">上一页</mdui-chip>
       <mdui-chip v-for="page in displayedPages" :key="page" @click="handlePageClick(page)">
         <mdui-icon slot="icon" name="location_on" v-if="page === currentPage.toString()"></mdui-icon>
         {{ page }}
       </mdui-chip>
       <mdui-chip icon="arrow_forward" @click="nextPage" :disabled="currentPage >= totalPages">下一页</mdui-chip>
-      <mdui-chip icon="last_page" @click="handlePageClick(totalPages)" :disabled="currentPage >= totalPages"></mdui-chip>
+      <mdui-chip icon="last_page" @click="handlePageClick(totalPages.toString())" :disabled="currentPage >= totalPages"></mdui-chip>
     </div>
   </mdui-card>
 </template>
@@ -47,13 +48,14 @@ export default {
     const list_length = 10
     const totalPages = ref(1)
     const page_controller = ref<PageController | null>(null)
+    const search_value = ref<string>("")
 
-    const fetchDeviceList = async (page: number, length: number) => {
+    const fetchDeviceList = async (page: number, length: number, data: string="",value: string="") => {
       try {
         const key = cookie_read_user()['key']
         const uid = cookie_read_user()['uid']
 
-        const result = await get_list_device(uid, key, (page-1).toString(), length.toString())
+        const result = await get_list_device(uid, key, (page-1).toString(), length.toString(),data,value)
         if (result['status'] !== 0) {
           device_list.value = result['data']
           const totalItems = result['total_list'] || 0
@@ -140,6 +142,15 @@ export default {
       return pages
     })
 
+    const searchItem = (data: string,value: string) => {
+      console.log(data,value)
+      if (value !== "") {
+        fetchDeviceList("1", list_length, data, value)
+      }else{
+        fetchDeviceList("1", list_length)
+      }
+    }
+
     onMounted(() => {
       fetchDeviceList(currentPage.value, list_length)
     })
@@ -148,12 +159,14 @@ export default {
       device_list,
       currentPage,
       totalPages,
+      search_value,
       displayedPages,
       nextPage,
       backPage,
       handlePageClick,
       formatTimestamp,
-      getDeviceSystemAvatar
+      getDeviceSystemAvatar,
+      searchItem
     }
   }
 }

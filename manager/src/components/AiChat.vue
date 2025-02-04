@@ -1,101 +1,116 @@
-<script setup lang="ts">
-import { ref } from 'vue';
+<script lang="ts">
+import MarkdownIt from 'markdown-it';
+import { ref } from 'vue'
+export default {
+  data() {
+    const loading = ref(false);
+    return {
+      inputText: '',
+      responseText: '',
+      renderedMarkdown: '',
+      loading
+    };
+  },
+  methods: {
+    async sendMessage() {
+      this.loading = true;
+      this.responseText = '';
+      this.renderedMarkdown = '';
 
-const messages = ref([
-  { sender: 'AI', text: '你好！有什么我可以帮忙的吗？' }
-]);
+      try {
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": "Bearer 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",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            "model": "deepseek/deepseek-r1:free",
+            "messages": [
+              {
+                "role": "user",
+                "content": this.inputText
+              }
+            ]
+          })
+        });
 
-const userInput = ref('');
+        // 检查 response 是否是一个可迭代的流对象
+        if (response.body instanceof ReadableStream) {
+          const reader = response.body.getReader();
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
 
-const sendMessage = () => {
-  if (userInput.value.trim()) {
-    messages.value.push({ sender: 'User', text: userInput.value });
-    userInput.value = '';
-
-    // 模拟AI回复
-    setTimeout(() => {
-      messages.value.push({ sender: 'AI', text: '这是AI的回复。' });
-    }, 1000);
-  }
+            const decoder = new TextDecoder('utf-8');
+            const chunk = decoder.decode(value, { stream: true });
+            this.responseText += chunk;
+            // console.log(this.responseText);
+          }
+          const responseText = JSON.parse(this.responseText)
+          this.renderedMarkdown = this.md.render(responseText.choices[0].message.content);
+          // console.log(response)
+        } else {
+          console.error('Response is not a ReadableStream:', response);
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+      this.loading = false;
+    },
+  },
+  computed: {
+    md() {
+      return new MarkdownIt();
+    },
+  },
 };
 </script>
 
 <template>
-  <mdui-container>
-    <mdui-card>
-      <mdui-card-header>
-        <mdui-card-header-avatar>
-          <mdui-avatar>
-            <img src="https://via.placeholder.com/50" alt="AI Avatar" />
-          </mdui-avatar>
-        </mdui-card-header-avatar>
-        <mdui-card-header-title>AI 聊天</mdui-card-header-title>
-      </mdui-card-header>
-      <mdui-card-content>
-        <div class="chat-box">
-          <div v-for="(message, index) in messages" :key="index" class="message" :class="{'user-message': message.sender === 'User', 'ai-message': message.sender === 'AI'}">
-            <mdui-avatar v-if="message.sender === 'AI'" class="message-avatar">
-              <img src="https://via.placeholder.com/50" alt="AI Avatar" />
-            </mdui-avatar>
-            <mdui-avatar v-if="message.sender === 'User'" class="message-avatar">
-              <img src="https://via.placeholder.com/50" alt="User Avatar" />
-            </mdui-avatar>
-            <div class="message-text">{{ message.text }}</div>
-          </div>
-        </div>
-      </mdui-card-content>
-      <mdui-card-actions>
-        <mdui-textfield class="mdui-textfield-expandable">
-          <mdui-btn class="mdui-btn-icon" @click="sendMessage" mdui-tooltip="{content: '发送'}">
-            <i class="mdui-icon material-icons">send</i>
-          </mdui-btn>
-          <input class="mdui-textfield-input" type="text" v-model="userInput" @keyup.enter="sendMessage" placeholder="输入你的消息..." />
-        </mdui-textfield>
-      </mdui-card-actions>
-    </mdui-card>
-  </mdui-container>
+  <mdui-card class="card">
+    <h2>DeepSeek-R1</h2>
+    <mdui-circular-progress v-if="loading" class="progress"></mdui-circular-progress>
+    <div v-html="renderedMarkdown" class="contents"></div>
+    <div class="text">
+      <mdui-text-field v-model="inputText" placeholder="输入你的问题..."></mdui-text-field>
+      <mdui-button @click="sendMessage">发送</mdui-button>
+    </div>
+  </mdui-card>
 </template>
 
 <style scoped>
-.chat-box {
-  height: 300px;
-  overflow-y: auto;
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+.card {
+  width: 100%;
+  background: rgba(var(--mdui-color-secondary-container));
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
-
-.message {
-  margin-bottom: 10px;
-  display: flex;
-  align-items: flex-start;
+.contents {
+  padding: 1rem;
+  background: rgba(var(--mdui-color-surface-variant));
+  box-shadow: var(--mdui-elevation-level1);
+  border-radius: var(--mdui-shape-corner-small);
 }
-
-.user-message {
-  justify-content: flex-end;
+.text {
+  width: 100%;
+  padding: 1rem;
+  * {
+    display: inline-block;
+    vertical-align: top;
+  }
+  mdui-text-field {
+    width: calc(80% - 1.5rem);
+    height: 3rem;
+    margin-right: 0.5rem;
+  }
+  mdui-button {
+    width: calc(20% - 1.5rem);
+    height: 3rem;
+    margin-left: 0.5rem;
+  }
 }
-
-.ai-message {
-  justify-content: flex-start;
-}
-
-.message-avatar {
-  margin-right: 10px;
-}
-
-.user-message .message-avatar {
-  margin-left: 10px;
-  margin-right: 0;
-}
-
-.message-text {
-  display: inline-block;
-  padding: 8px 12px;
-  border-radius: 18px;
-  background-color: #f1f1f1;
-  max-width: 70%;
-}
-
-.user-message .message-text {
-  background-color: #dcf8c6;
+.progress {
+  padding: 0.5rem;
 }
 </style>

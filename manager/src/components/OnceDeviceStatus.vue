@@ -39,6 +39,18 @@
   </mdui-card>
 </template>
 
+<script lang="ts">
+export default {
+  props: {
+    OnceDeviceListElement_id: {
+      type: String,
+      required: true,
+      default: ''
+    }
+  }
+}
+</script>
+
 <style scoped>
 .main {
   display: block;

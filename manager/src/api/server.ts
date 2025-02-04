@@ -20,7 +20,7 @@ export const postKey = async (body: { uid: UnwrapRef<string>, key: UnwrapRef<str
   }
 }
 
-export const getDeviceList = async (body: { uid: UnwrapRef<string>, key: UnwrapRef<string>, page:UnwrapRef<string>, length:UnwrapRef<string> }) => {
+export const getDeviceList = async (body: { uid: UnwrapRef<string>, key: UnwrapRef<string>, page:UnwrapRef<string>, length:UnwrapRef<string>, data:UnwrapRef<string>, value:UnwrapRef<string>}) => {
   try {
     const response = await instance.post('/function/admin/get_list_device.php', body)
     return response.data
@@ -41,6 +41,6 @@ export const is_valid_key = async (uid: string, key: string) => {
   return await postKey({ uid: uid, key: key })
 }
 
-export const get_list_device = async (uid: string, key: string, page:string, length:string) => {
-  return await getDeviceList({ uid: uid, key: key, page:page, length:length })
+export const get_list_device = async (uid: string, key: string, page:string, length:string, data:UnwrapRef<string>, value:UnwrapRef<string>) => {
+  return await getDeviceList({ uid: uid, key: key, page:page, length:length, data:data, value:value })
 }
