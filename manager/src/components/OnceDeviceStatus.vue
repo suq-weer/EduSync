@@ -2,7 +2,7 @@
 
 <template>
   <mdui-card class="main">
-    <h1>Device ID: 1145141919810</h1>
+    <h1>Device ID: {{ device_id }}</h1>
     <mdui-card class="part all">
       <div class="cpu_mem">
         <div>
@@ -42,7 +42,7 @@
 <script lang="ts">
 export default {
   props: {
-    OnceDeviceListElement_id: {
+    device_id: {
       type: String,
       required: true,
       default: ''

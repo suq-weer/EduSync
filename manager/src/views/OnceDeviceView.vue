@@ -1,12 +1,12 @@
 <template>
   <div class="main">
     <div class="status">
-      <OnceDeviceStatus  :once-device-list-element_id="device_id"/>
+      <OnceDeviceStatus  :device_id="device_id"/>
     </div>
     <div class="actionsAndCommands">
       <div>
-        <OnceDeviceActions  :once-device-list-element_id="device_id"/>
-        <once-device-commands :once-device-list-element_id="device_id"/>
+        <OnceDeviceActions  :device_id="device_id"/>
+        <once-device-commands :device_id="device_id"/>
         <ai-chat/>
       </div>
     </div>

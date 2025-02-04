@@ -9,7 +9,7 @@
     </mdui-avatar>
     <div slot="end-icon">
       <mdui-button-icon title="编辑" icon="edit" @click="editDevice(OnceDeviceListElement_id)"></mdui-button-icon>
-      <mdui-button-icon title="删除" icon="delete"></mdui-button-icon>
+      <mdui-button-icon title="删除" icon="delete" @click="deleteDevice(OnceDeviceListElement_id)"></mdui-button-icon>
 <!--      <mdui-button-icon icon="visibility"></mdui-button-icon>-->
     </div>
   </mdui-list-item>
@@ -17,6 +17,10 @@
 
 <script lang="ts">
 import router from '@/router'
+import { alert } from 'mdui'
+import { confirm } from 'mdui'
+import { delete_device } from '@/api/server'
+import { cookie_read_user } from '@/api/manage'
 
 export default {
   methods: {
@@ -24,8 +28,33 @@ export default {
       // console.log(OnceDeviceListElement_id)
       router.push({name: 'Device', params: { device_id: OnceDeviceListElement_id }})
     },
-    deleteDevice(OnceDeviceListElement_id) {
-      console.log(OnceDeviceListElement_id)
+    async deleteDevice(OnceDeviceListElement_id) {
+      await confirm({
+        headline: "警告",
+        description: "此操作会抹掉该设备的信息",
+        confirmText: "删除",
+        cancelText: "取消",
+        onConfirm: async () => {
+
+          try {
+            const { uid, key } = cookie_read_user()
+            const delete_device_result = await delete_device(uid, key, OnceDeviceListElement_id)
+            if (delete_device_result){
+              await alert({
+                headline: "结果",
+                description: delete_device_result['msg'],
+                confirmText: "好的",
+              })
+            }
+          }catch (error){
+            console.error('Error deleting device:', error)
+          }
+        },
+        onCancel: () => {
+          console.log('取消')
+        }
+
+      });
     }
   },
   data(){
