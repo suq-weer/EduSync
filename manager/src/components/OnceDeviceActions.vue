@@ -17,7 +17,7 @@
 <script lang="ts">
 export default {
   props: {
-    OnceDeviceListElement_id: {
+    device_id: {
       type: String,
       required: true,
       default: ''

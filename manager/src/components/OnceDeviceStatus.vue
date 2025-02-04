@@ -2,23 +2,27 @@
 
 <template>
   <mdui-card class="main">
-    <h1>Device ID: 1145141919810</h1>
     <mdui-card class="part all">
       <div class="cpu_mem">
         <div>
           <!--注：py端CPU使用率是单核使用率，你可以相加除以核心数（JSON数组长度）-->
-          <mdui-circular-progress max="100" value="35"></mdui-circular-progress>
-          <p>CPU: 35%</p>
+          <mdui-circular-progress max="100" :value="device_cpu_usage"></mdui-circular-progress>
+          <p>CPU: {{device_cpu_usage}}%</p>
         </div>
         <div>
           <!--直接拿客户端数据填充（客户端传输来的数据以 iB 为单位）-->
-          <mdui-circular-progress max="17179869184" value="5368709120"></mdui-circular-progress>
-          <p>Mem: 35%</p>
+          <mdui-circular-progress :max="device_memory_total" :value="device_memory_usage"></mdui-circular-progress>
+          <p>Mem: {{device_memory_total/device_memory_total}}%</p>
         </div>
       </div>
       <div class="info">
-        <b>SystemOS: Arch Linux</b>
-        <p>Last online: 1970-01-01 00:00:00</p>
+        <b>Device ID: {{ device_id }}</b>
+        <br>
+        <b>SystemOS: {{ device_system }}</b>
+        <br>
+        <b>CpuName: {{ device_cpu_name }}</b>
+        <br>
+        <b>上次上线: {{ device_time }}</b>
         <!--剩下的放这里咯-->
       </div>
     </mdui-card>
@@ -42,10 +46,40 @@
 <script lang="ts">
 export default {
   props: {
-    OnceDeviceListElement_id: {
+    device_id: {
       type: String,
       required: true,
       default: ''
+    },
+    device_system: {
+      type: String,
+      required: true,
+      default: ''
+    },
+    device_time: {
+      type: String,
+      required: true,
+      default: ''
+    },
+    device_cpu_usage: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    device_cpu_name: {
+      type: String,
+      required: true,
+      default: ''
+    },
+    device_memory_usage: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    device_memory_total: {
+      type: Number,
+      required: true,
+      default: 0
     }
   }
 }

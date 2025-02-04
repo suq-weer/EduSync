@@ -12,9 +12,7 @@
       <b style="font-size: 20px;text-align: center; vertical-align: middle;">EduSync 后台</b>
     </div>
     <mdui-list>
-      <mdui-list-item headline="首页" icon="home" href="/"></mdui-list-item>
-      <mdui-list-item headline="设备列表" icon="devices" href="/deviceList"></mdui-list-item>
-      <mdui-list-item headline="AI" icon="smart-toy" href="/ai"></mdui-list-item>
+      <mdui-list-item v-for="item in items_list" :key="item.id" :headline="item.text" :icon="item.icon" :href="item.href"></mdui-list-item>
     </mdui-list>
   </mdui-navigation-drawer>
 </template>
@@ -27,6 +25,26 @@ import { ButtonIcon, NavigationDrawer } from 'mdui'
 export default {
   data() {
     return {
+      items_list: [
+        {
+          id:1,
+          icon: 'home',
+          text: '首页',
+          href: '/'
+        },
+        {
+          id:2,
+          icon: 'devices',
+          text: '设备列表',
+          href: '/deviceList'
+        },
+        {
+          id:3,
+          icon: 'smart-toy',
+          text: 'AI',
+          href: '/ai'
+        }
+      ]
     }
   },
   mounted() {

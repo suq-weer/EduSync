@@ -92,7 +92,7 @@ export default {
 
     //TODO: 修复省略号点击逻辑
     const handlePageClick = (page: string) => {
-      if (page === 'this') {
+      if (page === currentPage.value.toString()) {
         // // Handle ellipsis click
         // if (currentPage.value > 3) {
         //   gotoPage(currentPage.value - 2)
