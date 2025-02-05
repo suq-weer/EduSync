@@ -7,7 +7,7 @@
         <div>
           <!--注：py端CPU使用率是单核使用率，你可以相加除以核心数（JSON数组长度）-->
           <mdui-circular-progress max="100" :value="device_cpu_usage"></mdui-circular-progress>
-          <p>CPU: {{device_cpu_usage}}%</p>
+          <p>CPU: {{Math.ceil(device_cpu_usage)}}%</p>
         </div>
         <div>
           <!--直接拿客户端数据填充（客户端传输来的数据以 iB 为单位）-->
