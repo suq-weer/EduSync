@@ -4,7 +4,7 @@
 <template>
   <div class="poop">
     <mdui-avatar class="avatar" slot="icon">
-      <img :src="avatar" alt="" style="max-height:100%;max-width: 100%;min-height: 100%;min-width: 100%"/>
+      <img :src="avatar" alt="" style="height:100%;width: 100%;"/>
     </mdui-avatar>
     <mdui-card class="card">
       <div class="contents" v-html="response"></div>
@@ -41,6 +41,6 @@ export default {
 .card {
   padding: 1rem;
   margin: 1rem;
-  background: rgba(var(--mdui-color-secondary-container));
+  background: rgba(var(--mdui-color-primary-container));
 }
 </style>

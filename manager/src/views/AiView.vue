@@ -8,8 +8,6 @@ import UserPoop from '@/components/UserPoop.vue'
 const md = new MarkdownIt({ html: true })
 // 用户输入文本的响应式引用
 const inputText = ref('')
-// AI响应文本的引用，此处未使用
-const responseText = ref('')
 // 文本的引用id，此处未使用
 const chatId = ref(0)
 // 渲染后的Markdown文本引用
@@ -17,7 +15,12 @@ const renderedMarkdown = ref('')
 // 加载状态的引用，用于控制UI显示
 const loading = ref(false)
 // 聊天记录的引用，包含渲染后的Markdown和是否为响应标识
-const chats = ref([])
+interface ChatItem {
+  chatId: number
+  renderedMarkdown: string
+  is_response: boolean
+}
+const chats = ref<ChatItem[]>([])
 
 async function sendMessage(inputText:string) {
   chatId.value += 1
@@ -30,9 +33,10 @@ async function sendMessage(inputText:string) {
     })
 
     chatId.value += 1
+    loading.value = true
     chats.value.push({
       chatId: chatId.value,
-      renderedMarkdown: '思考中',
+      renderedMarkdown: '',
       is_response: true
     })
 
@@ -94,8 +98,13 @@ async function sendMessage(inputText:string) {
                 const dataLine = line.slice(6).trim(); // 去掉 'data: ' 前缀
                 console.log('Received data:', dataLine)
                 const responseJson = JSON.parse(dataLine)
+                let deltaContent = ''
                 if (responseJson.object === 'chat.completion.chunk') {
-                  const deltaContent = responseJson.choices[0].delta.content
+                  if (responseJson.choices[0].delta.content === '') {
+                    try { deltaContent = responseJson.choices[0].delta.logprob.content[0].token } catch (e) { /* empty */ }
+                  } else {
+                    deltaContent = responseJson.choices[0].delta.content
+                  }
                   if (deltaContent) {
                     currentContent += deltaContent
                     renderedMarkdown.value = md.render(currentContent)
@@ -122,132 +131,9 @@ async function sendMessage(inputText:string) {
     } catch (error) {
       console.log(error)
     }
-    //
   }
+  loading.value = false
 }
-
-
-/**
- * 发送消息函数
- * 将用户输入文本发送到AI接口，并处理响应流
- */
-// async function sendMessage() {
-//   // 设置加载状态为true
-//   loading.value = true
-//   // 重置AI响应文本，此处未使用
-//   responseText.value = ''
-//   // 重置渲染后的Markdown文本
-//   renderedMarkdown.value = ''
-//
-//   try {
-//     // 发送POST请求到AI接口
-//     const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-//       method: 'POST',
-//       headers: {
-//         Authorization:
-//           'Bearer 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',
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({
-//         model: 'deepseek/deepseek-r1:free',
-//         stream: true,
-//         messages: [
-//           {
-//             role: 'user',
-//             content: inputText.value
-//           }
-//         ]
-//       })
-//     })
-//     // 如果响应成功，将用户消息添加到聊天记录中
-//     if (response.ok) {
-//       chats.value.push({
-//         renderedMarkdown: inputText.value ,
-//         is_response: false
-//       })
-//     }
-//
-//     // 如果响应体是ReadableStream，处理响应流
-//     if (response.body instanceof ReadableStream) {
-//       const reader = response.body.getReader()
-//       let i = 0
-//       let currentContent = ''
-//
-//       // eslint-disable-next-line no-constant-condition
-//       while (true)
-//       {
-//         const { done, value } = await reader.read()
-//         if (done) break
-//
-//         const chunk = new TextDecoder('utf-8').decode(value, { stream: true })
-//         if (chunk === ': OPENROUTER PROCESSING\n\n') continue
-//
-//         console.log(chunk);
-//         // 将 chunk 按行分割并逐行处理
-//         const lines = chunk.split('\n')
-//         for (const line of lines) {
-//           if (line.trim() === 'data: [DONE]') {
-//             console.log('Stream ended with [DONE]');
-//             // 处理完当前累积的内容后结束
-//             if (currentContent) {
-//               renderedMarkdown.value = md.render(currentContent)
-//               console.log('Final rendered Markdown:', renderedMarkdown.value); // 调试信息
-//               if (chats.value.length <= i) {
-//                 chats.value.push({
-//                   renderedMarkdown: renderedMarkdown.value,
-//                   is_response: true
-//                 })
-//               } else {
-//                 chats.value[i].renderedMarkdown = renderedMarkdown.value
-//               }
-//               i++
-//               currentContent = ''
-//             }
-//             break;
-//           }
-//
-//           if (line.startsWith('data: ')) {
-//             const dataLine = line.slice(6).trim(); // 去掉 'data: ' 前缀
-//             try {
-//               console.log('Received data:', dataLine)
-//               const responseJson = JSON.parse(dataLine)
-//               if (responseJson.object === 'chat.completion.chunk') {
-//                 const deltaContent = responseJson.choices[0].delta.content
-//                 if (deltaContent) {
-//                   currentContent += deltaContent
-//                   renderedMarkdown.value = md.render(currentContent)
-//                   if (chats.value.length <= i) {
-//                     chats.value.push({
-//                       renderedMarkdown: renderedMarkdown.value,
-//                       is_response: true
-//                     })
-//                   } else {
-//                     chats.value[i].renderedMarkdown = renderedMarkdown.value
-//                   }
-//                 }
-//                 if (responseJson.choices[0].finish_reason) {
-//                   console.log('Final rendered Markdown:', renderedMarkdown.value); // 调试信息
-//                   i++
-//                   currentContent = ''
-//                 }
-//               }
-//             } catch (e) {
-//               console.error('Failed to parse JSON:', e)
-//             }
-//           }
-//         }
-//       }
-//     } else {
-//       console.error('Response is not a ReadableStream:', response)
-//     }
-//   } catch (error) {
-//     console.error('Error:', error)
-//     alert('请求失败，请稍后再试')
-//   } finally {
-//     // 无论成功或失败，重置加载状态
-//     loading.value = false
-//   }
-// }
 </script>
 
 <template>
