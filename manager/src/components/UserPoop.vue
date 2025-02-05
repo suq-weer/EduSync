@@ -3,12 +3,12 @@
 
 <template>
   <div class="poop">
-    <mdui-avatar class="avatar" slot="icon">
+    <mdui-card class="card" style="">
+      <div class="contents" v-html="response" ></div>
+    </mdui-card>
+    <mdui-avatar class="avatar" slot="icon" style="">
       <img :src="avatar" alt="" style="max-height:100%;max-width: 100%;min-height: 100%;min-width: 100%"/>
     </mdui-avatar>
-    <mdui-card class="card">
-      <div class="contents" v-html="response"></div>
-    </mdui-card>
   </div>
 </template>
 
@@ -34,7 +34,6 @@ export default {
   display: flex;
   align-items: flex-start;
   width: calc(100% - 1rem);
-  margin-right: 20%;
   vertical-align: top;
 }
 

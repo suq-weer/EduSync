@@ -2,9 +2,10 @@
 import { ref } from 'vue'
 import MarkdownIt from 'markdown-it'
 import AiPoop from '@/components/AIPoop.vue'
+import UserPoop from '@/components/UserPoop.vue'
 
 // 初始化Markdown解析器
-const md = new MarkdownIt()
+const md = new MarkdownIt({ html: true })
 // 用户输入文本的响应式引用
 const inputText = ref('')
 // AI响应文本的引用，此处未使用
@@ -16,12 +17,7 @@ const renderedMarkdown = ref('')
 // 加载状态的引用，用于控制UI显示
 const loading = ref(false)
 // 聊天记录的引用，包含渲染后的Markdown和是否为响应标识
-const chats = ref([
-  // {
-  //   renderedMarkdown: '',
-  //   is_response: false
-  // }
-])
+const chats = ref([])
 
 async function sendMessage(inputText:string) {
   chatId.value += 1
@@ -67,6 +63,7 @@ async function sendMessage(inputText:string) {
         let currentContent = ''
         if (response.body instanceof ReadableStream) {
           const reader = response.body.getReader()
+          // eslint-disable-next-line no-constant-condition
           while (true)
           {
             const { done, value } = await reader.read()
@@ -85,32 +82,35 @@ async function sendMessage(inputText:string) {
                 if (currentContent) {
                   renderedMarkdown.value = md.render(currentContent)
                   console.log('Final rendered Markdown:', renderedMarkdown.value); // 调试信息
-                  // const chatIndex = chats.value.findIndex(chat => chat.chatId === chatId);
-                  chat.value[chatId.value].renderedMarkdown = renderedMarkdown.value
+                  const item = chats.value.find(item => item.chatId === chatId.value);
+                  if (item) {
+                    item.renderedMarkdown = renderedMarkdown.value;
+                  }
                   currentContent = ''
                 }
                 break;
               }
               if (line.startsWith('data: ')) {
                 const dataLine = line.slice(6).trim(); // 去掉 'data: ' 前缀
-                try {
-                  console.log('Received data:', dataLine)
-                  const responseJson = JSON.parse(dataLine)
-                  if (responseJson.object === 'chat.completion.chunk') {
-                    const deltaContent = responseJson.choices[0].delta.content
-                    if (deltaContent) {
-                      currentContent += deltaContent
-                      renderedMarkdown.value = md.render(currentContent)
-                      // const chatIndex = chats.value.findIndex(chat => chat.chatId === chatId);
-                      chat.value[chatId.value].renderedMarkdown = renderedMarkdown.value
+                console.log('Received data:', dataLine)
+                const responseJson = JSON.parse(dataLine)
+                if (responseJson.object === 'chat.completion.chunk') {
+                  const deltaContent = responseJson.choices[0].delta.content
+                  if (deltaContent) {
+                    currentContent += deltaContent
+                    renderedMarkdown.value = md.render(currentContent)
+                    // const chatIndex = chats.value.findIndex(chat => chat.chatId === chatId);
+                    // chats[chatId.value].renderedMarkdown = renderedMarkdown.value
+                    const item = chats.value.find(item => item.chatId === chatId.value);
+                    if (item) {
+                      item.renderedMarkdown = renderedMarkdown.value;
                     }
-                    if (responseJson.choices[0].finish_reason) {
-                      console.log('Final rendered Markdown:', renderedMarkdown.value); // 调试信息
-                      currentContent = ''
-                    }
+                    // console.log()
                   }
-                } catch (e) {
-                  console.error('Failed to parse JSON:', e)
+                  if (responseJson.choices[0].finish_reason) {
+                    console.log('Final rendered Markdown:', renderedMarkdown.value); // 调试信息
+                    currentContent = ''
+                  }
                 }
               }
             }
@@ -125,6 +125,7 @@ async function sendMessage(inputText:string) {
     //
   }
 }
+
 
 /**
  * 发送消息函数
@@ -256,9 +257,10 @@ async function sendMessage(inputText:string) {
     <!-- 循环渲染聊天记录 -->
     <div v-for="(chat) in chats" :key="chat.chatId">
       <!-- 如果是AI响应，显示为用户消息 -->
-      <mdui-card v-if="chat.is_response" class="user-message">{{ chat.renderedMarkdown }}</mdui-card>
+<!--      <mdui-card v-if="chat.is_response" class="user-message" >{{ chat.renderedMarkdown }}</mdui-card>-->
+      <AiPoop v-if="chat.is_response" :response="chat.renderedMarkdown" avatar = "/src/assets/logo_DeepSeek.png"/>
       <!-- 如果是用户消息，使用AiPoop组件渲染 -->
-      <AiPoop v-else :response="chat.renderedMarkdown" />
+      <UserPoop v-else :response="chat.renderedMarkdown" avatar = "/src/assets/logo.svg"/>
     </div>
     <!-- 如果处于加载状态，显示加载指示器 -->
     <mdui-circular-progress v-if="loading" class="loading-indicator"></mdui-circular-progress>
