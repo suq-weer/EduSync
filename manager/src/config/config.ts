@@ -1,5 +1,0 @@
-function information(){
-  return {
-
-  }
-}

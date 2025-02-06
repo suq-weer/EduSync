@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import MarkdownIt from 'markdown-it'
 import AiPoop from '@/components/AIPoop.vue'
 import UserPoop from '@/components/UserPoop.vue'
+import { information } from '@/config/Config'
 
 // 初始化Markdown解析器
 const md = new MarkdownIt({ html: true })
@@ -22,7 +23,7 @@ interface ChatItem {
 }
 const chats = ref<ChatItem[]>([])
 
-async function sendMessage(inputText:string) {
+async function sendMessage(inputText: string) {
   chatId.value += 1
   if (inputText) {
     //向聊天列表新增数据
@@ -40,14 +41,12 @@ async function sendMessage(inputText:string) {
       is_response: true
     })
 
-
     try {
       // 发送POST请求到AI接口
-      const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      const response = await fetch(information()['aiApiUrl'], {
         method: 'POST',
         headers: {
-          Authorization:
-            'Bearer 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',
+          Authorization: information()['aiApiKey'],
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -68,40 +67,43 @@ async function sendMessage(inputText:string) {
         if (response.body instanceof ReadableStream) {
           const reader = response.body.getReader()
           // eslint-disable-next-line no-constant-condition
-          while (true)
-          {
+          while (true) {
             const { done, value } = await reader.read()
             if (done) break
 
             const chunk = new TextDecoder('utf-8').decode(value, { stream: true })
             if (chunk === ': OPENROUTER PROCESSING\n\n') continue
 
-            console.log(chunk);
+            console.log(chunk)
             // 将 chunk 按行分割并逐行处理
             const lines = chunk.split('\n')
             for (const line of lines) {
               if (line.trim() === 'data: [DONE]') {
-                console.log('Stream ended with [DONE]');
+                console.log('Stream ended with [DONE]')
                 // 处理完当前累积的内容后结束
                 if (currentContent) {
                   renderedMarkdown.value = md.render(currentContent)
-                  console.log('Final rendered Markdown:', renderedMarkdown.value); // 调试信息
-                  const item = chats.value.find(item => item.chatId === chatId.value);
+                  console.log('Final rendered Markdown:', renderedMarkdown.value) // 调试信息
+                  const item = chats.value.find((item) => item.chatId === chatId.value)
                   if (item) {
-                    item.renderedMarkdown = renderedMarkdown.value;
+                    item.renderedMarkdown = renderedMarkdown.value
                   }
                   currentContent = ''
                 }
-                break;
+                break
               }
               if (line.startsWith('data: ')) {
-                const dataLine = line.slice(6).trim(); // 去掉 'data: ' 前缀
+                const dataLine = line.slice(6).trim() // 去掉 'data: ' 前缀
                 console.log('Received data:', dataLine)
                 const responseJson = JSON.parse(dataLine)
                 let deltaContent = ''
                 if (responseJson.object === 'chat.completion.chunk') {
                   if (responseJson.choices[0].delta.content === '') {
-                    try { deltaContent = responseJson.choices[0].delta.logprob.content[0].token } catch (e) { /* empty */ }
+                    try {
+                      deltaContent = responseJson.choices[0].delta.logprob.content[0].token
+                    } catch (e) {
+                      /* empty */
+                    }
                   } else {
                     deltaContent = responseJson.choices[0].delta.content
                   }
@@ -110,21 +112,21 @@ async function sendMessage(inputText:string) {
                     renderedMarkdown.value = md.render(currentContent)
                     // const chatIndex = chats.value.findIndex(chat => chat.chatId === chatId);
                     // chats[chatId.value].renderedMarkdown = renderedMarkdown.value
-                    const item = chats.value.find(item => item.chatId === chatId.value);
+                    const item = chats.value.find((item) => item.chatId === chatId.value)
                     if (item) {
-                      item.renderedMarkdown = renderedMarkdown.value;
+                      item.renderedMarkdown = renderedMarkdown.value
                     }
                     // console.log()
                   }
                   if (responseJson.choices[0].finish_reason) {
-                    console.log('Final rendered Markdown:', renderedMarkdown.value); // 调试信息
+                    console.log('Final rendered Markdown:', renderedMarkdown.value) // 调试信息
                     currentContent = ''
                   }
                 }
               }
             }
           }
-        }else{
+        } else {
           console.error('Response is not a ReadableStream:', response)
         }
       }
@@ -141,12 +143,16 @@ async function sendMessage(inputText:string) {
   <mdui-card class="card">
     <h2>DeepSeek-R1</h2>
     <!-- 循环渲染聊天记录 -->
-    <div v-for="(chat) in chats" :key="chat.chatId">
+    <div v-for="chat in chats" :key="chat.chatId">
       <!-- 如果是AI响应，显示为用户消息 -->
-<!--      <mdui-card v-if="chat.is_response" class="user-message" >{{ chat.renderedMarkdown }}</mdui-card>-->
-      <AiPoop v-if="chat.is_response" :response="chat.renderedMarkdown" avatar = "/src/assets/logo_DeepSeek.png"/>
+      <!--      <mdui-card v-if="chat.is_response" class="user-message" >{{ chat.renderedMarkdown }}</mdui-card>-->
+      <AiPoop
+        v-if="chat.is_response"
+        :response="chat.renderedMarkdown"
+        avatar="/src/assets/logo_DeepSeek.png"
+      />
       <!-- 如果是用户消息，使用AiPoop组件渲染 -->
-      <UserPoop v-else :response="chat.renderedMarkdown" avatar = "/src/assets/logo.svg"/>
+      <UserPoop v-else :response="chat.renderedMarkdown" avatar="/src/assets/logo.svg" />
     </div>
     <!-- 如果处于加载状态，显示加载指示器 -->
     <mdui-circular-progress v-if="loading" class="loading-indicator"></mdui-circular-progress>
@@ -168,11 +174,6 @@ async function sendMessage(inputText:string) {
 }
 
 /* 用户消息样式 */
-.user-message {
-  background: rgba(var(--mdui-color-primary-container));
-  padding-left: calc(20% - 1rem);
-  margin-bottom: 1rem;
-}
 
 /* 输入区域样式 */
 .text {

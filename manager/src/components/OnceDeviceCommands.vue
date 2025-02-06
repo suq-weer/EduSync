@@ -8,7 +8,7 @@
       <h2>Commands</h2>
       <p>[11:45:14](INFO)已成功启动《原神》</p>
       <div>
-        <mdui-text-field label="输入命令" placeholder="sudo rm -rf /*"></mdui-text-field>
+        <mdui-text-field label="输入命令(一行一条)" placeholder="sudo rm -rf /*" rows="5"></mdui-text-field>
         <mdui-button-icon icon="send"></mdui-button-icon>
       </div>
     </mdui-card>
@@ -16,13 +16,14 @@
 </template>
 
 <script lang="ts">
+
 export default {
   props: {
     device_id: {
       type: String,
       required: true,
       default: ''
-    }
+    },
   }
 }
 </script>

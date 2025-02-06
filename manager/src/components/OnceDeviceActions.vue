@@ -6,21 +6,40 @@
   <div>
     <mdui-card class="card actions">
       <h2>Actions</h2>
-      <mdui-chip>一键自爆</mdui-chip>
-      <mdui-chip>为所有设备报告“我是个傻逼”</mdui-chip>
-      <mdui-chip>远程启动《原神》</mdui-chip>
-      <mdui-chip>回来吧《刺激战场》～</mdui-chip>
+      <mdui-chip v-for="command in CommandsList(getCommandList(device_system))" :key="command.command">{{command.name}}</mdui-chip>
     </mdui-card>
   </div>
 </template>
 
-<script lang="ts">
+<script  lang="ts">
+import { CommandsList } from '@/config/CommandsList'
+
 export default {
   props: {
     device_id: {
       type: String,
       required: true,
       default: ''
+    },
+    device_system: {
+      type: String,
+      required: true,
+      default: '' // 设置默认值为空字符串
+    }
+  },
+  setup() {
+    const getCommandList = (system: string)=>{
+      if (system.includes('Windows')) {
+          return 'Windows'
+        } else if (system.includes('Linux')) {
+          return 'Linux'
+        } else {
+          return []
+      }
+    }
+
+    return {
+      getCommandList
     }
   }
 }

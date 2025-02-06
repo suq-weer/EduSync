@@ -7,21 +7,24 @@
         <div>
           <!--注：py端CPU使用率是单核使用率，你可以相加除以核心数（JSON数组长度）-->
           <mdui-circular-progress max="100" :value="device_cpu_usage"></mdui-circular-progress>
-          <p>CPU: {{Math.ceil(device_cpu_usage)}}%</p>
+          <p>CPU: {{ Math.ceil(device_cpu_usage) }}%</p>
         </div>
         <div>
           <!--直接拿客户端数据填充（客户端传输来的数据以 iB 为单位）-->
-          <mdui-circular-progress :max="device_memory_total" :value="device_memory_usage"></mdui-circular-progress>
-          <p>Mem: {{device_memory_total/device_memory_total}}%</p>
+          <mdui-circular-progress
+            :max="device_memory_total"
+            :value="device_memory_usage"
+          ></mdui-circular-progress>
+          <p>Mem: {{ Math.ceil(device_memory_total / device_memory_total) }}%</p>
         </div>
       </div>
       <div class="info">
         <b>Device ID: {{ device_id }}</b>
-        <br>
+        <br />
         <b>SystemOS: {{ device_system }}</b>
-        <br>
+        <br />
         <b>CpuName: {{ device_cpu_name }}</b>
-        <br>
+        <br />
         <b>上次上线: {{ device_time }}</b>
         <!--剩下的放这里咯-->
       </div>
@@ -29,14 +32,13 @@
     <mdui-card class="part">
       <h3>Disk Status</h3>
       <div class="disk_status">
-        <div>
+        <div v-for="disk_status in device_disk_status" :key="disk_status.name">
           <!--直接拿客户端数据填充（客户端传输来的数据以 B 为单位）-->
-          <mdui-circular-progress max="53687091200" value="5368709120"></mdui-circular-progress>
-          <p>/: 5G/50G (10%)</p>
-        </div>
-        <div>
-          <mdui-circular-progress max="53687091200" value="5368709120"></mdui-circular-progress>
-          <p>/home: 5G/50G (10%)</p>
+          <mdui-circular-progress
+            :max="disk_status.total"
+            :value="disk_status.used"
+          ></mdui-circular-progress>
+          <p>{{disk_status.name}}: {{Math.ceil(disk_status.used/Math.pow(1024, 3))}}G/{{Math.ceil(disk_status.total/Math.pow(1024, 3))}}G {{ Math.ceil(disk_status.percent) }}%</p>
         </div>
       </div>
     </mdui-card>
@@ -80,6 +82,12 @@ export default {
       type: Number,
       required: true,
       default: 0
+    },
+    device_disk_status: {
+      type: Array,
+      required: true,
+      // eslint-disable-next-line vue/require-valid-default-prop
+      default: []
     }
   }
 }

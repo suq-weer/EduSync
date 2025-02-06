@@ -8,11 +8,13 @@
         :device_cpu_usage="device_cpu_usage"
         :device_cpu_name="device_cpu_name"
         :device_memory_usage="device_memory_usage"
-        :device_memory_total="device_memory_total"/>
+        :device_memory_total="device_memory_total"
+        :device_disk_status="device_disk_status"
+      />
     </div>
     <div class="actionsAndCommands">
       <div>
-        <OnceDeviceActions :device_id="device_id" />
+        <OnceDeviceActions :device_id="device_id"  :device_system="device_system"/>
         <once-device-commands :device_id="device_id" />
         <AiView></AiView>
       </div>
@@ -43,7 +45,7 @@ export default defineComponent({
     const device_memory_status = ref<object | {}>({})
     const device_memory_total = ref<number | null>(null)
     const device_memory_usage = ref<number | null>(null)
-    const disk_status = ref<string | null>(null)
+    const device_disk_status = ref<string | null>(null)
 
     const route = useRoute()
 
@@ -80,11 +82,12 @@ export default defineComponent({
 
       device_time.value = new Date(fetchDeviceInfo_response['time'] * 1000).toLocaleString()
       device_system.value = device_data['SystemOutput']['system']
+      // console.log(device_data['SystemOutput']['system'])
       device_cpu_usage.value = device_cpu_status.value['percent']
       device_memory_total.value = device_memory_status.value['total']
       device_memory_usage.value = device_memory_status.value['used']
 
-      disk_status.value = device_data['DiskStatus']
+      device_disk_status.value = device_data['DiskStatus']
     })
 
     return {
@@ -97,7 +100,7 @@ export default defineComponent({
       device_cpu_usage,
       device_memory_total,
       device_memory_usage,
-      disk_status
+      device_disk_status
     }
   }
 })
