@@ -2,11 +2,11 @@ function CommandsList(system:string){
   const Linux_commandList = [
     {
       "name":"关机",
-      "command":"sudo shutdown -h +2"
+      "command":"shutdown"
     },
     {
       "name":"重启",
-      "command":"sudo shutdown -r +2"
+      "command":"reboot"
     },]
 
   const Windows_commandList = [
