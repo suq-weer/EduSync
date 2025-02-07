@@ -24,10 +24,10 @@ export default defineConfig({
   server: {
     proxy: {
       '/server':{
-        target: 'http://edusync619.yiyu14.top',
+        target: 'http://edusync.yiyu14.top',
         changeOrigin: true
       },
-      '/dev-api':'http://edusync619.yiyu14.top',
+      '/dev-api':'http://edusync.yiyu14.top',
       '/api':{
         target: '../',
         changeOrigin: true
