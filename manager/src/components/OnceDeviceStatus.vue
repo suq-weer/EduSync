@@ -1,5 +1,3 @@
-<script lang="ts" setup></script>
-
 <template>
   <mdui-card class="main">
     <mdui-card class="part all">
@@ -19,18 +17,18 @@
         </div>
       </div>
       <div class="info">
-        <b>Device ID: {{ device_id }}</b>
+        <b>设备 ID: {{ device_id }}</b>
         <br />
-        <b>SystemOS: {{ device_system }}</b>
+        <b>操作系统: {{ device_system }}</b>
         <br />
-        <b>CpuName: {{ device_cpu_name }}</b>
+        <b>处理器名称: {{ device_cpu_name }}</b>
         <br />
         <b>上次上线: {{ device_time }}</b>
         <!--剩下的放这里咯-->
       </div>
     </mdui-card>
     <mdui-card class="part">
-      <h3>Disk Status</h3>
+      <h3>磁盘状态</h3>
       <div class="disk_status">
         <div v-for="disk_status in device_disk_status" :key="disk_status.name">
           <!--直接拿客户端数据填充（客户端传输来的数据以 B 为单位）-->
@@ -45,52 +43,23 @@
   </mdui-card>
 </template>
 
-<script lang="ts">
-export default {
-  props: {
-    device_id: {
-      type: String,
-      required: true,
-      default: ''
-    },
-    device_system: {
-      type: String,
-      required: true,
-      default: ''
-    },
-    device_time: {
-      type: String,
-      required: true,
-      default: ''
-    },
-    device_cpu_usage: {
-      type: Number,
-      required: true,
-      default: 0
-    },
-    device_cpu_name: {
-      type: String,
-      required: true,
-      default: ''
-    },
-    device_memory_usage: {
-      type: Number,
-      required: true,
-      default: 0
-    },
-    device_memory_total: {
-      type: Number,
-      required: true,
-      default: 0
-    },
-    device_disk_status: {
-      type: Array,
-      required: true,
-      // eslint-disable-next-line vue/require-valid-default-prop
-      default: []
-    }
-  }
+<script setup lang="ts">
+interface DeviceStatus {
+  device_id: string;
+  device_system: string;
+  device_time: string;
+  device_cpu_usage: number;
+  device_cpu_name: string;
+  device_memory_usage: number;
+  device_memory_total: number;
+  device_disk_status: Array<{
+    name: string;
+    total: number;
+    used: number;
+    percent: number;
+  }>;
 }
+defineProps<DeviceStatus>()
 </script>
 
 <style scoped>
@@ -115,19 +84,12 @@ export default {
 }
 
 .cpu_mem {
-  width: 20%;
+  width: 100%;
+  vertical-align: center;
+  display: inline-flex;
   div {
-    display: inline-block;
-    width: 50%;
-    padding: 0.5rem;
-    p {
-      text-align: center;
-    }
-    mdui-circular-progress {
-      display: block;
-      width: 100%;
-      height: auto;
-    }
+    text-align: center;
+    margin: 0.5rem;
   }
 }
 
@@ -137,7 +99,6 @@ export default {
   vertical-align: center;
   div {
     text-align: center;
-    height: 5rem;
     margin: 0.5rem;
   }
 }

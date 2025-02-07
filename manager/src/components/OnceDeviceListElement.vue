@@ -28,7 +28,7 @@ export default {
       // console.log(OnceDeviceListElement_id)
       router.push({name: 'Device', params: { device_id: OnceDeviceListElement_id }})
     },
-    async deleteDevice(OnceDeviceListElement_id) {
+    async deleteDevice(OnceDeviceListElement_id : string) {
       await confirm({
         headline: "警告",
         description: "此操作会抹掉该设备的信息",

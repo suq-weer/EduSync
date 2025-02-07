@@ -6,6 +6,7 @@ const DeviceListView = () => import('@/views/DeviceListView.vue')
 const OnceDeviceView = () => import('@/views/OnceDeviceView.vue')
 const OnceDeviceListElement = () => import('@/components/OnceDeviceListElement.vue')
 const AiView = () => import('@/views/AiView.vue')
+const CommandView = () => import('@/views/CommandView.vue')
 
 import { is_valid_key } from '@/api/server'
 import { cookie_read_user } from '@/api/manage'
@@ -43,7 +44,16 @@ const router = createRouter({
       meta: {
         title: '设备详情'
       }
-    }, {
+    },
+    {
+      path: '/command',
+      name: 'Command',
+      component: CommandView,
+      meta: {
+        title: '设备控制台'
+      }
+    },
+    {
       path: '/ai',
       name: 'AI',
       component: AiView,
