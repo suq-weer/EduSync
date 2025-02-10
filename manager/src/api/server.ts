@@ -50,6 +50,16 @@ export const fetchDeviceInfo = async (body: { uid: UnwrapRef<string>, key: Unwra
   }
 }
 
+export const sendCommands = async(body: { uid: UnwrapRef<string>, key: UnwrapRef<string>, data:UnwrapRef<[string]>}) => {
+  try {
+    const response = await instance.post('/function/admin/create_command.php', body)
+    return response.data
+  } catch (err) {
+    console.error(err)
+    return err
+  }
+}
+
 export const Login = async (uid: string, password: string) => {
 
   // console.log({ uid: uid.value, password: pass.value })
@@ -71,4 +81,8 @@ export const delete_device = async (uid: string, key: string, deviceId:string) =
 
 export const fetch_device_info = async (uid: string, key: string, deviceId:string) => {
   return await fetchDeviceInfo({ uid: uid, key: key, deviceId:deviceId })
+}
+
+export const send_commands = async (uid: string, key: string, data:UnwrapRef<[string]>) => {
+  return await sendCommands({ uid: uid, key: key, data:data })
 }
