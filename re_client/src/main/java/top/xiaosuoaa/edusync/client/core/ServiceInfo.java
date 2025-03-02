@@ -92,6 +92,8 @@ public class ServiceInfo {
 	private String system;
 	private String systemVersion;
 
+	public static final int FORMAT_VERSION = 2;
+
 	public ServiceInfo() {
 		this.systemInfo = new SystemInfo();
 		collectSystemInfo();
@@ -127,8 +129,8 @@ public class ServiceInfo {
 
 	private void collectMemoryStatus() {
 		memory = ManagementFactory.getMemoryMXBean();
-		memoryUsed = memory.getHeapMemoryUsage().getUsed();
-		memoryTotal = memory.getHeapMemoryUsage().getMax();
+		memoryUsed = memory.getNonHeapMemoryUsage().getUsed();
+		memoryTotal = memory.getNonHeapMemoryUsage().getMax();
 	}
 
 	private void collectDiskStatus() {
@@ -162,7 +164,8 @@ public class ServiceInfo {
 	    cpuInfo.addProperty("time", cpuTime);
 	    cpuInfo.addProperty("count", cpuCount);
 	    cpuInfo.addProperty("percent", cpuPercent);
-	    cpuInfo.addProperty("name", cpuName);
+		//warn: name被要求改成processor
+	    cpuInfo.addProperty("processor"/*"name"*/, cpuName);
 	    cpuInfo.addProperty("architecture", cpuArchitecture);
 	    // 创建并填充内存状态
 	    JsonObject memStatus = new JsonObject();
@@ -177,6 +180,9 @@ public class ServiceInfo {
 	    JsonObject systemOutput = new JsonObject();
 	    systemOutput.addProperty("system", system);
 	    systemOutput.addProperty("version", systemVersion);
+
+		// 存放格式版本
+		output.addProperty("format_version", FORMAT_VERSION);
 	    // 将CPU、内存、磁盘和系统输出信息添加到输出对象中
 	    output.add("CPUStatus", cpuInfo);
 	    output.add("MemoryStatus", memStatus);

@@ -31,9 +31,13 @@ class CpuStatusOutput:
         将状态对象整理并返回。
         :return: 返回的CPU字典对象。
         """
-        root = dict(count=self.count, percent=self.percent, processor=self.processor,
-                    name=self.name, architecture=self.architecture)
-        output_time = {'system': self.time.system, 'user': self.time.user}
+        percent = 0
+        for i in self.percent:
+            percent += i
+        percent = percent / self.count
+        root = dict(count=self.count, percent=percent, processor=self.processor,
+                    name=self.name, architecture=self.architecture[0]) # architecture 仅提交一个数据
+        output_time = self.time.user
         root['time'] = output_time
         return root
 
@@ -119,12 +123,15 @@ class StatusBusOutput:
         self.diskStatusOutput = disk_status_output.output()
         self.systemOutput = system_output.output()
 
+        # 格式版本
+        self.formatVersion = 1
+
     def output(self) -> dict:
         """
         将状态对象整理并返回。
         :return: 返回的状态总线字典对象
         """
-        root = dict(format_version=1, CPUStatus=self.cpuStatusOutput, MemoryStatus=self.memoryStatusOutput,
+        root = dict(format_version=self.formatVersion, CPUStatus=self.cpuStatusOutput, MemoryStatus=self.memoryStatusOutput,
                     DiskStatus=self.diskStatusOutput, SystemOutput=self.systemOutput)
         return root
 

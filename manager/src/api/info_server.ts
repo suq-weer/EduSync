@@ -1,6 +1,5 @@
 import instance from '@/utils/request'
 import type { UnwrapRef } from 'vue'
-import { postLogin } from '@/api/server'
 
 export const postInfo = async (body: { uid: UnwrapRef<string>, key: UnwrapRef<string> }) => {
   try {
@@ -15,7 +14,6 @@ export const info_server = async (uid: string, key: string) => {
 
   // console.log({ uid: uid.value, password: pass.value })
   const result = await postInfo({ uid: uid, key: key})
-  const data = result['data']
   // console.log(data)
-  return data
+  return result['data']
 }

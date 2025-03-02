@@ -1,11 +1,15 @@
-import { createRouter, createWebHistory, useRouter } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 
 const HomeView = () => import('@/views/HomeView.vue')
 const LoginView = () => import('@/views/LoginView.vue')
+const DeviceListView = () => import('@/views/DeviceListView.vue')
+const OnceDeviceView = () => import('@/views/OnceDeviceView.vue')
+const OnceDeviceListElement = () => import('@/components/OnceDeviceListElement.vue')
+const AiView = () => import('@/views/AiView.vue')
+const CommandView = () => import('@/views/CommandView.vue')
 
-import { is_valid_key, Login, postLogin } from '@/api/server'
-import { cookie_write_user, cookie_read_user } from '@/api/manage'
-import { toFormData } from 'axios'
+import { is_valid_key } from '@/api/server'
+import { cookie_read_user } from '@/api/manage'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -22,7 +26,39 @@ const router = createRouter({
       name: 'Login',
       component: LoginView,
       meta: {
-        title: '登录'
+        title: '登录管理员账号'
+      }
+    },
+    {
+      path: '/deviceList',
+      name: 'DeviceList',
+      component: DeviceListView,
+      meta: {
+        title: '设备列表'
+      }
+    },
+    {
+      path: '/device/:device_id',
+      name: 'Device',
+      component: OnceDeviceView,
+      meta: {
+        title: '设备详情'
+      }
+    },
+    {
+      path: '/command',
+      name: 'Command',
+      component: CommandView,
+      meta: {
+        title: '设备控制台'
+      }
+    },
+    {
+      path: '/ai',
+      name: 'AI',
+      component: AiView,
+      meta: {
+        title: 'AI'
       }
     }
   ]
