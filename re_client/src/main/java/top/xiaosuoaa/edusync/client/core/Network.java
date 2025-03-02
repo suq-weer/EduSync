@@ -30,10 +30,8 @@ public class Network {
 	public static class Resource {
 		public static final String GET_INFO_SOFTWARE_CODEBOOK = "api/get_info_software_codeBook.php/";
 		public static final String GET_TOKEN = "function/user/get_token.php";
-        public static final String USE_TOKEN = "function/user/read_token.php";
         public static final String UPLOAD_STATUS = "function/user/upload_device.php";
 		public static final String CHECK_COMMAND = "function/user/get_command.php";
-        public static final String READ_TOKEN = "function/adminr/read_token.php";
         public static final String UPLOAD_COMMAND = "function/user/upload_command.php";
 	}
 
@@ -54,7 +52,8 @@ public class Network {
 				.build();
 		try {
 			// 发送请求并解析响应为JsonObject
-			JsonObject re = gson.fromJson(client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).get().body(), JsonObject.class);
+			String body = client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).get().body();
+			JsonObject re = gson.fromJson(body, JsonObject.class);
 			// 检查服务器返回的状态码
 			if (re.get("states").getAsInt() == 1) {
 				// 如果状态码为1，表示成功，则构造并返回包含数据的JsonObject
@@ -101,16 +100,7 @@ public class Network {
 			return output;
 		} else {
 			// 如果状态不是1，抛出异常，表示服务器内部有异常
-			throw new Exception("服务器内部异常：" + re.get("msg").getAsString());
+			throw new RuntimeException("服务器内部异常：" + re.get("msg").getAsString());
 		}
-	}
-
-
-	public String getIp() {
-		return ip;
-	}
-
-	public String getResource() {
-		return resource;
 	}
 }

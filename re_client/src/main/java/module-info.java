@@ -11,9 +11,6 @@ module top.xiaosuoaa.edusync.client {
 	requires java.logging;
 	requires org.slf4j;
 	requires java.security.jgss;
-	requires com.sun.jna.platform;
-	requires org.apache.logging.log4j;
-	requires org.apache.logging.log4j.core;
 	requires java.management;
 
 	opens top.xiaosuoaa.edusync.client to javafx.fxml;

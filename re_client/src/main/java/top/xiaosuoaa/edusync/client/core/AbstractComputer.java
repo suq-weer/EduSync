@@ -4,15 +4,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import org.apache.logging.log4j.core.util.NetUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import top.xiaosuoaa.edusync.client.HomeApplication;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.math.BigInteger;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -28,10 +23,6 @@ public class AbstractComputer {
 	private static String codeBook;
 	private static String token;
 
-	public static BigInteger getUuid() {
-		return uuid;
-	}
-
 	private static BigInteger uuid;
 
 	private static final Network NETWORK;
@@ -44,7 +35,16 @@ public class AbstractComputer {
 	}
 
 	public AbstractComputer() {
-		uuid = new BigInteger(UUID.nameUUIDFromBytes(NetUtils.getMacAddress()).toString().replace("-", ""), 16);
+		byte[] uuidBytes = UUID.nameUUIDFromBytes(
+				SERVICE_INFO.getSystemInfo()
+						.getHardware()
+						.getNetworkIFs()
+						.getFirst()
+						.getMacaddr()
+						.getBytes()
+		).toString().replace("-", "").getBytes();
+
+		uuid = new BigInteger(1, uuidBytes);
 	}
 
 	/**
@@ -85,20 +85,6 @@ public class AbstractComputer {
 	 */
 	private static void getToken() {
 		try {
-			//检查近期申请过的token
-			NETWORK.setResource(Network.Resource.READ_TOKEN);
-			// 构造请求参数，包含设备ID
-			String data_o = "type=device_id&data=" + uuid;
-			// 发起网络请求获取响应数据
-			JsonObject response_o = NETWORK.get(data_o);
-			// 检查响应是否不为空且状态码为1，表示请求成功
-			if (response_o != null && response_o.get("error").getAsInt() == 0) {
-				// 从响应数据中提取token值
-				token = response_o.get("data").getAsString();
-				// 请求成功并获取到token后，结束当前方法执行
-				return;
-			}
-
 			//申请新的token
 			// 设置网络请求的资源类型为GET_TOKEN
 			NETWORK.setResource(Network.Resource.GET_TOKEN);
@@ -159,30 +145,30 @@ public class AbstractComputer {
 			String data = "token=" + tokenEncoded + "&deviceId=" + uuidEncoded;
 			LOGGER.debug(URLDecoder.decode(data, StandardCharsets.UTF_8));
 			JsonObject response = NETWORK.get(data);
-			if (response != null && response.get("error").getAsInt() == 0) {
+			if (response.get("error").getAsInt() == 0) {
 				JsonArray dataA = response.get("data").getAsJsonArray();
 				JsonArray commands = new JsonArray();
 				for (JsonElement element : dataA) {
-					String command = element.getAsJsonObject().get("data").getAsString();
+					String command = element.getAsJsonObject().get("code").getAsString();
 					int type = element.getAsJsonObject().get("type").getAsInt();
 					LOGGER.info("执行命令：{}", command);
 					try {
 						CommandExecutor executor = new CommandExecutor(this, command, type);
 						commands.add(executor.execute());
 						NETWORK.setResource(Network.Resource.UPLOAD_COMMAND);
-						String commandData = "token=" + tokenEncoded + "&deviceId=" + uuidEncoded + "&commandId=" + element.getAsJsonObject().get("id").getAsString() + "&data=" + commands.getAsString();
+						String commandData = "token=" + tokenEncoded + "&deviceId=" + uuidEncoded + "&commandId=" + element.getAsJsonObject().get("id").getAsString() + "&result=" + commands;
 						JsonObject uploadResponse = NETWORK.post(commandData);
 						if (uploadResponse.get("error").getAsInt() != 0) {
-							HomeApplication.showError("上传命令出错：", new Exception(uploadResponse.get("data").getAsString()), LOGGER);
+							LOGGER.warn("上传命令出错：", new Exception(uploadResponse.get("data").getAsString()));
 						}
 						LOGGER.info("命令执行完成。");
 					} catch (Exception e) {
-						HomeApplication.showError("执行命令出错：", e, LOGGER);
+						LOGGER.warn("执行命令出错：", e);
 					}
 				}
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("获取命令出错：", e);
+			LOGGER.warn("获取命令出错：", e);
 		}
 	}
 
@@ -195,12 +181,12 @@ public class AbstractComputer {
 		private static ProcessBuilder processBuilder;
 		private static List<String> outputList = new ArrayList<>();
 		private static List<String> errorList = new ArrayList<>();
-		private static String command;
+		private static String[] command;
 		private static int type;
 
 		public CommandExecutor(AbstractComputer IComputer, String ICommand, int IType) {
 			computer = IComputer;
-			command = ICommand;
+			command = ICommand.split(" ");
 			type = IType;
 			processBuilder = new ProcessBuilder(command);
 		}
@@ -220,7 +206,11 @@ public class AbstractComputer {
 				output.add("error", new JsonPrimitive(String.join("\n", errorList)));
 				return output;
 			} catch (IOException | InterruptedException e) {
-				throw new RuntimeException(e);
+				JsonObject output = new JsonObject();
+				output.add("result", new JsonPrimitive(-1));
+				output.add("output", new JsonPrimitive(String.join("\n", e.getCause().toString())));
+				output.add("error", new JsonPrimitive(String.join("\n", e.getCause().toString())));
+				return output;
 			}
 		}
 
