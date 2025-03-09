@@ -28,6 +28,8 @@ public class AbstractComputer {
 	private static final Network NETWORK;
 	private static final ServiceInfo SERVICE_INFO;
 
+	private static String otherName = "";
+
 	static {
 		SERVICE_INFO = new ServiceInfo();
 		NETWORK = new Network();

@@ -4,7 +4,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import top.xiaosuoaa.edusync.client.core.AbstractComputer;
 import top.xiaosuoaa.edusync.client.core.StatusUploader;
 
@@ -13,7 +12,6 @@ import java.util.Objects;
 public class ActivityEvent {
 	public static final StatusUploader STATUS_UPLOADER = new StatusUploader();
 	public Label macList;
-	public static VBox logger;
 
 	@FXML
 	public void onUploadStatusButtonClick(ActionEvent event) {
@@ -27,9 +25,5 @@ public class ActivityEvent {
 			StatusUploader.stop();
 			button.setText("上传状态");
 		}
-	}
-
-	public static void add(String record) {
-		logger.getChildren().add(new Label(record));
 	}
 }

@@ -5,12 +5,28 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<TabPane maxHeight="800" maxWidth="400" minHeight="800" minWidth="400" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="top.xiaosuoaa.edusync.client.ActivityEvent">
+<TabPane maxHeight="800" maxWidth="400" minHeight="600" minWidth="400" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="top.xiaosuoaa.edusync.client.ActivityEvent">
     <Tab text="首页">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
             <StackPane prefHeight="770.0" prefWidth="400.0">
                 <Label text="EduSync 客户端控制面板" StackPane.alignment="TOP_CENTER" />
                 <VBox alignment="CENTER" maxHeight="714.0" prefWidth="400.0">
+               <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+                  <opaqueInsets>
+                     <Insets />
+                  </opaqueInsets>
+                  <VBox.margin>
+                     <Insets bottom="50.0" />
+                  </VBox.margin>
+                  <children>
+                     <TextField promptText="备注名……" />
+                     <Button mnemonicParsing="false" text="更改备注">
+                        <HBox.margin>
+                           <Insets left="25.0" />
+                        </HBox.margin>
+                     </Button>
+                  </children>
+               </HBox>
                     <Button cache="true" cacheHint="SPEED" contentDisplay="BOTTOM" onAction="#onUploadStatusButtonClick" text="上传状态">
                         <font>
                             <Font size="32.0" />
@@ -51,14 +67,6 @@
                             </Label>
                         </VBox>
                     </HBox>
-                    <ScrollPane prefHeight="200.0" prefWidth="200.0">
-                        <VBox fx:id="logger" prefHeight="200.0" prefWidth="384.0">
-                            <Label text="日志">
-                        <font>
-                           <Font size="16.0" />
-                        </font></Label>
-                        </VBox>
-                    </ScrollPane>
                 </VBox>
             </StackPane>
         </AnchorPane>
