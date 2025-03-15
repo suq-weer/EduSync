@@ -41,8 +41,8 @@ export default {
         {
           id:3,
           icon: 'widgets',
-          text: '设备控制台',
-          href: '/command'
+          text: '指令列表',
+          href: '/commandList'
         },
         {
           id:4,

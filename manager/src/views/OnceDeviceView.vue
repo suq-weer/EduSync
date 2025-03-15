@@ -74,7 +74,7 @@ export default defineComponent({
       const fetchDeviceInfo_response = await fetchDeviceInfo(device_id.value)
       // const device_data = atob(fetchDeviceInfo_response['data']['data'])
       const device_data = JSON.parse(atob(fetchDeviceInfo_response['data']))
-      console.log(device_data)
+      // console.log(device_data)
 
       device_cpu_status.value = device_data['CPUStatus']
       device_memory_status.value = device_data['MemoryStatus']

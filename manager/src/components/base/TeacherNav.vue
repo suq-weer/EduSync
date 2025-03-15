@@ -17,6 +17,28 @@ const loading = ref<boolean>(false)
 
 const router = useRouter() // 初始化路由实例
 
+
+const getDeviceSystemAvatar = (data: string) => {
+  try {
+    const obj_data = JSON.parse(atob(data))
+    let system = obj_data['SystemOutput']['system']
+    let local = './src/assets/logo/'
+    const theme = window.matchMedia('(prefers-color-scheme: light)').matches;
+
+    if (system.indexOf('Windows') !== -1) {
+      local += 'Windows-' + (theme ? 'Light.svg' : 'Dark.svg')
+    } else if (system.indexOf('Linux') !== -1) {
+      local += 'Linux-' + (theme ? 'Light.svg' : 'Dark.svg')
+    } else {
+      local += '../../logo.svg'
+    }
+    return local
+  } catch (error) {
+    console.error('Error parsing device data:', error)
+    return './src/assets/logo/../../logo.svg'
+  }
+}
+
 /**
  * 异步获取设备列表函数
  *
@@ -73,6 +95,7 @@ onUnmounted(() => {
 const navigateToDevice = (deviceId: string) => {
   router.push(`/${deviceId}`)
 }
+
 </script>
 
 <template>

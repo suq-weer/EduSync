@@ -58,11 +58,11 @@ const router = createRouter({
       }
     },
     {
-      path: '/command',
-      name: 'Command',
+      path: '/commandList',
+      name: 'CommandList',
       component: CommandView,
       meta: {
-        title: '设备控制台'
+        title: '指令列表'
       }
     },
     {
