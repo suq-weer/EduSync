@@ -36,6 +36,13 @@ export const sendCommands = async(body: { uid: UnwrapRef<string>, key: UnwrapRef
 async function readUser(body: { uid: string; key: string }) {
   return await post(body, '/function/admin/read_user.php')
 }
+async function getCommandList (body: { uid: string; key: string }) {
+  return await post(body, '/function/admin/get_list_command.php')
+}
+async function deleteCommand(body: { uid: string; key: string }) {
+  return await post(body, '/function/admin/delete_device.php')
+}
+
 
 
 export const Login = async (uid: string, password: string) => {
@@ -59,4 +66,10 @@ export const send_commands = async (uid: string, key: string, data:UnwrapRef<[st
 }
 export const read_user = async (uid: string, key: string) => {
   return await readUser({ uid: uid, key: key })
+}
+export const get_list_command = async (uid: string, key: string, page:string, length:string, data:UnwrapRef<string>, value:UnwrapRef<string>) => {
+  return await getCommandList({ uid: uid, key: key, page:page, length:length, data:data, value:value })
+}
+export const delete_command = async (uid: string, key: string, commandId:string) => {
+  return await deleteCommand({ uid: uid, key: key, commandId:commandId })
 }

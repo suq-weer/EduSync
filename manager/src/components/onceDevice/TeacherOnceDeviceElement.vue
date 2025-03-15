@@ -1,133 +1,145 @@
 <script setup lang="ts">
-const props = defineProps({
-  device_id: String
-})
-</script>
+import { computed, onMounted, ref ,watch } from 'vue'
+import { CommandsList } from '@/config/CommandsList'
+import { fetch_device_info, send_commands } from '@/api/server'
+import { cookie_read_user } from '@/api/manage'
+import { alert } from 'mdui'
 
-<script lang="ts">
-export default {
-  data() {
-    return {
-      action_list: [
-        {
-          name: '远程关机',
-          icon: 'stop',
-          description: '如果该设备在线，远程关闭该设备。',
-          command: 'shutdown /r /t 5000'
-        },
-        {
-          name: '远程重启',
-          icon: 'restart_alt',
-          description: '如果该设备在线，远程重启该设备。',
-          command: 'powershell.exe /c Restart-Computer'
-        },
-        {
-          name: '远程锁机',
-          icon: 'lock',
-          description: '如果该设备在线，使该设备切换到锁屏状态。',
-          command: 'rundll32.exe user32.dll,LockWorkStation'
-        },
-        {
-          name: '重启设备至BIOS',
-          icon: 'power_settings_new',
-          description: '如果该设备在线，重启至BIOS（设备主板内置的管理界面）。',
-          command: 'shutdown.exe /r /fw /t 5000'
-        },
-        {
-          name: '整理 C 盘',
-          icon: 'cleaning_services',
-          description: '如果该设备在线，对 C 盘进行碎片整理。',
-          command: 'defrag C:'
-        },
-        {
-          name: '远程更新系统',
-          icon: 'update',
-          description: '如果该设备在线，检查并安装系统更新。',
-          command: 'powershell.exe -Command "Start-Process wusa.exe -ArgumentList \'/quiet /norestart\'"'
-        },
-        {
-          name: '远程清理临时文件',
-          icon: 'delete',
-          description: '如果该设备在线，清理临时文件以释放磁盘空间。',
-          command: 'powershell.exe -Command "Get-ChildItem -Path $env:TEMP -Recurse -Force | Remove-Item -Force -Recurse"'
-        },
-        {
-          name: '远程检查磁盘错误',
-          icon: 'check',
-          description: '如果该设备在线，检查磁盘错误。',
-          command: 'chkdsk C: /f /r'
-        },
-        {
-          name: '远程强制关机',
-          icon: 'power_off',
-          description: '如果该设备在线，强制关闭该设备。',
-          command: 'shutdown /s /f /t 0'
-        },
-        {
-          name: '远程注销用户',
-          icon: 'logout',
-          description: '如果该设备在线，注销当前用户。',
-          command: 'shutdown /l'
-        },
-        {
-          name: '远程打开命令提示符',
-          icon: 'terminal',
-          description: '如果该设备在线，打开命令提示符。',
-          command: 'cmd'
-        },
-        {
-          name: '远程打开文件资源管理器',
-          icon: 'folder',
-          description: '如果该设备在线，打开文件资源管理器。',
-          command: 'explorer'
-        },
-        {
-          name: '远程打开控制面板',
-          icon: 'settings',
-          description: '如果该设备在线，打开控制面板。',
-          command: 'control'
-        },
-        {
-          name: '远程打开任务管理器',
-          icon: 'task',
-          description: '如果该设备在线，打开任务管理器。',
-          command: 'taskmgr'
-        },
-        {
-          name: '远程打开设备管理器',
-          icon: 'device_hub',
-          description: '如果该设备在线，打开设备管理器。',
-          command: 'devmgmt.msc'
-        },
-        {
-          name: '远程打开注册表编辑器',
-          icon: 'code',
-          description: '如果该设备在线，打开注册表编辑器。',
-          command: 'regedit'
-        },
-        {
-          name: '远程打开系统信息',
-          icon: 'info',
-          description: '如果该设备在线，打开系统信息。',
-          command: 'msinfo32'
-        },
-        {
-          name: '远程打开事件查看器',
-          icon: 'event',
-          description: '如果该设备在线，打开事件查看器。',
-          command: 'eventvwr'
-        },
-        {
-          name: '远程打开网络连接',
-          icon: 'network_check',
-          description: '如果该设备在线，打开网络连接。',
-          command: 'control netconnections'
-        }
-      ]
+const device_notes = ref<string | null>(null)
+const device_time = ref<string | null>(null)
+const device_system = ref<string | null>(null)
+const device_cpu_status = ref<object | null>(null)
+const device_cpu_name = ref<string | null>(null)
+const device_cpu_usage = ref<number | null>(null)
+const device_memory_status = ref<object | {}>({})
+const device_memory_total = ref<number | null>(null)
+const device_memory_usage = ref<number | null>(null)
+const device_disk_status = ref<string | null>(null)
+
+// 定义 props
+const props = defineProps({
+  device_id: {
+    type: String,
+    required: true,
+    default: ''
+  }
+})
+
+// 使用响应式变量存储 device_id 的值
+const deviceId = ref<string | null>(props.device_id || null)
+
+const fetchDeviceInfo = async (device_id: string) => {
+  try {
+    const response = await fetch_device_info(
+      cookie_read_user()['uid'],
+      cookie_read_user()['key'],
+      device_id
+    )
+    if (response) {
+      return response['data']
     }
+  } catch (error) {
+    console.error('Error fetching device info:', error)
+  }
+}
+
+onMounted(async () => {
+  if (!deviceId.value) {
+    console.error('device_id 参数缺失')
+    return
+  }
+
+  const fetchDeviceInfo_response = await fetchDeviceInfo(deviceId.value)
+  if (!fetchDeviceInfo_response) {
+    console.error('未能获取设备信息')
+    return
+  }
+
+  // 解析设备数据
+  const device_data = JSON.parse(atob(fetchDeviceInfo_response['data']))
+  device_notes.value = fetchDeviceInfo_response['notes']
+
+  device_cpu_status.value = device_data['CPUStatus']
+  device_memory_status.value = device_data['MemoryStatus']
+  device_cpu_name.value = device_cpu_status.value?.['name']
+
+  device_time.value = new Date(fetchDeviceInfo_response['time'] * 1000).toLocaleString()
+  device_system.value = device_data['SystemOutput']?.['system']
+  device_cpu_usage.value = device_cpu_status.value?.['percent']
+  device_memory_total.value = device_memory_status.value?.['total']
+  device_memory_usage.value = device_memory_status.value?.['used']
+
+  device_disk_status.value = device_data['DiskStatus']
+})
+
+const commandList = computed(() => {
+  const system = device_system.value || '' // 处理可能的 null 或 undefined
+  if (system.includes('Windows')) {
+    return CommandsList('Windows')
+  } else if (system.includes('Linux')) {
+    return CommandsList('Linux')
+  } else {
+    return []
+  }
+})
+
+function if_deviceStatus(time:number) {
+  // console.log(Date.now() - Math.floor(new Date(time)))
+  return Date.now() - Math.floor(new Date(time)) < 180000;
+}
+
+
+watch(() => props.device_id,
+  async (newDeviceId) => {
+    if (!newDeviceId) {
+      console.error('device_id 参数缺失')
+      return
+    }
+
+    deviceId.value = newDeviceId
+    const fetchDeviceInfo_response = await fetchDeviceInfo(newDeviceId)
+    if (!fetchDeviceInfo_response) {
+      console.error('未能获取设备信息')
+      return
+    }
+
+    // 解析设备数据
+    const device_data = JSON.parse(atob(fetchDeviceInfo_response['data']))
+    device_notes.value = fetchDeviceInfo_response['notes']
+
+    device_cpu_status.value = device_data['CPUStatus']
+    device_memory_status.value = device_data['MemoryStatus']
+    device_cpu_name.value = device_cpu_status.value?.['name']
+
+    device_time.value = new Date(fetchDeviceInfo_response['time'] * 1000).toLocaleString()
+    device_system.value = device_data['SystemOutput']?.['system']
+    device_cpu_usage.value = device_cpu_status.value?.['percent']
+    device_memory_total.value = device_data['MemoryStatus']?.['total']
+    device_memory_usage.value = device_data['MemoryStatus']?.['used']
+
+    device_disk_status.value = device_data['DiskStatus']
+  }
+)
+
+const sendCommands = async (command: string) => {
+  const list = [
+    {
+      "type":1,
+      "code": command,
+      "deviceId": props.device_id,
+    }
+  ]
+  const result = await send_commands(cookie_read_user()['uid'], cookie_read_user()['key'], list)
+  if (result){
+    await alert({
+      headline: "结果",
+      description: result['data'],
+      confirmText: "好的",
+    })
   }
 }
 </script>
+
 
 <template>
   <mdui-card class="card">
@@ -140,11 +152,11 @@ export default {
       <p>对 {{props.device_id}}：</p>
     </mdui-tooltip>
     <div>
-      <mdui-tooltip v-for="action in action_list" v-bind:key="action.name" variant="rich">
-        <mdui-button style="margin: 0.25rem;" :icon="action.icon">{{action.name}}</mdui-button>
-        <h3 slot="headline">{{action.name}}</h3>
+      <mdui-tooltip v-for="command in commandList" v-bind:key="command.command" variant="rich" @click="sendCommands(command.command)">
+        <mdui-button style="margin: 0.25rem;" :icon="command.icon">{{command.name}}</mdui-button>
+        <h3 slot="headline">{{command.name}}</h3>
         <div slot="content">
-          {{action.description}}
+          {{command.description}}
         </div>
       </mdui-tooltip>
     </div>
@@ -155,12 +167,14 @@ export default {
       <mdui-tooltip
         variant="rich"
         content="该设备正在运行中且监管服务正常。"
+        v-if=if_deviceStatus(device_time)
       >
         <p style="color: rgba(var(--mdui-color-primary))">当前在线</p>
       </mdui-tooltip>
       <mdui-tooltip
         variant="rich"
         content="该设备未运行或无法连接到该设备。"
+        v-else
       >
         <p style="color: rgba(var(--mdui-color-error))">已离线</p>
       </mdui-tooltip>
@@ -168,7 +182,7 @@ export default {
         variant="rich"
         content="该设备上次与服务器互动的时间。"
       >
-        <p>上次在线：1145/1/4</p>
+        <p>上次在线：{{ device_time || '未知' }}</p>
       </mdui-tooltip>
     </mdui-card>
     <mdui-card class="card line right">
@@ -177,14 +191,42 @@ export default {
         variant="rich"
         content="设备的名称，请在对应设备修改。"
       >
-        <p>备注名：desk</p>
+        <p>备注名：{{device_notes}}</p>
       </mdui-tooltip>
       <mdui-tooltip
         variant="rich"
         content="如果该设备占用率长时间过高，设备可能无法正常连接，请检查该设备。"
       >
-        <p>CPU占用率：0% 内存占用率：0% </p>
+        <p>CPU占用率：{{ Math.ceil(device_cpu_usage) }}% 内存占用率：{{ Math.ceil(device_memory_total / device_memory_total) }}% </p>
       </mdui-tooltip>
+      <div class="cpu_mem">
+        <div>
+          <!--注：py端CPU使用率是单核使用率，你可以相加除以核心数（JSON数组长度）-->
+          <mdui-circular-progress max="100" :value="device_cpu_usage"></mdui-circular-progress>
+          <p>CPU: {{ Math.ceil(device_cpu_usage) }}%</p>
+        </div>
+        <div>
+          <!--直接拿客户端数据填充（客户端传输来的数据以 iB 为单位）-->
+          <mdui-circular-progress
+            :max="device_memory_total"
+            :value="device_memory_usage"
+          ></mdui-circular-progress>
+          <p>Mem: {{ Math.ceil(device_memory_total / device_memory_total) }}%</p>
+        </div>
+      </div>
+    </mdui-card>
+    <mdui-card class="part">
+      <h3>磁盘状态</h3>
+      <div class="disk_status">
+        <div v-for="disk_status in device_disk_status" :key="disk_status.name">
+          <!--直接拿客户端数据填充（客户端传输来的数据以 B 为单位）-->
+          <mdui-circular-progress
+            :max="disk_status.total"
+            :value="disk_status.used"
+          ></mdui-circular-progress>
+          <p>{{disk_status.name}}: {{Math.ceil(disk_status.used/Math.pow(1024, 3))}}G/{{Math.ceil(disk_status.total/Math.pow(1024, 3))}}G {{ Math.ceil(disk_status.percent) }}%</p>
+        </div>
+      </div>
     </mdui-card>
   </div>
 </template>

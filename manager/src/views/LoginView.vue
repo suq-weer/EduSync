@@ -12,13 +12,14 @@ import { Login, read_user } from '@/api/server.ts'
 import router from '@/router/index.ts'
 import { alert } from 'mdui/functions/alert'
 import { cookie_write_user } from '@/api/manage.ts'
+import { cookie_read_user } from '@/api/manage.ts'
 import { accountStates } from '@/states'
 
 export default {
   data() {
     return {
-      uid: 'xiaoyi',
-      pass: 'xiaoyi..',
+      uid: cookie_read_user()['uid'],
+      pass: cookie_read_user()['pass'],
     }
   },
   methods: {
