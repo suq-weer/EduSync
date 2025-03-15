@@ -25,9 +25,9 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import OnceDeviceStatus from '@/components/OnceDeviceStatus.vue'
-import OnceDeviceActions from '@/components/OnceDeviceActions.vue'
-import OnceDeviceCommands from '@/components/OnceDeviceCommands.vue'
+import OnceDeviceStatus from '@/components/onceDevice/OnceDeviceStatus.vue'
+import OnceDeviceActions from '@/components/onceDevice/OnceDeviceActions.vue'
+import OnceDeviceCommands from '@/components/onceDevice/OnceDeviceCommands.vue'
 import AiView from '@/views/AiView.vue'
 import { fetch_device_info } from '@/api/server'
 import { cookie_read_user } from '@/api/manage'

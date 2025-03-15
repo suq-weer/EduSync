@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import MarkdownIt from 'markdown-it'
-import AiPoop from '@/components/AIPoop.vue'
-import UserPoop from '@/components/UserPoop.vue'
+import AiPoop from '@/components/ai/AIPoop.vue'
+import UserPoop from '@/components/ai/UserPoop.vue'
 import { information } from '@/config/Config'
 
 // 初始化Markdown解析器

@@ -8,12 +8,11 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import { Login } from '@/api/server.ts'
-import Cookies from 'js-cookie'
+import { Login, read_user } from '@/api/server.ts'
 import router from '@/router/index.ts'
-import { alert } from 'mdui/functions/alert.js'
+import { alert } from 'mdui/functions/alert'
 import { cookie_write_user } from '@/api/manage.ts'
+import { accountStates } from '@/states'
 
 export default {
   data() {
@@ -24,6 +23,7 @@ export default {
   },
   methods: {
     async login() {
+      const accountStore = accountStates()
 
       // console.log(Cookies.get())
       if (!(this.uid && this.pass)) {
@@ -35,7 +35,12 @@ export default {
         //判断结果
         if (result['states'] === 1) {
           console.log("登录成功")
-          await cookie_write_user({ uid: this.uid, pass: this.pass, key: result['data'] })
+          await read_user(this.uid, result['data']).then((result) => {
+            if (result['states'] === 1) {
+              accountStore.setPower(result['data']['power'])
+            }
+          })
+          await cookie_write_user({ uid: this.uid, pass: this.pass, key: result['data'] }, accountStore.power)
           await router.replace({ name: 'home' })
         } else {
 

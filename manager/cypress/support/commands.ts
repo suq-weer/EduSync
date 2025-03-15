@@ -27,7 +27,7 @@
 //
 // declare global {
 //   namespace Cypress {
-//     interface Chainable {
+//     base Chainable {
 //       login(email: string, password: string): Chainable<void>
 //       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
 //       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>

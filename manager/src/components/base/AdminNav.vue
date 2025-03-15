@@ -1,13 +1,13 @@
 <template>
   <mdui-top-app-bar style="position: relative">
     <mdui-button-icon ref="button"><mdui-icon name="menu"></mdui-icon></mdui-button-icon>
-    <mdui-top-app-bar-title><mdui-avatar><img src="@/assets/logo.svg" style="max-width: 100%;max-height: 100%" alt=""></mdui-avatar> EduSync 后台</mdui-top-app-bar-title>
+    <mdui-top-app-bar-title><mdui-avatar><img src="../../assets/logo.svg" style="max-width: 100%;max-height: 100%" alt=""></mdui-avatar> EduSync 后台</mdui-top-app-bar-title>
     <div style="flex-grow: 1"></div>
   </mdui-top-app-bar>
   <mdui-navigation-drawer close-on-overlay-click close-on-esc ref="drawer">
     <div style="padding: 20px;">
       <mdui-avatar  style="margin-right: 0.5rem">
-        <img src="@/assets/logo.svg" alt="" style="max-width: 100%;max-height: 100%">
+        <img src="../../assets/logo.svg" alt="" style="max-width: 100%;max-height: 100%">
       </mdui-avatar>
       <b style="font-size: 20px;text-align: center; vertical-align: middle;">EduSync 后台</b>
     </div>
@@ -16,7 +16,7 @@
     </mdui-list>
   </mdui-navigation-drawer>
 </template>
-<style></style>
+
 <script lang="ts">
 import 'mdui/components/button-icon.js'
 import 'mdui/components/icon.js'
