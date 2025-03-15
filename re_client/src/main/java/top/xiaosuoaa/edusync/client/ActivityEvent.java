@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import top.xiaosuoaa.edusync.client.core.AbstractComputer;
 import top.xiaosuoaa.edusync.client.core.StatusUploader;
 
@@ -14,11 +15,18 @@ public class ActivityEvent {
 	public Label macList;
 
 	@FXML
-	public void onUploadStatusButtonClick(ActionEvent event) {
+	private TextField otherNameField;
+
+	@FXML
+    public void onUploadStatusButtonClick(ActionEvent event) {
 		Button button = (Button) event.getSource();
 		if (Objects.equals(button.getText(), "上传状态")) {
 			STATUS_UPLOADER.start();
 			macList.setText(new AbstractComputer().getUUID().toString());
+
+			// 获取备注名并设置到AbstractComputer
+			String otherName = otherNameField.getText();
+			AbstractComputer.setOtherName(otherName);
 
 			button.setText("停止上传");
 		} else if (Objects.equals(button.getText(), "停止上传")) {

@@ -11,22 +11,20 @@
             <StackPane prefHeight="770.0" prefWidth="400.0">
                 <Label text="EduSync 客户端控制面板" StackPane.alignment="TOP_CENTER" />
                 <VBox alignment="CENTER" maxHeight="714.0" prefWidth="400.0">
-               <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
-                  <opaqueInsets>
-                     <Insets />
-                  </opaqueInsets>
-                  <VBox.margin>
-                     <Insets bottom="50.0" />
-                  </VBox.margin>
-                  <children>
-                     <TextField promptText="备注名……" />
-                     <Button mnemonicParsing="false" text="更改备注">
-                        <HBox.margin>
-                           <Insets left="25.0" />
-                        </HBox.margin>
-                     </Button>
-                  </children>
-               </HBox>
+                    <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
+                        <opaqueInsets>
+                            <Insets/>
+                        </opaqueInsets>
+                        <VBox.margin>
+                            <Insets bottom="25.0"/>
+                        </VBox.margin>
+                        <TextField fx:id="otherNameField" promptText="备注名……"/>
+                        <Button mnemonicParsing="false" text="更改备注">
+                            <HBox.margin>
+                                <Insets left="25.0"/>
+                            </HBox.margin>
+                        </Button>
+                    </HBox>
                     <Button cache="true" cacheHint="SPEED" contentDisplay="BOTTOM" onAction="#onUploadStatusButtonClick" text="上传状态">
                         <font>
                             <Font size="32.0" />

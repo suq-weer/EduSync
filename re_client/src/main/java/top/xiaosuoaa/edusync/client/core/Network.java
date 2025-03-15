@@ -33,6 +33,8 @@ public class Network {
         public static final String UPLOAD_STATUS = "function/user/upload_device.php";
 		public static final String CHECK_COMMAND = "function/user/get_command.php";
         public static final String UPLOAD_COMMAND = "function/user/upload_command.php";
+		public static final String UPLOAD_ANOTHER_NAME = "function/user/upload_device_notes.php";
+
 	}
 
 	/**

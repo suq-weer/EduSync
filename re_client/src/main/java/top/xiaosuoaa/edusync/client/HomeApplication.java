@@ -32,7 +32,6 @@ public class HomeApplication extends Application {
 	}
 
 	public static void showError(String message, Exception e, Logger logger) {
-		ActivityEvent.add(message);
 		logger.error(message, e);
 	}
 }

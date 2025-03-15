@@ -109,12 +109,50 @@ public class AbstractComputer {
 		}
 	}
 
+	public static void setOtherName(String name) {
+		otherName = name;
+	}
+
 	public void sync() {
 		getCodeBook();
 		getToken();
 		getCommand();
 		uploadStatus();
+		uploadOtherName();
 		LOGGER.info("Token sync.");
+	}
+
+	/**
+	 * 上传别名到服务器
+	 * 此方法负责将应用中的别名上传到远程服务器，以便进行集中处理或显示
+	 * 它首先检查是否有需要上传的别名，然后对必要数据进行编码以准备传输，
+	 * 并通过网络请求将数据发送到服务器最后处理服务器的响应
+	 */
+	private static void uploadOtherName() {
+	    // 检查是否有需要上传的别名
+	    if (otherName != null && !otherName.isEmpty()) {
+	        try {
+	            // 设置网络资源以上传别名
+	            NETWORK.setResource(Network.Resource.UPLOAD_ANOTHER_NAME);
+	            // 对token进行URL编码，以确保在网络传输中的特殊字符被正确处理
+	            String tokenEncoded = URLEncoder.encode(token, StandardCharsets.UTF_8);
+	            // 对设备ID（UUID）进行URL编码
+	            String uuidEncoded = URLEncoder.encode(String.valueOf(uuid), StandardCharsets.UTF_8);
+	            // 构建要发送的数据字符串
+	            String data = "token=" + tokenEncoded + "&deviceId=" + uuidEncoded + "&data=" + otherName;
+	            // 发送POST请求并接收响应
+	            JsonObject response = NETWORK.post(data);
+	            // 检查响应是否不为空且状态码不为0，否则抛出异常
+	            if (response != null && response.get("error").getAsInt() != 0) {
+	                throw new RuntimeException("状态码不为1或无法解析回复内容");
+	            }
+	            // 记录日志：别名上传成功
+	            LOGGER.info("Other name uploaded.");
+	        } catch (Exception e) {
+	            // 如果发生异常，抛出运行时异常并包含原始异常信息
+	            throw new RuntimeException("上传备注名出错：", e);
+	        }
+	    }
 	}
 
 	private static void uploadStatus() {
