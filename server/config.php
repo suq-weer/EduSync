@@ -42,6 +42,12 @@ function info_server($aim): string//后端
         "result_failure_get_list_device" => "获取设备列表失败",
         "result_success_get_list_command" => "获取指令列表成功",
         "result_failure_get_list_command" => "获取指令列表失败",
+        "result_success_delete_device" => "删除设备成功",
+        "result_failure_delete_device" => "删除设备失败",
+        "result_success_admin_read_device" => "读取设备成功",
+        "result_failure_admin_read_device" => "读取设备失败",
+        "result_success_read_admin_user" => "读取用户成功",
+        "result_failure_read_admin_user" => "读取用户失败",
     ];
     return $data[$aim];
 }
