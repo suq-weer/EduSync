@@ -10,8 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 public class StatusUploader {
 	private static final Logger LOGGER = LoggerFactory.getLogger(StatusUploader.class);
-	private static ScheduledExecutorService scheduler;
 	public static volatile boolean running;
+	private static ScheduledExecutorService scheduler;
 
 	/**
 	 * 启动上传进程
@@ -19,25 +19,25 @@ public class StatusUploader {
 	 * 如果进程未运行，则设置运行状态为true，并使用单线程调度器安排定期执行上传任务
 	 * 上传任务是同步操作，执行失败时会记录错误信息
 	 */
-	public void start() {
-	    // 检查上传进程是否已经在运行
-	    if (running) {
-	        LOGGER.warn("StatusUploader is already running.");
-	        return;
-	    }
-	    running = true;
-	    scheduler = Executors.newSingleThreadScheduledExecutor();
-	    // 定期执行上传任务，初始延迟为0，之后每5秒执行一次
-	    scheduler.scheduleAtFixedRate(() -> {
-	        try {
-	            // 执行同步操作
-	            new AbstractComputer().sync();
-	        } catch (Exception e) {
-	            // 处理上传过程中出现的异常
-	            HomeApplication.showError("上传进程中发生了意料之外的结果：", e, LOGGER);
-	        }
-	    }, 0, 5, TimeUnit.SECONDS);
-	    LOGGER.info("上传进程已启动。");
+	public static void start() {
+		// 检查上传进程是否已经在运行
+		if (running) {
+			LOGGER.warn("StatusUploader is already running.");
+			return;
+		}
+		running = true;
+		scheduler = Executors.newSingleThreadScheduledExecutor();
+		// 定期执行上传任务，初始延迟为0，之后每5秒执行一次
+		scheduler.scheduleAtFixedRate(() -> {
+			try {
+				// 执行同步操作
+				new AbstractComputer().sync();
+			} catch (Exception e) {
+				// 处理上传过程中出现的异常
+				HomeApplication.showError("上传进程中发生了意料之外的结果：", e, LOGGER);
+			}
+		}, 0, 5, TimeUnit.SECONDS);
+		LOGGER.info("上传进程已启动。");
 	}
 
 	public static void stop() {

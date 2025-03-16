@@ -4,12 +4,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-
-<TabPane maxHeight="800" maxWidth="400" minHeight="600" minWidth="400" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="top.xiaosuoaa.edusync.client.ActivityEvent">
+<TabPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="800" maxWidth="400" minHeight="600" minWidth="400"
+         tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/17.0.12"
+         fx:controller="top.xiaosuoaa.edusync.client.ActivityEvent">
     <Tab text="首页">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
             <StackPane prefHeight="770.0" prefWidth="400.0">
-                <Label text="EduSync 客户端控制面板" StackPane.alignment="TOP_CENTER" />
+                <Label text="EduSync 客户端控制面板" StackPane.alignment="TOP_CENTER"/>
                 <VBox alignment="CENTER" maxHeight="714.0" prefWidth="400.0">
                     <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
                         <opaqueInsets>
@@ -25,42 +26,43 @@
                             </HBox.margin>
                         </Button>
                     </HBox>
-                    <Button cache="true" cacheHint="SPEED" contentDisplay="BOTTOM" onAction="#onUploadStatusButtonClick" text="上传状态">
+                    <Button cache="true" cacheHint="SPEED" contentDisplay="BOTTOM" onAction="#onUploadStatusButtonClick"
+                            text="上传状态">
                         <font>
-                            <Font size="32.0" />
+                            <Font size="32.0"/>
                         </font>
-                  <VBox.margin>
-                     <Insets bottom="20.0" />
-                  </VBox.margin>
+                        <VBox.margin>
+                            <Insets bottom="20.0"/>
+                        </VBox.margin>
                     </Button>
                     <HBox maxHeight="100" maxWidth="350" style="-fx-padding: 15; -fx-background-color: #aaccff;">
                         <opaqueInsets>
-                            <Insets />
+                            <Insets/>
                         </opaqueInsets>
                         <VBox.margin>
-                            <Insets top="10.0" />
+                            <Insets top="10.0"/>
                         </VBox.margin>
                         <VBox prefHeight="70.0" prefWidth="192.0">
                             <Label text="Mac地址（设备ID）">
                                 <font>
-                                    <Font size="18.0" />
+                                    <Font size="18.0"/>
                                 </font>
                             </Label>
                             <Label fx:id="macList" text="Null">
                                 <font>
-                                    <Font size="16.0" />
+                                    <Font size="16.0"/>
                                 </font>
                             </Label>
                         </VBox>
                         <VBox alignment="TOP_RIGHT" prefHeight="70.0" prefWidth="188.0">
                             <Label text="当前版本">
                                 <font>
-                                    <Font size="18.0" />
+                                    <Font size="18.0"/>
                                 </font>
                             </Label>
                             <Label text="1.0">
                                 <font>
-                                    <Font size="16.0" />
+                                    <Font size="16.0"/>
                                 </font>
                             </Label>
                         </VBox>

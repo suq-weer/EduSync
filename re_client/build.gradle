@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'top.xiaosuoaa.edusync.client'
-version '1.0'
+version '1.1'
 
 repositories {
     mavenCentral()
@@ -55,6 +55,14 @@ jlink {
     launcher {
         name = 'EduSync'
         args = ['--user', 'Xiaosu', '--win-menu', '–-win-menu-group', 'EduSync', '--verbose']
+    }
+    jpackage {
+        icon = file('src/main/resources/top/xiaosuoaa/edusync/client/assets/logo.png')
+        icon = file('src/main/resources/top/xiaosuoaa/edusync/client/assets/logo.ico')
+        installerOptions = [
+            '--win-menu',
+            '--win-shortcut'
+        ]
     }
 }
 

@@ -11,18 +11,17 @@ import top.xiaosuoaa.edusync.client.core.StatusUploader;
 import java.util.Objects;
 
 public class ActivityEvent {
-	public static final StatusUploader STATUS_UPLOADER = new StatusUploader();
 	public Label macList;
 
 	@FXML
 	private TextField otherNameField;
 
 	@FXML
-    public void onUploadStatusButtonClick(ActionEvent event) {
+	public void onUploadStatusButtonClick(ActionEvent event) {
 		Button button = (Button) event.getSource();
 		if (Objects.equals(button.getText(), "上传状态")) {
-			STATUS_UPLOADER.start();
-			macList.setText(new AbstractComputer().getUUID().toString());
+			StatusUploader.start();
+			macList.setText(new AbstractComputer().getUUID());
 
 			// 获取备注名并设置到AbstractComputer
 			String otherName = otherNameField.getText();

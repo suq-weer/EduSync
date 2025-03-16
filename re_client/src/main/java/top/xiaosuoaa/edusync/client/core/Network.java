@@ -13,6 +13,8 @@ import java.net.http.HttpResponse;
 public class Network {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Network.class);
 	private static final String ip = "http://edusync619.yiyu14.top/server/";
+	private static final HttpClient client = HttpClient.newHttpClient();
+	private static final Gson gson = new Gson();
 	private static String resource;
 
 	/**
@@ -22,19 +24,6 @@ public class Network {
 	 */
 	public void setResource(String resource) {
 		Network.resource = resource;
-	}
-
-	private static final HttpClient client = HttpClient.newHttpClient();
-	private static final Gson gson = new Gson();
-
-	public static class Resource {
-		public static final String GET_INFO_SOFTWARE_CODEBOOK = "api/get_info_software_codeBook.php/";
-		public static final String GET_TOKEN = "function/user/get_token.php";
-        public static final String UPLOAD_STATUS = "function/user/upload_device.php";
-		public static final String CHECK_COMMAND = "function/user/get_command.php";
-        public static final String UPLOAD_COMMAND = "function/user/upload_command.php";
-		public static final String UPLOAD_ANOTHER_NAME = "function/user/upload_device_notes.php";
-
 	}
 
 	/**
@@ -75,7 +64,6 @@ public class Network {
 		}
 	}
 
-
 	/**
 	 * 向指定的URI发送POST请求，并解析响应为JsonObject
 	 * 此方法主要用于与服务器进行数据交互，发送POST请求并处理响应
@@ -104,5 +92,15 @@ public class Network {
 			// 如果状态不是1，抛出异常，表示服务器内部有异常
 			throw new RuntimeException("服务器内部异常：" + re.get("msg").getAsString());
 		}
+	}
+
+	public static class Resource {
+		public static final String GET_INFO_SOFTWARE_CODEBOOK = "api/get_info_software_codeBook.php/";
+		public static final String GET_TOKEN = "function/user/get_token.php";
+		public static final String UPLOAD_STATUS = "function/user/upload_device.php";
+		public static final String CHECK_COMMAND = "function/user/get_command.php";
+		public static final String UPLOAD_COMMAND = "function/user/upload_command.php";
+		public static final String UPLOAD_ANOTHER_NAME = "function/user/upload_device_notes.php";
+
 	}
 }

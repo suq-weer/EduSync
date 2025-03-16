@@ -18,9 +18,27 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 public class ServiceInfo {
+	public static final int FORMAT_VERSION = 2;
 	private static final Logger LOGGER = LoggerFactory.getLogger(ServiceInfo.class);
-
 	private SystemInfo systemInfo;
+	private CentralProcessor processor;
+	private long cpuTime;
+	private int cpuCount;
+	private double cpuPercent;
+	private String cpuName;
+	private String cpuArchitecture;
+	private MemoryMXBean memory;
+	private long memoryTotal;
+	private long memoryUsed;
+	private OperatingSystem operatingSystem;
+	private List<OnceDisk> diskInfo;
+	private String system;
+	private String systemVersion;
+
+	public ServiceInfo() {
+		this.systemInfo = new SystemInfo();
+		collectSystemInfo();
+	}
 
 	public SystemInfo getSystemInfo() {
 		return systemInfo;
@@ -76,27 +94,6 @@ public class ServiceInfo {
 
 	public String getSystemVersion() {
 		return systemVersion;
-	}
-
-	private CentralProcessor processor;
-	private long cpuTime;
-	private int cpuCount;
-	private double cpuPercent;
-	private String cpuName;
-	private String cpuArchitecture;
-	private MemoryMXBean memory;
-	private long memoryTotal;
-	private long memoryUsed;
-	private OperatingSystem operatingSystem;
-	private List<OnceDisk> diskInfo;
-	private String system;
-	private String systemVersion;
-
-	public static final int FORMAT_VERSION = 2;
-
-	public ServiceInfo() {
-		this.systemInfo = new SystemInfo();
-		collectSystemInfo();
 	}
 
 	private void collectSystemInfo() {
@@ -155,45 +152,60 @@ public class ServiceInfo {
 	 * @return JsonObject 包含系统信息的JSON对象
 	 */
 	public JsonObject getJSONInfo() {
-	    // 实例化系统信息对象
-	    systemInfo = new SystemInfo();
-	    // 创建一个JsonObject来存储所有系统信息
-	    JsonObject output = new JsonObject();
-	    // 创建并填充CPU信息
-	    JsonObject cpuInfo = new JsonObject();
-	    cpuInfo.addProperty("time", cpuTime);
-	    cpuInfo.addProperty("count", cpuCount);
-	    cpuInfo.addProperty("percent", cpuPercent);
+		// 实例化系统信息对象
+		systemInfo = new SystemInfo();
+		// 创建一个JsonObject来存储所有系统信息
+		JsonObject output = new JsonObject();
+		// 创建并填充CPU信息
+		JsonObject cpuInfo = new JsonObject();
+		cpuInfo.addProperty("time", cpuTime);
+		cpuInfo.addProperty("count", cpuCount);
+		cpuInfo.addProperty("percent", cpuPercent);
 		//warn: name被要求改成processor
-	    cpuInfo.addProperty("processor"/*"name"*/, cpuName);
-	    cpuInfo.addProperty("architecture", cpuArchitecture);
-	    // 创建并填充内存状态
-	    JsonObject memStatus = new JsonObject();
-	    memStatus.addProperty("total", memoryTotal);
-	    memStatus.addProperty("used", memoryUsed);
-	    // 创建磁盘状态数组，并遍历每个磁盘信息添加到数组中
-	    JsonArray diskStatus = new JsonArray();
-	    for (OnceDisk onceDisk : diskInfo) {
-	        diskStatus.add(onceDisk.forJson());
-	    }
-	    // 创建并填充系统输出信息
-	    JsonObject systemOutput = new JsonObject();
-	    systemOutput.addProperty("system", system);
-	    systemOutput.addProperty("version", systemVersion);
+		cpuInfo.addProperty("processor"/*"name"*/, cpuName);
+		cpuInfo.addProperty("architecture", cpuArchitecture);
+		// 创建并填充内存状态
+		JsonObject memStatus = new JsonObject();
+		memStatus.addProperty("total", memoryTotal);
+		memStatus.addProperty("used", memoryUsed);
+		// 创建磁盘状态数组，并遍历每个磁盘信息添加到数组中
+		JsonArray diskStatus = new JsonArray();
+		for (OnceDisk onceDisk : diskInfo) {
+			diskStatus.add(onceDisk.forJson());
+		}
+		// 创建并填充系统输出信息
+		JsonObject systemOutput = new JsonObject();
+		systemOutput.addProperty("system", system);
+		systemOutput.addProperty("version", systemVersion);
 
 		// 存放格式版本
 		output.addProperty("format_version", FORMAT_VERSION);
-	    // 将CPU、内存、磁盘和系统输出信息添加到输出对象中
-	    output.add("CPUStatus", cpuInfo);
-	    output.add("MemoryStatus", memStatus);
-	    output.add("DiskStatus", diskStatus);
-	    output.add("SystemOutput", systemOutput);
-	    // 返回包含所有系统信息的JSON对象
-	    return output;
+		// 将CPU、内存、磁盘和系统输出信息添加到输出对象中
+		output.add("CPUStatus", cpuInfo);
+		output.add("MemoryStatus", memStatus);
+		output.add("DiskStatus", diskStatus);
+		output.add("SystemOutput", systemOutput);
+		// 返回包含所有系统信息的JSON对象
+		return output;
 	}
 
 	public static class OnceDisk {
 		private final OSFileStore osFileStore;
+		private final String name;
+		private final long total;
+		private final long used;
+		private final long free;
+		private final double percent;
+
+		public OnceDisk(OSFileStore fs) {
+			this.osFileStore = fs;
+			this.name = fs.getName();
+			this.total = fs.getTotalSpace();
+			this.free = fs.getUsableSpace();
+			this.used = total - free;
+			double percent = used * 1.0 / total;
+			this.percent = Double.isNaN(percent) ? 0 : percent;
+		}
 
 		public String getName() {
 			return name;
@@ -213,22 +225,6 @@ public class ServiceInfo {
 
 		public double getPercent() {
 			return percent;
-		}
-
-		private final String name;
-		private final long total;
-		private final long used;
-		private final long free;
-		private final double percent;
-
-		public OnceDisk(OSFileStore fs) {
-			this.osFileStore = fs;
-			this.name = fs.getName();
-			this.total = fs.getTotalSpace();
-			this.free = fs.getUsableSpace();
-			this.used = total - free;
-			double percent = used * 1.0 / total;
-			this.percent = Double.isNaN(percent) ? 0 : percent;
 		}
 
 		public JsonObject forJson() {
