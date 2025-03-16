@@ -63,6 +63,7 @@ jlink {
             '--win-menu',
             '--win-shortcut'
         ]
+        vendor = 'EduSync Team'
     }
 }
 

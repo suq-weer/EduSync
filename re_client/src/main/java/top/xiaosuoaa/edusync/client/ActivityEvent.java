@@ -8,11 +8,12 @@ import javafx.scene.control.TextField;
 import top.xiaosuoaa.edusync.client.core.AbstractComputer;
 import top.xiaosuoaa.edusync.client.core.StatusUploader;
 
+import java.awt.*;
 import java.util.Objects;
 
 public class ActivityEvent {
+	@FXML
 	public Label macList;
-
 	@FXML
 	private TextField otherNameField;
 
@@ -31,6 +32,15 @@ public class ActivityEvent {
 		} else if (Objects.equals(button.getText(), "停止上传")) {
 			StatusUploader.stop();
 			button.setText("上传状态");
+		}
+	}
+
+	@FXML
+	public void onUploadOtherNameButtonClick(ActionEvent actionEvent) {
+		String text = otherNameField.getText();
+		if (!text.isEmpty() && !text.equals(AbstractComputer.getOtherName())) {
+			AbstractComputer.setOtherName(text);
+			TrayNotificationManager.showNotification("上传成功", "更改备注名成功", TrayIcon.MessageType.INFO);
 		}
 	}
 }

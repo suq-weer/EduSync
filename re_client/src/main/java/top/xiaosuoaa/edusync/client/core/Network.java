@@ -4,11 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import top.xiaosuoaa.edusync.client.TrayNotificationManager;
 
+import java.awt.*;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Objects;
 
 public class Network {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Network.class);
@@ -55,6 +58,9 @@ public class Network {
 			} else {
 				// 如果状态码不为1，表示请求失败，抛出异常
 				LOGGER.error("服务器内部异常：{}", re.get("msg").getAsString());
+				if (!Objects.equals(re.get("msg").getAsString(), "读取指令失败")) {
+					TrayNotificationManager.showNotification("服务器内部异常：", re.get("msg").getAsString(), TrayIcon.MessageType.INFO);
+				}
 				return null;
 			}
 		} catch (Throwable e) {
@@ -90,6 +96,7 @@ public class Network {
 			return output;
 		} else {
 			// 如果状态不是1，抛出异常，表示服务器内部有异常
+			TrayNotificationManager.showNotification("EduSync","服务器内部异常：" + re.get("msg").getAsString(), TrayIcon.MessageType.INFO);
 			throw new RuntimeException("服务器内部异常：" + re.get("msg").getAsString());
 		}
 	}

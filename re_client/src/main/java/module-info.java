@@ -12,6 +12,7 @@ module top.xiaosuoaa.edusync.client {
 	requires java.management;
 	requires javafx.controls;
 	requires java.desktop;
+	requires java.prefs;
 
 	opens top.xiaosuoaa.edusync.client to javafx.fxml;
 	exports top.xiaosuoaa.edusync.client;
