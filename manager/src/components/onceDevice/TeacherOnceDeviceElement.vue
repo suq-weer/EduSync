@@ -197,36 +197,22 @@ const sendCommands = async (command: string) => {
         variant="rich"
         content="如果该设备占用率长时间过高，设备可能无法正常连接，请检查该设备。"
       >
-        <p>CPU占用率：{{ Math.ceil(device_cpu_usage) }}% 内存占用率：{{ Math.ceil(device_memory_total / device_memory_total) }}% </p>
+        <div class="cpu_mem">
+          <div>
+            <!--注：py端CPU使用率是单核使用率，你可以相加除以核心数（JSON数组长度）-->
+            <mdui-circular-progress max="100" :value="device_cpu_usage"></mdui-circular-progress>
+            <p>CPU: {{ Math.ceil(device_cpu_usage) }}%</p>
+          </div>
+          <div>
+            <!--直接拿客户端数据填充（客户端传输来的数据以 iB 为单位）-->
+            <mdui-circular-progress
+              :max="100"
+              :value="Math.ceil(device_memory_total / device_memory_total)"
+            ></mdui-circular-progress>
+            <p>Mem: {{ Math.ceil(device_memory_total / device_memory_total) }}%</p>
+          </div>
+        </div>
       </mdui-tooltip>
-      <div class="cpu_mem">
-        <div>
-          <!--注：py端CPU使用率是单核使用率，你可以相加除以核心数（JSON数组长度）-->
-          <mdui-circular-progress max="100" :value="device_cpu_usage"></mdui-circular-progress>
-          <p>CPU: {{ Math.ceil(device_cpu_usage) }}%</p>
-        </div>
-        <div>
-          <!--直接拿客户端数据填充（客户端传输来的数据以 iB 为单位）-->
-          <mdui-circular-progress
-            :max="100"
-            :value="Math.ceil(device_memory_total / device_memory_total)"
-          ></mdui-circular-progress>
-          <p>Mem: {{ Math.ceil(device_memory_total / device_memory_total) }}%</p>
-        </div>
-      </div>
-    </mdui-card>
-    <mdui-card class="part">
-      <h3>磁盘状态</h3>
-      <div class="disk_status">
-        <div v-for="disk_status in device_disk_status" :key="disk_status.name">
-          <!--直接拿客户端数据填充（客户端传输来的数据以 B 为单位）-->
-          <mdui-circular-progress
-            :max="disk_status.total"
-            :value="disk_status.used"
-          ></mdui-circular-progress>
-          <p>{{disk_status.name}}: {{Math.ceil(disk_status.used/Math.pow(1024, 3))}}G/{{Math.ceil(disk_status.total/Math.pow(1024, 3))}}G {{ Math.ceil(disk_status.percent) }}%</p>
-        </div>
-      </div>
     </mdui-card>
   </div>
 </template>
@@ -246,5 +232,8 @@ const sendCommands = async (command: string) => {
 }
 .right {
   margin-left: 0.125rem;
+}
+.cpu_mem {
+  display: inline;
 }
 </style>
