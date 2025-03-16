@@ -12,9 +12,9 @@ function is_empty_request($data): int
     return 1;
 }
 
-function json($states, $msg, $data = "")//输出
+function json($states, $msg, $data = "", $total_list="")//输出
 {
-    return json_encode(array('states' => $states, 'msg' => $msg, "data" => $data));
+    return json_encode(array('states' => $states, 'msg' => $msg, "data" => $data, "total_list" => $total_list));
 }
 
 function code_base64($text,$type)//base64加解密
@@ -96,12 +96,37 @@ function get_sqlCode($code): string//生成sql指令
             }else $sqlCodeEnd = $sqlCodeEnd . "`$key` = '$value'" . " AND ";
             $i++;
         }
+//        echo '<br>'.$sqlCodeEnd;
+        if ($sqlCodeEnd=="`` = ''") {
+            $order = "";
+            if ($sortWay != "" && $sortWayBy != "") $order = " ORDER BY `" . $sortWayBy . "` " . $sortWay;
+            $sqlCode = "SELECT * FROM `" . $code['dataSheet'] . "` "  . $order;
+        }else {
+            //$sortWay = "DESC";
+            //$sortWayBy = "id";
+            $order = "";
+            if ($sortWay != "" && $sortWayBy != "") $order = " ORDER BY `" . $sortWayBy . "` " . $sortWay;
+            $sqlCode = "SELECT * FROM `" . $code['dataSheet'] . "` WHERE " . $sqlCodeEnd . $order;
+        }
+    }
+    elseif ($code['type']=="l_s"){//search
+        $i = 0;
+        //获取键及其键值并组合
+        foreach ($data as $key => $value) {
+            if ($i === count(array_values($data))-1) {
+                $sqlCodeEnd = $sqlCodeEnd . "`$key` LIKE '$value'";//`uid`='{$uid}'
+            }else $sqlCodeEnd = $sqlCodeEnd . "`$key` LIKE '$value'" . " AND ";
+            $i++;
+        }
 
+//        echo '<br>'.$sqlCodeEnd;
+//        print_r($data);
         //$sortWay = "DESC";
         //$sortWayBy = "id";
         $order = "";
-        if ($sortWay!="" && $sortWayBy!="") $order=" ORDER BY `" . $sortWayBy . "` " . $sortWay;
+        if ($sortWay != "" && $sortWayBy != "") $order = " ORDER BY `" . $sortWayBy . "` " . $sortWay;
         $sqlCode = "SELECT * FROM `" . $code['dataSheet'] . "` WHERE " . $sqlCodeEnd . $order;
+//        echo $sqlCode;
     }
     elseif ($code['type']=="d"){
         $i = 0;
@@ -119,8 +144,9 @@ function get_sqlCode($code): string//生成sql指令
         $i = 0;
         //获取键及其键值并组合
         foreach ($data as $key => $value) {
-            if($key != "u_aim" || $value != "u_data"){
-                if ($i === count(array_values($data))-1) {
+            if($key != "u_aim" && $key != "u_data"){
+                //echo count(array_values($data))-1;
+                if ($i === count(array_values($data))-3) {//3=一个uaim一个udata还有一个基础值1
                     $sqlCodeEnd = $sqlCodeEnd . "`$key` = '$value'";//`uid`='{$uid}'
                 }else $sqlCodeEnd = $sqlCodeEnd . "`$key` = '$value'" . " AND ";
             }
@@ -131,9 +157,11 @@ function get_sqlCode($code): string//生成sql指令
         //$sortWayBy = "id";
         $order = "";
         if ($sortWay!="" && $sortWayBy!="") $order=" ORDER BY `" . $sortWayBy . "` " . $sortWay;
-        $sqlCode = "UPDATE `" . $code['dataSheet'] . "` SET `" . $data["u_aim"] . "` = '" . $data["u_data"] . "'' WHERE " . $sqlCodeEnd . $order;
+        $sqlCode = "UPDATE `" . $code['dataSheet'] . "` SET `" . $data["u_aim"] . "` = '" . $data["u_data"] . "' WHERE " . $sqlCodeEnd . $order;
+        //echo $sqlCode;
     }
 
+//    echo $sqlCode;
     return $sqlCode;
 }
 
@@ -155,11 +183,21 @@ function operate_database($type,$dataSheet,$data,$sortWay = "",$sortWayBy = "")/
     if ($type=="w"||$type=="d") return $connect -> query($sqlCode);
     elseif ($type=="r") return mysqli_fetch_assoc($connect -> query($sqlCode));
     elseif ($type=="l"){
-        $list = array();
+        $list = [];
         $cx_connect = mysqli_query($connect, $sqlCode);
 
         while ($data =  mysqli_fetch_assoc($cx_connect)){
                 $list[] = $data;
+        }
+
+        return $list;
+    }
+    elseif ($type=="l_s"){
+        $list = [];
+        $cx_connect = mysqli_query($connect, $sqlCode);
+
+        while ($data =  mysqli_fetch_assoc($cx_connect)){
+            $list[] = $data;
         }
 
         return $list;
@@ -170,9 +208,10 @@ function operate_database($type,$dataSheet,$data,$sortWay = "",$sortWayBy = "")/
     return "";
 }
 
-function get_result($states,$type,$data="")//获取标准化输出结果
+function get_result($states,$type,$data="",$total_list="")//获取标准化输出结果
 {
-    return json($states,info_server($type),$data);
+//    echo $total_list;
+    return json($states,info_server($type),$data,$total_list);
 }
 
 function get_info($aim,$type): string
@@ -217,6 +256,7 @@ function read_user_token($type,$data)
 //token->etffectiveDuration
 function get_user_token_etffectiveDuration($data)
 {
+//    echo $data;
     $token = json_decode($data,true);//tokenAll
     $timeStamp_token = $token['time'];//tokenTime
     $timeStamp_now = time();//now
@@ -257,7 +297,19 @@ function upload_user_device($deviceId,$data): int
         "device_id" => $deviceId,
         "data" => $data,
         "time" => $timeStamp,
+        "notes" => operate_database("r","user",json_encode(["device_id" => $deviceId]))['notes']
     ]);
+    operate_database("d","user",json_encode(["device_id" => $deviceId]));
+    return operate_database("w","user",$code) ? 1 : 0;
+}
+
+function upload_user_device_notes($deviceId,$notes)
+{
+    $code = operate_database("r","user",json_encode(["device_id" => $deviceId]));
+    $code['notes'] = $notes;
+    $code = json_encode($code);
+//    echo $code;
+
     operate_database("d","user",json_encode(["device_id" => $deviceId]));
     return operate_database("w","user",$code) ? 1 : 0;
 }
@@ -270,13 +322,14 @@ function read_user_device($deviceId)
     ]);
 
     //print_r(operate_database("r","user",$data));
-    return json_encode(operate_database("r","user",$data));
+    return operate_database("r","user",$data);
 }
 
 //创建指令
 function create_user_command($type,$code,$deviceId)
 {
-    $timeStamp = microtime(true);//now
+    $timeStamp = microtime(true)*10000;//now
+//    echo $timeStamp;
     $data = json_encode([
         "id" => $timeStamp,
         "type" => $type,
@@ -286,6 +339,7 @@ function create_user_command($type,$code,$deviceId)
         "device_id" => $deviceId,
     ]);
 
+    //print_r($data);
     return operate_database("w","user_command",$data) ? 1 : 0;
 }
 
@@ -298,14 +352,16 @@ function get_user_command($deviceId)
     ]);
 
     //print_r(operate_database("l","user_command",$data,"DESC","id"));
-    return json_encode(operate_database("l","user_command",$data,"DESC","id"));
+    return operate_database("l","user_command",$data,"DESC","id");
 }
 
 //上传指令退出码
-function upload_user_command($deviceId,$commandId,$result)
+function upload_user_command($commandId,$result)
 {
-    $code = json_encode(operate_database("r","user_command",json_encode(["id" => $commandId])));
+    $code = operate_database("r","user_command",json_encode(["id" => $commandId]));
     $code['result'] = $result;
+    $code = json_encode($code);
+//    echo $code;
 
     operate_database("d","user_command",json_encode(["id" => $commandId]));
     return operate_database("w","user_command",$code) ? 1 : 0;
@@ -374,7 +430,8 @@ function if_admin_key($uid,$key){
             "该key已经失效",
         ));
     }
-    if ($uid!=$result["admin_user_id"]){
+
+    if (read_admin_user($uid)['id']!=$result["admin_user_id"]){
         die(get_result(
             0,
             "result_failure_read_admin_key",
@@ -382,4 +439,66 @@ function if_admin_key($uid,$key){
         ));
     }
 
+}
+
+
+//获得list数据
+//设备列表
+function get_list_data_device($key="",$value="")
+{
+    if ($key==""){
+        $data = json_encode([
+            ""=>"",
+        ]);
+        return operate_database("l","user",$data,"DESC","time");
+    }else{
+        $data = json_encode([
+            $key=>"%".$value."%",
+        ]);
+        return operate_database("l_s","user",$data,"DESC","time");
+    }
+}
+
+function get_list_device($key,$value,$page=0,$length=10): array
+{
+    $page = $page-1;
+    $list_data = get_list_data_device($key,$value);
+    $chunkedArrays = array_chunk($list_data, $length);
+    $chunkedArrays['total_list'] = count($list_data);
+//    print_r($chunkedArrays);
+    return $chunkedArrays;
+}
+
+//指令列表
+function get_list_data_command($key="",$value="")
+{
+    if ($key==""){
+        $data = json_encode([
+            ""=>"",
+        ]);
+        return operate_database("l","user_command",$data,"DESC","time");
+    }else{
+        $data = json_encode([
+            $key=>"%".$value."%",
+        ]);
+        return operate_database("l_s","user_command",$data,"DESC","time");
+    }
+}
+
+function get_list_command($key,$value,$page=0,$length=10): array
+{
+    $page = $page-1;
+    $list_data = get_list_data_command($key,$value);
+    $chunkedArrays = array_chunk($list_data, $length);
+    $chunkedArrays['total_list'] = count($list_data);
+    return $chunkedArrays;
+}
+
+
+function delete_device($deviceId)
+{
+    $data = json_encode([
+        "device_id" => $deviceId,
+    ]);
+    return operate_database("d","user",$data);
 }

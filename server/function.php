@@ -65,9 +65,18 @@ function fun_read_user_token($type,$data)
 function fun_upload_user_device($deviceId,$data,$token): array
 {
     if_user_token($deviceId,$token);
-
+//    echo upload_user_device($deviceId,$data);
     return [
         "states" => upload_user_device($deviceId,$data),
+    ];
+}
+
+function fun_upload_user_device_notes($deviceId,$data,$token): array
+{
+    if_user_token($deviceId,$token);
+
+    return [
+        "states" => upload_user_device_notes($deviceId,$data),
     ];
 }
 
@@ -112,11 +121,11 @@ function fun_get_user_command($deviceId,$token)
 
 
 
-    operate_database("w","admin_key",[
+    operate_database("u","user_command",json_encode([
         "device_id" => $deviceId,
         "u_aim" => "effective",
-        "u_data" => "1",
-    ]);
+        "u_data" => 1,
+    ]));
 
     return [
         "states" => 1,
@@ -130,16 +139,16 @@ function fun_create_user_command($data,$uid,$key)
     $ii = 0;//成功数
     if_admin_key($uid,$key);
 
-    $data = json_decode($data,true);
-    while ($code = $data){
+//    $data = json_decode($data,true);
+    foreach($data as $code){
         $i = $i+1;
-
+//        print_r($code);
         $ii = $ii+create_user_command($code['type'],$code['code'],$code['deviceId']);
     }
 
     return [
         "states" => 1,
-        "data" => "创建了".$i."条，成功了".$ii."条，失败了".$i-$ii."条"
+        "data" => sprintf("创建了%d条，成功了%d条，失败了%d条", $i, $ii, $i - $ii)
     ];
 }
 
@@ -155,7 +164,7 @@ function fun_upload_user_command($deviceId,$token,$commandId,$result)
         ));
     }
 
-    $re = upload_user_command($deviceId,$commandId,$result);
+    $re = upload_user_command($commandId,$result);
     if (!$re){
         die(get_result(
             0,
@@ -198,5 +207,51 @@ function login_admin_user($uid,$password){
     return [
         "states" => 1,
         "data" => $result,
+    ];
+}
+
+function fun_read_admin_user($uid,$key)
+{
+    if_admin_key($uid,$key);
+    return [
+        "states" => 1,
+        "data" => read_admin_user($uid),
+    ];
+}
+
+
+function fun_get_list_device($data="",$value="",$page,$length,$uid,$key): array
+{
+    if_admin_key($uid,$key);
+    return [
+        "states" => 1,
+        "data" => get_list_device($data,$value,$page,$length),
+    ];
+}
+
+function fun_get_list_command($data="",$value="",$page,$length,$uid,$key): array
+{
+    if_admin_key($uid,$key);
+    return [
+        "states" => 1,
+        "data" => get_list_command($data,$value,$page,$length),
+    ];
+}
+
+function fun_delete_device($uid,$key,$deviceId)
+{
+    if_admin_key($uid,$key);
+    return [
+        "states" => 1,
+        "data" => delete_device($deviceId),
+    ];
+}
+
+function fun_admin_read_device($uid,$key,$deviceId)
+{
+    if_admin_key($uid,$key);
+    return [
+        "states" => 1,
+        "data" => read_user_device($deviceId),
     ];
 }
