@@ -14,7 +14,7 @@ const account = accountStates()
 <template>
   <div id="app">
     <AdminNav v-if="account.power === 'admin'" />
-    <TeacherNav v-else />
+    <TeacherNav v-if="account.power === 'teacher'" />
     <mdui-layout class="app_layout">
       <RouterView></RouterView>
     </mdui-layout>
