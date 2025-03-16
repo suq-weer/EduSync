@@ -4,7 +4,9 @@ import { get_list_device } from '@/api/server'
 import { onMounted, onUnmounted, ref } from 'vue'
 import type { ServerDeviceResponseDataItem } from '@/core/interface'
 import { ButtonIcon, NavigationDrawer } from 'mdui'
-import { useRouter } from 'vue-router' // 添加路由导入
+import { useRouter } from 'vue-router'
+import AiChat from '@/components/ai/AiChat.vue'
+import AiView from '@/views/AiView.vue' // 添加路由导入
 
 //ref
 const device_list = ref<ServerDeviceResponseDataItem[]>([])
@@ -14,30 +16,8 @@ const drawer = ref<NavigationDrawer | null>(null);
 
 //status control
 const loading = ref<boolean>(false)
-
+const ai = ref<boolean>(false)
 const router = useRouter() // 初始化路由实例
-
-
-const getDeviceSystemAvatar = (data: string) => {
-  try {
-    const obj_data = JSON.parse(atob(data))
-    let system = obj_data['SystemOutput']['system']
-    let local = './src/assets/logo/'
-    const theme = window.matchMedia('(prefers-color-scheme: light)').matches;
-
-    if (system.indexOf('Windows') !== -1) {
-      local += 'Windows-' + (theme ? 'Light.svg' : 'Dark.svg')
-    } else if (system.indexOf('Linux') !== -1) {
-      local += 'Linux-' + (theme ? 'Light.svg' : 'Dark.svg')
-    } else {
-      local += '../../logo.svg'
-    }
-    return local
-  } catch (error) {
-    console.error('Error parsing device data:', error)
-    return './src/assets/logo/../../logo.svg'
-  }
-}
 
 /**
  * 异步获取设备列表函数
@@ -119,6 +99,9 @@ const navigateToDevice = (deviceId: string) => {
       </mdui-list-item>
     </mdui-list>
   </mdui-navigation-drawer>
+  <mdui-fab extended icon="chat" class="fab" v-if="!ai" @click="ai = !ai">AI聊天</mdui-fab>
+  <mdui-fab extended icon="close" class="fab" v-if="ai" @click="ai = !ai">关闭</mdui-fab>
+  <AiView class="fab_new" v-if="ai"></AiView>
 </template>
 
 <style scoped>
@@ -130,5 +113,17 @@ const navigateToDevice = (deviceId: string) => {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 1ch;
+}
+.fab {
+  position: fixed;
+  top: calc(100vh - 5rem);
+  left: calc(100vw - 10rem);
+}
+.fab_new {
+  position: fixed;
+  width: 50rem;
+  height: 30rem;
+  top: calc(100vh - 36rem);
+  left: calc(100vw - 52rem);
 }
 </style>

@@ -143,6 +143,7 @@ async function sendMessage(inputText: string) {
   <mdui-card class="card">
     <h2>DeepSeek-R1</h2>
     <!-- 循环渲染聊天记录 -->
+    <div class="chat-container">
     <div v-for="chat in chats" :key="chat.chatId">
       <!-- 如果是AI响应，显示为用户消息 -->
       <!--      <mdui-card v-if="chat.is_response" class="user-message" >{{ chat.renderedMarkdown }}</mdui-card>-->
@@ -156,6 +157,7 @@ async function sendMessage(inputText: string) {
     </div>
     <!-- 如果处于加载状态，显示加载指示器 -->
     <mdui-circular-progress v-if="loading" class="loading-indicator"></mdui-circular-progress>
+    </div>
     <div class="text">
       <!-- 用户输入文本框 -->
       <mdui-text-field v-model="inputText" placeholder="输入你的问题..."></mdui-text-field>
@@ -166,6 +168,16 @@ async function sendMessage(inputText: string) {
 </template>
 
 <style scoped>
+/* 聊天记录容器样式 */
+.chat-container {
+  height: 18rem; /* 设置一个固定高度 */
+  overflow-y: auto; /* 添加垂直滚动条 */
+  margin-bottom: 1rem; /* 可选：添加底部间距 */
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+}
+
 /* 卡片样式 */
 .card {
   width: 100%;
