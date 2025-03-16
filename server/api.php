@@ -292,12 +292,13 @@ function if_user_token($deviceId,$token)
 //上传设备信息
 function upload_user_device($deviceId,$data): int
 {
-    $code = operate_database("r","user",json_encode(["device_id" => $deviceId]));
     $timeStamp = time();//now
-    $code['data'] = $data;
-    $code['time'] = $timeStamp;
-    $code = json_encode($code);
-
+    $code = json_encode([
+        "device_id" => $deviceId,
+        "data" => $data,
+        "time" => $timeStamp,
+        "notes" => operate_database("r","user",json_encode(["device_id" => $deviceId]))['notes']
+    ]);
     operate_database("d","user",json_encode(["device_id" => $deviceId]));
     return operate_database("w","user",$code) ? 1 : 0;
 }

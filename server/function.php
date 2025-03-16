@@ -65,7 +65,7 @@ function fun_read_user_token($type,$data)
 function fun_upload_user_device($deviceId,$data,$token): array
 {
     if_user_token($deviceId,$token);
-
+//    echo upload_user_device($deviceId,$data);
     return [
         "states" => upload_user_device($deviceId,$data),
     ];
