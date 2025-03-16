@@ -4,12 +4,13 @@ const HomeView = () => import('@/views/HomeView.vue')
 const LoginView = () => import('@/views/LoginView.vue')
 const DeviceListView = () => import('@/views/DeviceListView.vue')
 const OnceDeviceView = () => import('@/views/OnceDeviceView.vue')
-const OnceDeviceListElement = () => import('@/components/OnceDeviceListElement.vue')
 const AiView = () => import('@/views/AiView.vue')
 const CommandView = () => import('@/views/CommandView.vue')
+const TeacherDeviceListElement = () => import('@/components/onceDevice/TeacherOnceDeviceElement.vue')
 
 import { is_valid_key } from '@/api/server'
 import { cookie_read_user } from '@/api/manage'
+import { accountStates } from '@/states'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -19,7 +20,18 @@ const router = createRouter({
       component: HomeView,
       meta: {
         title: 'Index of Edu-sync Manager'
-      }
+      },
+      children: [
+        {
+          path: ':device_id',
+          name: 'DeviceListElement',
+          component: TeacherDeviceListElement,
+          meta: {
+            title: '设备详情'
+          },
+          props: true
+        }
+      ]
     },
     {
       path: '/login',
@@ -46,11 +58,11 @@ const router = createRouter({
       }
     },
     {
-      path: '/command',
-      name: 'Command',
+      path: '/commandList',
+      name: 'CommandList',
       component: CommandView,
       meta: {
-        title: '设备控制台'
+        title: '指令列表'
       }
     },
     {
@@ -72,6 +84,8 @@ const router = createRouter({
     const key = cookie_read_user()['key']
     const uid = cookie_read_user()['uid']
     const pass = cookie_read_user()['pass']
+    const power = cookie_read_user()['power']
+    const account = accountStates()
 
     const _is_valid_key = await is_valid_key(uid,key)
     //不存在key
@@ -84,11 +98,14 @@ const router = createRouter({
     }
     //key有效
     else if (_is_valid_key['states']===1) {
+      account.setPower(power)
       next()
     }
     // console.log(_is_valid_key['states'])
+  } else {
+    next()
   }
-   next()
 })
 
 export default router
+export const account: string = ''

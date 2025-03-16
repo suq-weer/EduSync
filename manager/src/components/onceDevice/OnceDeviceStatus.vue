@@ -44,21 +44,8 @@
 </template>
 
 <script setup lang="ts">
-interface DeviceStatus {
-  device_id: string;
-  device_system: string;
-  device_time: string;
-  device_cpu_usage: number;
-  device_cpu_name: string;
-  device_memory_usage: number;
-  device_memory_total: number;
-  device_disk_status: Array<{
-    name: string;
-    total: number;
-    used: number;
-    percent: number;
-  }>;
-}
+import type { DeviceStatus } from '@/core/interface'
+
 defineProps<DeviceStatus>()
 </script>
 

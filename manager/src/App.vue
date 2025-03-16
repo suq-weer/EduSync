@@ -1,17 +1,20 @@
 <script setup lang="ts">
 import { setColorScheme, setTheme } from 'mdui'
 import { RouterView } from 'vue-router'
-import NavigationView from '@/components/NavigationView.vue'
+import AdminNav from '@/components/base/AdminNav.vue'
+import { accountStates } from '@/states'
+import TeacherNav from '@/components/base/TeacherNav.vue'
 
 setColorScheme('#34495E')
 setTheme('auto')
 
-
+const account = accountStates()
 </script>
 
 <template>
   <div id="app">
-    <NavigationView />
+    <AdminNav v-if="account.power === 'admin'" />
+    <TeacherNav v-else />
     <mdui-layout class="app_layout">
       <RouterView></RouterView>
     </mdui-layout>

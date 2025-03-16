@@ -25,9 +25,9 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
-import OnceDeviceStatus from '@/components/OnceDeviceStatus.vue'
-import OnceDeviceActions from '@/components/OnceDeviceActions.vue'
-import OnceDeviceCommands from '@/components/OnceDeviceCommands.vue'
+import OnceDeviceStatus from '@/components/onceDevice/OnceDeviceStatus.vue'
+import OnceDeviceActions from '@/components/onceDevice/OnceDeviceActions.vue'
+import OnceDeviceCommands from '@/components/onceDevice/OnceDeviceCommands.vue'
 import AiView from '@/views/AiView.vue'
 import { fetch_device_info } from '@/api/server'
 import { cookie_read_user } from '@/api/manage'
@@ -74,7 +74,7 @@ export default defineComponent({
       const fetchDeviceInfo_response = await fetchDeviceInfo(device_id.value)
       // const device_data = atob(fetchDeviceInfo_response['data']['data'])
       const device_data = JSON.parse(atob(fetchDeviceInfo_response['data']))
-      console.log(device_data)
+      // console.log(device_data)
 
       device_cpu_status.value = device_data['CPUStatus']
       device_memory_status.value = device_data['MemoryStatus']

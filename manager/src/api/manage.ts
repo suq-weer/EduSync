@@ -2,10 +2,11 @@ import Cookies from 'js-cookie'
 import type { UnwrapRef } from 'vue'
 
 //写入用户数据
-export const cookie_write_user = async (body: { uid: UnwrapRef<string>, pass: UnwrapRef<string> ,key: UnwrapRef<string>}) => {
+export const cookie_write_user = async (body: { uid: UnwrapRef<string>, pass: UnwrapRef<string> ,key: UnwrapRef<string>}, power: string) => {
   Cookies.set('uid', body['uid'], { expires: 7, path: '/' ,SameSite: "Lax" })
   Cookies.set('pass', body['pass'], { expires: 7, path: '/' ,SameSite: "Lax" })
   Cookies.set('key', body['key'], { expires: 7, path: '/' ,SameSite: "Lax" })
+  Cookies.set('power', power, { expires: 7, path: '/' ,SameSite: "Lax" })
   return 1
 }
 

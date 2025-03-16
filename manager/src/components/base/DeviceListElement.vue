@@ -34,39 +34,57 @@
 <script lang="ts">
 import { get_list_device } from '@/api/server'
 import { cookie_read_user } from '@/api/manage'
-import OnceDeviceListElement from '@/components/OnceDeviceListElement.vue'
+import OnceDeviceListElement from '@/components/onceDevice/OnceDeviceListElement.vue'
 import { ref, onMounted, computed } from 'vue'
 import { PageController } from '@/api/pages'
+import type { ServerDeviceResponseDataItem } from '@/core/interface'
 
 export default {
   components: {
     OnceDeviceListElement
   },
   setup() {
-    const device_list = ref<{ device_id: string; time: number; data: string }[]>([])
+    const device_list = ref<ServerDeviceResponseDataItem[]>([])
     const currentPage = ref(1)
     const list_length = 10
     const totalPages = ref(1)
     const page_controller = ref<PageController | null>(null)
     const search_value = ref<string>("")
 
+    /**
+     * 异步获取设备列表函数
+     *
+     * 该函数负责根据给定的页码、每页长度以及可选的筛选条件来获取设备列表
+     * 它会尝试从服务器获取数据，并根据返回的结果更新设备列表和分页控制器
+     *
+     * @param {number} page 当前页码
+     * @param {number} length 每页的长度
+     * @param {string} data 可选的筛选条件，默认为空字符串
+     * @param {string} value 可选的筛选值，默认为空字符串
+     */
     const fetchDeviceList = async (page: number, length: number, data: string="",value: string="") => {
       try {
+        // 从用户cookie中读取key和uid，用于身份验证
         const key = cookie_read_user()['key']
         const uid = cookie_read_user()['uid']
 
+        // 调用后端API获取设备列表
         const result = await get_list_device(uid, key, (page-1).toString(), length.toString(),data,value)
+
+        // 根据返回结果更新设备列表和分页控制器
         if (result['status'] !== 0) {
-          device_list.value = result['data']
+          device_list.value = result['data'] || undefined
           const totalItems = result['total_list'] || 0
           totalPages.value = Math.ceil(totalItems / length)
           page_controller.value = new PageController(page, totalPages.value)
         } else {
+          // 如果结果状态不正确，重置设备列表和分页控制器
           device_list.value = []
           totalPages.value = 1
           page_controller.value = new PageController(1, 1)
         }
       } catch (error) {
+        // 捕获并记录获取设备列表时的错误
         console.error('Error fetching device list:', error)
       }
     }
@@ -90,7 +108,6 @@ export default {
       fetchDeviceList(currentPage.value, list_length)
     }
 
-    //TODO: 修复省略号点击逻辑
     const handlePageClick = (page: string) => {
       if (page === currentPage.value.toString()) {
         // // Handle ellipsis click
@@ -145,9 +162,9 @@ export default {
     const searchItem = (data: string,value: string) => {
       console.log(data,value)
       if (value !== "") {
-        fetchDeviceList("1", list_length, data, value)
+        fetchDeviceList(1, list_length, data, value)
       }else{
-        fetchDeviceList("1", list_length)
+        fetchDeviceList(1, list_length)
       }
     }
 

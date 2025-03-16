@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { defineProps, computed } from 'vue'
 import { CommandsList } from '@/config/CommandsList'
+import { send_commands } from '@/api/server'
+import { cookie_read_user } from '@/api/manage'
+import { alert } from 'mdui'
 
 // 定义 props
 const props = defineProps({
@@ -27,13 +30,31 @@ const commandList = computed(() => {
     return []
   }
 })
+
+const sendCommands = async (command: string) => {
+  const list = [
+    {
+      "type":1,
+      "code": command,
+      "deviceId": props.device_id,
+    }
+  ]
+  const result = await send_commands(cookie_read_user()['uid'], cookie_read_user()['key'], list)
+  if (result){
+    await alert({
+      headline: "结果",
+      description: result['data'],
+      confirmText: "好的",
+    })
+  }
+}
 </script>
 
 <template>
   <div>
     <mdui-card class="card actions">
       <h2>Actions</h2>
-      <mdui-chip v-for="command in commandList" :key="command.command">{{
+      <mdui-chip v-for="command in commandList" :key="command.command" @click="sendCommands(command.command)">{{
         command.name
       }}</mdui-chip>
     </mdui-card>
