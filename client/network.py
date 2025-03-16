@@ -9,7 +9,7 @@ from requests import Response
 
 class Network:
     """
-    网络类定义。
+    网络类定义。分为 ``get()`` 与 ``post()``
     """
 
     def __init__(self, resource: str):
@@ -21,6 +21,13 @@ class Network:
         self.resource = resource
 
     def get(self, data: str) -> dict:
+        """
+        网络模块 GET 方法。
+        :param data: 要提交的数据，采用 ``application/x-www-form-urlencoded`` 请求头。
+        :type data: str
+        :return: 服务端的返回JSON（自动转字典）。
+        :rtype: dict
+        """
         print(self.ip + self.resource + data)
         request: Response = requests.get(self.ip + self.resource + data)
         # 不知道为什么Token获取会时不时发抽，只好堵塞线程。
@@ -37,6 +44,13 @@ class Network:
             return {'error': 2}
 
     def post(self, data: str) -> dict:
+        """
+        网络模块的GET请求函数。
+        :param data: 发送的数据，采用 ``application/x-www-form-urlencoded`` 请求头。
+        :type data: str
+        :return: 返回的 ``JSON`` 数据（自动转字典）。
+        :rtype: dict
+        """
         headers = {
             "Content-Type": "application/x-www-form-urlencoded"}
         print(data)
@@ -56,11 +70,19 @@ class Network:
 
 
 class NetworkResource:
-    """
-    服务端API资源映射。
-    """
 
     def __init__(self):
+        """
+        服务端API资源映射。
+
+        - 类成员变量：
+            - ``GET_INFO_SOFTWARE_CODEBOOK``
+            - ``GET_TOKEN``
+            - ``USE_TOKEN``
+            - ``UPLOAD_STATUS``
+            - ``CHECK_COMMAND``
+            - ``READ_TOKEN``
+        """
         pass
 
     GET_INFO_SOFTWARE_CODEBOOK: str = "api/get_info_software_codeBook.php/"
@@ -69,3 +91,4 @@ class NetworkResource:
     UPLOAD_STATUS: str = "function/user/upload_device.php"
     CHECK_COMMAND: str = "function/user/get_command.php"
     READ_TOKEN: str = "function/adminr/read_token.php"
+    UPLOAD_COMMAND: str = "function/user/upload_command.php"

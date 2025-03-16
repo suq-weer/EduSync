@@ -1,0 +1,116 @@
+[
+  {
+    "name": "远程关机",
+    "icon": "stop",
+    "description": "如果该设备在线，远程关闭该设备。",
+    "command": "shutdown /r /t 5000"
+  },
+  {
+    "name": "远程重启",
+    "icon": "restart_alt",
+    "description": "如果该设备在线，远程重启该设备。",
+    "command": "powershell.exe /c Restart-Computer"
+  },
+  {
+    "name": "远程锁机",
+    "icon": "lock",
+    "description": "如果该设备在线，使该设备切换到锁屏状态。",
+    "command": "rundll32.exe user32.dll,LockWorkStation"
+  },
+  {
+    "name": "重启设备至BIOS",
+    "icon": "power_settings_new",
+    "description": "如果该设备在线，重启至BIOS（设备主板内置的管理界面）。",
+    "command": "shutdown.exe /r /fw /t 5000"
+  },
+  {
+    "name": "整理 C 盘",
+    "icon": "cleaning_services",
+    "description": "如果该设备在线，对 C 盘进行碎片整理。",
+    "command": "defrag C:"
+  },
+  {
+    "name": "远程更新系统",
+    "icon": "update",
+    "description": "如果该设备在线，检查并安装系统更新。",
+    "command": "powershell.exe -Command \"Start-Process wusa.exe -ArgumentList '/quiet /norestart'\""
+  },
+  {
+    "name": "远程清理临时文件",
+    "icon": "delete",
+    "description": "如果该设备在线，清理临时文件以释放磁盘空间。",
+    "command": "powershell.exe -Command \"Get-ChildItem -Path $env:TEMP -Recurse -Force | Remove-Item -Force -Recurse\""
+  },
+  {
+    "name": "远程检查磁盘错误",
+    "icon": "check",
+    "description": "如果该设备在线，检查磁盘错误。",
+    "command": "chkdsk C: /f /r"
+  },
+  {
+    "name": "远程强制关机",
+    "icon": "power_off",
+    "description": "如果该设备在线，强制关闭该设备。",
+    "command": "shutdown /s /f /t 0"
+  },
+  {
+    "name": "远程注销用户",
+    "icon": "logout",
+    "description": "如果该设备在线，注销当前用户。",
+    "command": "shutdown /l"
+  },
+  {
+    "name": "远程打开命令提示符",
+    "icon": "terminal",
+    "description": "如果该设备在线，打开命令提示符。",
+    "command": "cmd"
+  },
+  {
+    "name": "远程打开文件资源管理器",
+    "icon": "folder",
+    "description": "如果该设备在线，打开文件资源管理器。",
+    "command": "explorer"
+  },
+  {
+    "name": "远程打开控制面板",
+    "icon": "settings",
+    "description": "如果该设备在线，打开控制面板。",
+    "command": "control"
+  },
+  {
+    "name": "远程打开任务管理器",
+    "icon": "task",
+    "description": "如果该设备在线，打开任务管理器。",
+    "command": "taskmgr"
+  },
+  {
+    "name": "远程打开设备管理器",
+    "icon": "device_hub",
+    "description": "如果该设备在线，打开设备管理器。",
+    "command": "devmgmt.msc"
+  },
+  {
+    "name": "远程打开注册表编辑器",
+    "icon": "code",
+    "description": "如果该设备在线，打开注册表编辑器。",
+    "command": "regedit"
+  },
+  {
+    "name": "远程打开系统信息",
+    "icon": "info",
+    "description": "如果该设备在线，打开系统信息。",
+    "command": "msinfo32"
+  },
+  {
+    "name": "远程打开事件查看器",
+    "icon": "event",
+    "description": "如果该设备在线，打开事件查看器。",
+    "command": "eventvwr"
+  },
+  {
+    "name": "远程打开网络连接",
+    "icon": "network_check",
+    "description": "如果该设备在线，打开网络连接。",
+    "command": "control netconnections"
+  }
+]

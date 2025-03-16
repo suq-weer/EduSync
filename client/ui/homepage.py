@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'homepageTkzaPp.ui'
+## Form generated from reading UI file 'homepagezVhLYU.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.2
 ##
@@ -16,30 +16,42 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QLabel, QMainWindow, QPlainTextEdit,
-    QPushButton, QSizePolicy, QWidget)
-
-from qfluentwidgets import (PlainTextEdit, PushButton, StatusBar, ToolButton)
+                               QSizePolicy, QWidget, QStatusBar, QToolButton, QPushButton)
 
 class Ui_EduSync(object):
     def setupUi(self, EduSync):
         if not EduSync.objectName():
             EduSync.setObjectName(u"EduSync")
-        EduSync.resize(652, 454)
+        EduSync.resize(652, 388)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(EduSync.sizePolicy().hasHeightForWidth())
+        EduSync.setSizePolicy(sizePolicy)
         EduSync.setStyleSheet(u"background-color: rgb(220, 220, 220);")
         self.centralwidget = QWidget(EduSync)
         self.centralwidget.setObjectName(u"centralwidget")
-        self.plainTextEdit = PlainTextEdit(self.centralwidget)
+        self.plainTextEdit = QPlainTextEdit(self.centralwidget)
         self.plainTextEdit.setObjectName(u"plainTextEdit")
         self.plainTextEdit.setGeometry(QRect(10, 10, 631, 41))
+        sizePolicy.setHeightForWidth(self.plainTextEdit.sizePolicy().hasHeightForWidth())
+        self.plainTextEdit.setSizePolicy(sizePolicy)
         self.plainTextEdit.setStyleSheet(u"border-radius:15%;\n"
 "border:2px solid blue;\n"
 "background-color: rgb(255, 255, 255);")
-        self.toolButton = ToolButton(self.centralwidget)
+        self.toolButton = QToolButton(self.centralwidget)
         self.toolButton.setObjectName(u"toolButton")
         self.toolButton.setGeometry(QRect(610, 20, 24, 21))
-        self.pushButton = PushButton(self.centralwidget)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Preferred)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.toolButton.sizePolicy().hasHeightForWidth())
+        self.toolButton.setSizePolicy(sizePolicy1)
+        self.pushButton = QPushButton(self.centralwidget)
         self.pushButton.setObjectName(u"pushButton")
         self.pushButton.setGeometry(QRect(220, 80, 200, 200))
+        sizePolicy1.setHeightForWidth(self.pushButton.sizePolicy().hasHeightForWidth())
+        self.pushButton.setSizePolicy(sizePolicy1)
         self.pushButton.setMinimumSize(QSize(200, 200))
         self.pushButton.setMaximumSize(QSize(200, 200))
         font = QFont()
@@ -49,7 +61,8 @@ class Ui_EduSync(object):
         self.pushButton.setFont(font)
         self.pushButton.setStyleSheet(u"border-radius:100%;\n"
 "background-color: rgb(234, 234, 234);\n"
-"border:2px solid #6B6B6B;")
+"border:2px solid #6B6B6B;\n"
+"color:rgb(0,0,0);")
         self.pushButton.setInputMethodHints(Qt.InputMethodHint.ImhNone)
         self.pushButton.setIconSize(QSize(30, 30))
         self.label = QLabel(self.centralwidget)
@@ -59,57 +72,38 @@ class Ui_EduSync(object):
         font1.setPointSize(12)
         font1.setBold(True)
         self.label.setFont(font1)
-        self.label.setStyleSheet(u"background-color: rgb(255, 255, 255);")
-        self.pushButton_2 = QPushButton(self.centralwidget)
-        self.pushButton_2.setObjectName(u"pushButton_2")
-        self.pushButton_2.setGeometry(QRect(10, 320, 151, 111))
-        self.pushButton_2.setStyleSheet(u"border-radius: 15%;\n"
-"border:2px solid blue;\n"
-"box-shadow: 5px 5px 5px #888888;\n"
-"background-color: rgb(255, 255, 255);")
-        self.pushButton_2.setInputMethodHints(Qt.InputMethodHint.ImhNone)
-        self.pushButton_3 = QPushButton(self.centralwidget)
-        self.pushButton_3.setObjectName(u"pushButton_3")
-        self.pushButton_3.setGeometry(QRect(170, 320, 151, 111))
-        self.pushButton_3.setStyleSheet(u"border-radius: 15%;\n"
-"border:2px solid blue;\n"
-"box-shadow: 5px 5px 5px #888888;\n"
-"background-color: rgb(255, 255, 255);")
-        self.pushButton_3.setLocale(QLocale(QLocale.Chinese, QLocale.China))
-        self.pushButton_3.setInputMethodHints(Qt.InputMethodHint.ImhNone)
-        self.pushButton_4 = QPushButton(self.centralwidget)
-        self.pushButton_4.setObjectName(u"pushButton_4")
-        self.pushButton_4.setGeometry(QRect(330, 320, 151, 111))
-        self.pushButton_4.setStyleSheet(u"border-radius: 15%;\n"
-"border:2px solid blue;\n"
-"box-shadow: 5px 5px 5px #888888;\n"
-"background-color: rgb(255, 255, 255);")
-        self.pushButton_4.setInputMethodHints(Qt.InputMethodHint.ImhNone)
-        self.pushButton_5 = QPushButton(self.centralwidget)
-        self.pushButton_5.setObjectName(u"pushButton_5")
-        self.pushButton_5.setGeometry(QRect(490, 320, 151, 111))
-        self.pushButton_5.setStyleSheet(u"border-radius: 15%;\n"
-"border:2px solid blue;\n"
-"box-shadow: 5px 5px 5px #888888;\n"
-"background-color: rgb(255, 255, 255);")
-        self.pushButton_5.setInputMethodHints(Qt.InputMethodHint.ImhNone)
+        self.label.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+"color:rgb(0,0,0);")
         self.plainTextEdit_2 = QPlainTextEdit(self.centralwidget)
         self.plainTextEdit_2.setObjectName(u"plainTextEdit_2")
         self.plainTextEdit_2.setGeometry(QRect(10, 60, 631, 251))
+        sizePolicy1.setHeightForWidth(self.plainTextEdit_2.sizePolicy().hasHeightForWidth())
+        self.plainTextEdit_2.setSizePolicy(sizePolicy1)
         self.plainTextEdit_2.setStyleSheet(u"border-radius:15%;\n"
 "background-color: rgb(255, 255, 255);\n"
 "border:2px solid blue;")
+        self.plainTextEdit_3 = QPlainTextEdit(self.centralwidget)
+        self.plainTextEdit_3.setObjectName(u"plainTextEdit_3")
+        self.plainTextEdit_3.setGeometry(QRect(10, 320, 631, 41))
+        sizePolicy.setHeightForWidth(self.plainTextEdit_3.sizePolicy().hasHeightForWidth())
+        self.plainTextEdit_3.setSizePolicy(sizePolicy)
+        self.plainTextEdit_3.setStyleSheet(u"border-radius:15%;\n"
+"border:2px solid blue;\n"
+"background-color: rgb(255, 255, 255);")
+        self.label_2 = QLabel(self.centralwidget)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setGeometry(QRect(573, 333, 53, 15))
+        self.label_2.setStyleSheet(u"background-color: rgb(255, 255, 255);\n"
+"color: rgb(85, 85, 85);")
         EduSync.setCentralWidget(self.centralwidget)
         self.plainTextEdit_2.raise_()
         self.plainTextEdit.raise_()
         self.toolButton.raise_()
         self.pushButton.raise_()
         self.label.raise_()
-        self.pushButton_2.raise_()
-        self.pushButton_3.raise_()
-        self.pushButton_4.raise_()
-        self.pushButton_5.raise_()
-        self.statusbar = StatusBar(EduSync)
+        self.plainTextEdit_3.raise_()
+        self.label_2.raise_()
+        self.statusbar = QStatusBar(EduSync)
         self.statusbar.setObjectName(u"statusbar")
         EduSync.setStatusBar(self.statusbar)
 
@@ -123,9 +117,6 @@ class Ui_EduSync(object):
         self.toolButton.setText(QCoreApplication.translate("EduSync", u"...", None))
         self.pushButton.setText(QCoreApplication.translate("EduSync", u"\u542f\u52a8", None))
         self.label.setText(QCoreApplication.translate("EduSync", u"EduSync", None))
-        self.pushButton_2.setText(QCoreApplication.translate("EduSync", u"\u6309\u94ae", None))
-        self.pushButton_3.setText(QCoreApplication.translate("EduSync", u"\u6309\u94ae", None))
-        self.pushButton_4.setText(QCoreApplication.translate("EduSync", u"\u6309\u94ae", None))
-        self.pushButton_5.setText(QCoreApplication.translate("EduSync", u"\u6309\u94ae", None))
+        self.label_2.setText(QCoreApplication.translate("EduSync", u"0.0.0.1", None))
     # retranslateUi
 

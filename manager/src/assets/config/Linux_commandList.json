@@ -1,0 +1,10 @@
+[
+  {
+    "name":"关机",
+    "command":"shutdown"
+  },
+  {
+    "name":"重启",
+    "command":"reboot"
+  }
+]

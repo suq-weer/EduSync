@@ -1,0 +1,48 @@
+{
+  "format_version": 2,
+  "CPUStatus": {
+	"time": 690,
+	"count": 8,
+	"percent": 19.395465994962215,
+	"processor": "Intel(R) Core(TM) i7-4790 CPU @ 3.60GHz",
+	"architecture": "Haswell (Client)"
+  },
+  "MemoryStatus": {
+	"total": 4177526784,
+	"used": 24174792
+  },
+  "DiskStatus": [
+	{
+	  "name": "/",
+	  "total": 886563667968,
+	  "used": 52570013696,
+	  "free": 833993654272,
+	  "percent": 0.05929637723198181
+	},
+	{
+	  "name": "/dev/sda2",
+	  "total": 886563667968,
+	  "used": 52570013696,
+	  "free": 833993654272,
+	  "percent": 0.05929637723198181
+	},
+	{
+	  "name": "tmpfs",
+	  "total": 8353026048,
+	  "used": 8269824,
+	  "free": 8344756224,
+	  "percent": 9.900392926441405E-4
+	},
+	{
+	  "name": "jetbrains-toolbox",
+	  "total": 0,
+	  "used": 0,
+	  "free": 0,
+	  "percent": 0.0
+	}
+  ],
+  "SystemOutput": {
+	"system": "Arch Linux",
+	"version": "unknown"
+  }
+}
