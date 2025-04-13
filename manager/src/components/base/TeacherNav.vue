@@ -91,6 +91,16 @@ const navigateToDevice = (deviceId: string) => {
   router.push(`/${deviceId}`)
 }
 
+const quitLogin = () => {
+  // 清除cookie
+  document.cookie = 'key=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+  document.cookie = 'uid=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+  document.cookie = 'pass=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+  document.cookie = 'power=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+  // 跳转到登录页面
+  router.push('/login')
+}
+
 fetchDeviceList(1, 10)
 </script>
 
@@ -106,6 +116,13 @@ fetchDeviceList(1, 10)
       EduSync 教师后台
     </mdui-top-app-bar-title>
     <div style="flex-grow: 1"></div>
+    <mdui-dropdown>
+      <mdui-button slot="trigger">open dropdown</mdui-button>
+      <mdui-menu>
+        <mdui-menu-item>个人信息</mdui-menu-item>
+        <mdui-menu-item @click="quitLogin">退出登录</mdui-menu-item>
+      </mdui-menu>
+    </mdui-dropdown>
   </mdui-top-app-bar>
   <mdui-navigation-drawer ref="drawer" close-on-esc close-on-overlay-click>
     <div style="padding: 20px">

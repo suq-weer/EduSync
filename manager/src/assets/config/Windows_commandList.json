@@ -3,7 +3,7 @@
     "name": "远程关机",
     "icon": "stop",
     "description": "如果该设备在线，远程关闭该设备。",
-    "command": "shutdown /r /t 5000"
+    "command": "shutdown /s /t 5"
   },
   {
     "name": "远程重启",
@@ -21,7 +21,7 @@
     "name": "重启设备至BIOS",
     "icon": "power_settings_new",
     "description": "如果该设备在线，重启至BIOS（设备主板内置的管理界面）。",
-    "command": "shutdown.exe /r /fw /t 5000"
+    "command": "shutdown.exe /r /fw /t 5"
   },
   {
     "name": "整理 C 盘",
